@@ -110,7 +110,8 @@ app.add_middleware(
         "http://localhost:5173",  # Vite dev server
         "http://127.0.0.1:3000",
         "http://127.0.0.1:5173",
-        "*"  # Remove this in production
+        "https://delightful-sea-03c43a70f.1.azurestaticapps.net",  # Your frontend
+       
     ],
     allow_credentials=True,
     allow_methods=["*"],
