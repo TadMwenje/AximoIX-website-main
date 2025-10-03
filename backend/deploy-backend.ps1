@@ -1,4 +1,4 @@
-# deploy-backend.ps1 - UPDATED FOR AZURE CLOUD SHELL
+# deploy-backend.ps1 - FIXED VERSION
 param(
     [string]$ResourceGroup = "aximoix-rg",
     [string]$Location = "eastus",
@@ -28,7 +28,7 @@ az acr create --resource-group $ResourceGroup `
     --sku Basic `
     --admin-enabled true
 
-# Build image directly in ACR (no local Docker required)
+# Build image directly in ACR from current directory (backend)
 Write-Host "📦 Building container image in Azure Container Registry..." -ForegroundColor Yellow
 az acr build --registry $AcrName --image aximoix-backend:latest .
 

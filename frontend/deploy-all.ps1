@@ -1,4 +1,4 @@
-# deploy-all.ps1 - UPDATED FOR CORRECT PATHS
+# deploy-all.ps1 - FIXED VERSION
 param(
     [string]$ResourceGroup = "aximoix-rg",
     [string]$Location = "eastus"
@@ -17,7 +17,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # Deploy backend from backend directory
 Write-Host "`n📦 Step 1: Deploying Backend..." -ForegroundColor Green
-$BackendUrl = ../backend/deploy-backend.ps1 -ResourceGroup $ResourceGroup -Location $Location
+$BackendUrl = & "../backend/deploy-backend.ps1" -ResourceGroup $ResourceGroup -Location $Location
 
 if (-not $BackendUrl) {
     Write-Host "❌ Backend deployment failed" -ForegroundColor Red
@@ -39,7 +39,7 @@ try {
 
 # Deploy frontend
 Write-Host "`n🎨 Step 2: Deploying Frontend..." -ForegroundColor Green
-$FrontendUrl = ./deploy-frontend.ps1 -ResourceGroup $ResourceGroup -Location $Location -BackendUrl $BackendUrl
+$FrontendUrl = & "./deploy-frontend.ps1" -ResourceGroup $ResourceGroup -Location $Location -BackendUrl $BackendUrl
 
 if (-not $FrontendUrl) {
     Write-Host "❌ Frontend deployment failed" -ForegroundColor Red

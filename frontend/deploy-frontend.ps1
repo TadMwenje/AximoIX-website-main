@@ -1,4 +1,4 @@
-# deploy-frontend.ps1 - FREE TIER VERSION
+# deploy-frontend.ps1 - FIXED VERSION
 param(
     [string]$ResourceGroup = "aximoix-rg",
     [string]$Location = "eastus",
@@ -8,15 +8,9 @@ param(
 
 Write-Host "🎨 Starting AximoIX Frontend Deployment (Free Tier)..." -ForegroundColor Green
 
-# Check if we're in the frontend directory
-if (-not (Test-Path "package.json")) {
-    Write-Host "❌ Please run this script from the frontend directory" -ForegroundColor Red
-    exit 1
-}
-
-# Install dependencies
+# Install dependencies with force to fix peer issues
 Write-Host "📦 Installing dependencies..." -ForegroundColor Yellow
-npm install
+npm install --force
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Failed to install dependencies" -ForegroundColor Red
     exit 1
