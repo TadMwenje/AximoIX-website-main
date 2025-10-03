@@ -1,4 +1,4 @@
-# deploy-frontend.ps1
+# deploy-frontend.ps1 - FREE TIER VERSION
 param(
     [string]$ResourceGroup = "aximoix-rg",
     [string]$Location = "eastus",
@@ -6,15 +6,11 @@ param(
     [string]$StaticAppName = "aximoix-frontend"
 )
 
-Write-Host "🎨 Starting AximoIX Frontend Deployment..." -ForegroundColor Green
+Write-Host "🎨 Starting AximoIX Frontend Deployment (Free Tier)..." -ForegroundColor Green
 
-# Check if Node.js and npm are available
-try {
-    $nodeVersion = node --version
-    $npmVersion = npm --version
-    Write-Host "✅ Node.js $nodeVersion and npm $npmVersion detected" -ForegroundColor Green
-} catch {
-    Write-Host "❌ Node.js and npm are required. Please install them first." -ForegroundColor Red
+# Check if we're in the frontend directory
+if (-not (Test-Path "package.json")) {
+    Write-Host "❌ Please run this script from the frontend directory" -ForegroundColor Red
     exit 1
 }
 
@@ -42,7 +38,7 @@ if (-not (Test-Path "build")) {
     exit 1
 }
 
-# Create Azure Static Web App
+# Create Azure Static Web App (FREE TIER)
 Write-Host "☁️ Creating Azure Static Web App..." -ForegroundColor Yellow
 az staticwebapp create `
     --name $StaticAppName `
@@ -60,6 +56,9 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Get the static web app URL
+Write-Host "⏳ Waiting for deployment to complete..." -ForegroundColor Yellow
+Start-Sleep -Seconds 30
+
 $StaticAppUrl = az staticwebapp show --name $StaticAppName --resource-group $ResourceGroup --query "defaultHostname" -o tsv
 
 if (-not $StaticAppUrl) {
