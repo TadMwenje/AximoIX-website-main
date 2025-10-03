@@ -1,4 +1,4 @@
-# deploy-all.ps1
+# deploy-all.ps1 - UPDATED FOR CORRECT PATHS
 param(
     [string]$ResourceGroup = "aximoix-rg",
     [string]$Location = "eastus"
@@ -15,9 +15,9 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-# Deploy backend
+# Deploy backend from backend directory
 Write-Host "`n📦 Step 1: Deploying Backend..." -ForegroundColor Green
-$BackendUrl = .\deploy-backend.ps1 -ResourceGroup $ResourceGroup -Location $Location
+$BackendUrl = ../backend/deploy-backend.ps1 -ResourceGroup $ResourceGroup -Location $Location
 
 if (-not $BackendUrl) {
     Write-Host "❌ Backend deployment failed" -ForegroundColor Red
@@ -31,15 +31,15 @@ Start-Sleep -Seconds 30
 # Test backend
 Write-Host "🔍 Testing backend connection..." -ForegroundColor Yellow
 try {
-    $Response = Invoke-RestMethod -Uri "$BackendUrl/api/" -Method Get
+    $Response = Invoke-RestMethod -Uri "$BackendUrl/api/" -Method Get -TimeoutSec 10
     Write-Host "✅ Backend is responding: $($Response.message)" -ForegroundColor Green
 } catch {
-    Write-Host "⚠️ Backend might still be starting..." -ForegroundColor Yellow
+    Write-Host "⚠️ Backend might still be starting... Continuing deployment" -ForegroundColor Yellow
 }
 
 # Deploy frontend
 Write-Host "`n🎨 Step 2: Deploying Frontend..." -ForegroundColor Green
-$FrontendUrl = .\deploy-frontend.ps1 -ResourceGroup $ResourceGroup -Location $Location -BackendUrl $BackendUrl
+$FrontendUrl = ./deploy-frontend.ps1 -ResourceGroup $ResourceGroup -Location $Location -BackendUrl $BackendUrl
 
 if (-not $FrontendUrl) {
     Write-Host "❌ Frontend deployment failed" -ForegroundColor Red
@@ -53,5 +53,5 @@ Write-Host "📚 API Docs: $BackendUrl/api/docs" -ForegroundColor Cyan
 Write-Host "🎨 Frontend: https://$FrontendUrl" -ForegroundColor Cyan
 Write-Host "`n🔧 Next steps:" -ForegroundColor Yellow
 Write-Host "1. Test the contact form at https://$FrontendUrl" -ForegroundColor White
-Write-Host "2. Set up custom domain in Azure Portal" -ForegroundColor White
+Write-Host "2. Set up custom domain using setup-domain.ps1" -ForegroundColor White
 Write-Host "3. Configure DNS records for your domain" -ForegroundColor White
