@@ -1,4 +1,4 @@
-# deploy-complete.ps1
+# deploy-complete.ps1 - FIXED VERSION
 param(
     [string]$ResourceGroup = "aximoix-rg",
     [string]$Location = "eastus"
@@ -8,6 +8,7 @@ Write-Host "🚀 AximoIX Complete Deployment" -ForegroundColor Magenta
 Write-Host "=========================================" -ForegroundColor Magenta
 
 # Validate Azure login
+Write-Host "🔐 Validating Azure login..." -ForegroundColor Yellow
 az account show
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Please login to Azure first: az login" -ForegroundColor Red
@@ -28,6 +29,7 @@ Write-Host "⏳ Waiting for backend to initialize..." -ForegroundColor Yellow
 Start-Sleep -Seconds 30
 
 # Test backend
+Write-Host "🔍 Testing backend connection..." -ForegroundColor Yellow
 try {
     $Response = Invoke-RestMethod -Uri "$BackendUrl/api" -Method Get -TimeoutSec 30
     Write-Host "✅ Backend is responding: $($Response.message)" -ForegroundColor Green
@@ -37,7 +39,9 @@ try {
 
 # Deploy frontend
 Write-Host "`n🎨 Step 2: Deploying Frontend..." -ForegroundColor Green
-cd frontend
+
+# CORRECT PATH: Navigate to frontend folder first
+Set-Location "frontend"
 $FrontendUrl = & ".\deploy-frontend.ps1" -ResourceGroup $ResourceGroup -Location $Location -BackendUrl $BackendUrl
 
 if (-not $FrontendUrl) {
@@ -45,13 +49,17 @@ if (-not $FrontendUrl) {
     exit 1
 }
 
+# Return to root directory
+Set-Location ".."
+
 Write-Host "`n🎉 Deployment Completed Successfully!" -ForegroundColor Green
 Write-Host "=========================================" -ForegroundColor Green
 Write-Host "🌐 Backend API: $BackendUrl/api" -ForegroundColor Cyan
 Write-Host "🎨 Frontend: https://$FrontendUrl" -ForegroundColor Cyan
-Write-Host "📚 Check frontend in browser: https://$FrontendUrl" -ForegroundColor Cyan
+Write-Host "📚 API Documentation: $BackendUrl/api/docs" -ForegroundColor Cyan
+Write-Host "🔧 Health Check: $BackendUrl/api/health" -ForegroundColor Cyan
 
-# Output for custom domain setup
-Write-Host "`n🔧 For custom domain (aximoix.com):" -ForegroundColor Yellow
-Write-Host "1. Run: az staticwebapp hostname set --name aximoix-frontend --resource-group $ResourceGroup --hostname www.aximoix.com" -ForegroundColor White
-Write-Host "2. Configure DNS with your domain provider" -ForegroundColor White
+Write-Host "`n🔧 Next steps:" -ForegroundColor Yellow
+Write-Host "1. Test your website: https://$FrontendUrl" -ForegroundColor White
+Write-Host "2. Test the contact form" -ForegroundColor White
+Write-Host "3. Set up custom domain using setup-domain.ps1" -ForegroundColor White
