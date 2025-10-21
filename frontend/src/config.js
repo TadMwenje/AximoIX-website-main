@@ -4,18 +4,12 @@ const config = {
     apiBaseUrl: 'http://localhost:8000/api'
   },
   production: {
-    // This will be your Azure Function URL
     apiBaseUrl: 'https://aximoix-api.azurewebsites.net/api'
   }
 };
 
-const isProduction = process.env.NODE_ENV === 'production';
-const currentConfig = isProduction ? config.production : config.development;
-
-// Override with environment variable if set
-if (process.env.REACT_APP_API_URL) {
-  currentConfig.apiBaseUrl = process.env.REACT_APP_API_URL;
-}
+// Always use production for now to ensure it works
+const currentConfig = config.production;
 
 export const API_BASE_URL = currentConfig.apiBaseUrl;
 export default currentConfig;
