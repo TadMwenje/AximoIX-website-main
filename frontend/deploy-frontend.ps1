@@ -21,7 +21,7 @@ if (-not (Test-Path "package.json")) {
 
 # Install dependencies
 Write-Host "📦 Installing dependencies..." -ForegroundColor Yellow
-npm install --force
+npm install
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Failed to install dependencies" -ForegroundColor Red

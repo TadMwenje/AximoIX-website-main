@@ -1,3 +1,4 @@
+// useApi.js - FIXED VERSION
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import config, { API_BASE_URL } from '../config';
@@ -8,32 +9,40 @@ export const useApi = (endpoint, dependencies = []) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        console.log(`🌐 Fetching from: ${API_BASE_URL}${endpoint}`);
-        const response = await axios.get(`${API_BASE_URL}${endpoint}`);
-        setData(response.data);
-      } catch (err) {
-        console.error(`❌ Error fetching ${endpoint}:`, err);
-        setError(err.response?.data?.detail || 'An error occurred');
-        
-        // Set mock data as fallback for development only
-        if (process.env.NODE_ENV === 'development') {
-          setMockData(endpoint, setData);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      console.log(`🌐 Fetching from: ${API_BASE_URL}${endpoint}`);
+      
+      const response = await axios.get(`${API_BASE_URL}${endpoint}`, {
+        timeout: 10000,
+        headers: {
+          'Content-Type': 'application/json',
         }
-      } finally {
-        setLoading(false);
+      });
+      
+      setData(response.data);
+    } catch (err) {
+      console.error(`❌ Error fetching ${endpoint}:`, err);
+      setError(err.response?.data?.detail || err.message || 'An error occurred');
+      
+      // Set mock data as fallback for development only
+      if (process.env.NODE_ENV === 'development') {
+        setMockData(endpoint, setData);
       }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [endpoint, ...dependencies]);
 
-  return { data, loading, error, refetch: () => fetchData() };
+  return { data, loading, error, refetch: fetchData };
 };
+
 
 // Mock data fallback (development only)
 const setMockData = (endpoint, setData) => {
@@ -188,14 +197,13 @@ const setMockData = (endpoint, setData) => {
 
 // API service functions
 export const apiService = {
-  // Contact form submission
+  // Contact form submission - FIXED for Azure Functions
   submitContact: async (contactData) => {
     try {
       console.log('📧 Submitting contact form to:', `${API_BASE_URL}/contact`);
-      console.log('📝 Contact data:', contactData);
       
       const response = await axios.post(`${API_BASE_URL}/contact`, contactData, {
-        timeout: 10000, // 10 second timeout
+        timeout: 10000,
         headers: {
           'Content-Type': 'application/json',
         }
@@ -215,29 +223,33 @@ export const apiService = {
       
       return { 
         success: false, 
-        error: error.response?.data?.detail || 'Failed to send message. Please try again.' 
+        error: error.response?.data?.detail || error.message || 'Failed to send message. Please try again.' 
       };
     }
   },
 
-  // Get services
+  // Get services - FIXED error handling
   getServices: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/services`);
+      const response = await axios.get(`${API_BASE_URL}/services`, {
+        timeout: 10000
+      });
       return { success: true, data: response.data };
     } catch (error) {
       console.error('❌ Error fetching services:', error);
       return { 
         success: false, 
-        error: error.response?.data?.detail || 'Failed to fetch services' 
+        error: error.response?.data?.detail || error.message || 'Failed to fetch services' 
       };
     }
   },
 
-  // Get service details
+  // Get service details - FIXED for Azure Functions
   getServiceDetails: async (serviceId) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/services/${serviceId}`);
+      const response = await axios.get(`${API_BASE_URL}/services/${serviceId}`, {
+        timeout: 10000
+      });
       return { success: true, data: response.data };
     } catch (error) {
       console.error(`❌ Error fetching service ${serviceId}:`, error);
@@ -274,25 +286,26 @@ export const apiService = {
       
       return { 
         success: false, 
-        error: error.response?.data?.detail || 'Failed to fetch service details' 
+        error: error.response?.data?.detail || error.message || 'Failed to fetch service details' 
       };
     }
   },
 
-  // Get company information
+  // Get company information - FIXED for Azure Functions
   getCompanyInfo: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/company`);
+      const response = await axios.get(`${API_BASE_URL}/company`, {
+        timeout: 10000
+      });
       return { success: true, data: response.data };
     } catch (error) {
       console.error('❌ Error fetching company info:', error);
       return { 
         success: false, 
-        error: error.response?.data?.detail || 'Failed to fetch company information' 
+        error: error.response?.data?.detail || error.message || 'Failed to fetch company information' 
       };
     }
   }
 };
 
-// Export the base URL for direct use if needed
 export { API_BASE_URL };

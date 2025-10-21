@@ -49,6 +49,10 @@ az functionapp create `
     --runtime-version 3.9 `
     --functions-version 4
 
+# Configure CORS to allow all origins (for testing)
+Write-Host "🔧 Configuring CORS for Azure Function..." -ForegroundColor Yellow
+az functionapp cors add --resource-group $ResourceGroup --name $FunctionAppName --allowed-origins "*"
+
 # Create function app package
 Write-Host "📦 Creating deployment package..." -ForegroundColor Yellow
 Set-Location "api"

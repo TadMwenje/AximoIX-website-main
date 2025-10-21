@@ -40,7 +40,13 @@ try {
 # Deploy frontend
 Write-Host "`n🎨 Step 2: Deploying Frontend..." -ForegroundColor Green
 
-# CORRECT PATH: Navigate to frontend folder first
+# Check if frontend directory exists
+if (-not (Test-Path "frontend")) {
+    Write-Host "❌ Frontend directory not found" -ForegroundColor Red
+    exit 1
+}
+
+# Navigate to frontend folder and deploy
 Set-Location "frontend"
 $FrontendUrl = & ".\deploy-frontend.ps1" -ResourceGroup $ResourceGroup -Location $Location -BackendUrl $BackendUrl
 
