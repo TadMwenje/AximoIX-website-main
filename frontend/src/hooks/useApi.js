@@ -1,4 +1,4 @@
-// useApi.js - UPDATED FOR GITHUB PAGES
+// useApi.js - IMPROVED ERROR HANDLING
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import config, { API_BASE_URL } from '../config';
@@ -13,22 +13,23 @@ export const useApi = (endpoint, dependencies = []) => {
     try {
       setLoading(true);
       setError(null);
+      console.log(`🌐 Fetching: ${API_BASE_URL}${endpoint}`);
       
-      // For GitHub Pages deployment
       const response = await axios.get(`${API_BASE_URL}${endpoint}`, {
-        timeout: 15000,
+        timeout: 10000,
         headers: {
           'Content-Type': 'application/json',
-        },
-        withCredentials: false
+        }
       });
       
+      console.log(`✅ Success: ${endpoint}`, response.data);
       setData(response.data);
     } catch (err) {
       console.error(`❌ Error fetching ${endpoint}:`, err);
-      setError(err.response?.data?.detail || err.message || 'An error occurred');
+      const errorMsg = err.response?.data?.detail || err.message || 'Network error';
+      setError(errorMsg);
       
-      // Use mock data as fallback for GitHub Pages
+      // Use mock data as fallback
       setMockData(endpoint, setData);
     } finally {
       setLoading(false);
@@ -200,13 +201,13 @@ export const apiService = {
   submitContact: async (contactData) => {
     try {
       console.log('📧 Submitting contact form to:', `${API_BASE_URL}/contact`);
+      console.log('📝 Contact data:', contactData);
       
       const response = await axios.post(`${API_BASE_URL}/contact`, contactData, {
         timeout: 15000,
         headers: {
           'Content-Type': 'application/json',
-        },
-        withCredentials: false
+        }
       });
       
       console.log('✅ Contact form submitted successfully:', response.data);
@@ -214,18 +215,20 @@ export const apiService = {
     } catch (error) {
       console.error('❌ Contact form submission error:', error);
       
-      // For GitHub Pages, return success in development mode
-      if (process.env.NODE_ENV === 'development') {
-        console.log('📧 Mock contact submission successful');
-        return { 
-          success: true, 
-          data: { message: 'Message received successfully! We will get back to you soon.' } 
-        };
+      // More detailed error handling
+      let errorMessage = 'Failed to send message. Please try again.';
+      
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = 'Request timeout. Please check your connection.';
+      } else if (error.response) {
+        errorMessage = error.response.data?.error || error.response.data?.detail || error.message;
+      } else if (error.request) {
+        errorMessage = 'Cannot connect to server. Please check your internet connection.';
       }
       
       return { 
         success: false, 
-        error: error.response?.data?.detail || error.message || 'Failed to send message. Please try again.' 
+        error: errorMessage
       };
     }
   },
