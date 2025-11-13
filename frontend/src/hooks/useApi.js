@@ -1,4 +1,4 @@
-// useApi.js - FIXED VERSION
+// useApi.js - UPDATED FOR GITHUB PAGES
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import config, { API_BASE_URL } from '../config';
@@ -13,13 +13,14 @@ export const useApi = (endpoint, dependencies = []) => {
     try {
       setLoading(true);
       setError(null);
-      console.log(`🌐 Fetching from: ${API_BASE_URL}${endpoint}`);
       
+      // For GitHub Pages deployment
       const response = await axios.get(`${API_BASE_URL}${endpoint}`, {
-        timeout: 10000,
+        timeout: 15000,
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        withCredentials: false
       });
       
       setData(response.data);
@@ -27,10 +28,8 @@ export const useApi = (endpoint, dependencies = []) => {
       console.error(`❌ Error fetching ${endpoint}:`, err);
       setError(err.response?.data?.detail || err.message || 'An error occurred');
       
-      // Set mock data as fallback for development only
-      if (process.env.NODE_ENV === 'development') {
-        setMockData(endpoint, setData);
-      }
+      // Use mock data as fallback for GitHub Pages
+      setMockData(endpoint, setData);
     } finally {
       setLoading(false);
     }
@@ -43,9 +42,10 @@ export const useApi = (endpoint, dependencies = []) => {
   return { data, loading, error, refetch: fetchData };
 };
 
-
-// Mock data fallback (development only)
+// Mock data fallback for GitHub Pages
 const setMockData = (endpoint, setData) => {
+  console.log('📋 Using mock data for:', endpoint);
+  
   if (endpoint === '/company') {
     setData({
       name: "AximoIX",
@@ -197,16 +197,16 @@ const setMockData = (endpoint, setData) => {
 
 // API service functions
 export const apiService = {
-  // Contact form submission - FIXED for Azure Functions
   submitContact: async (contactData) => {
     try {
       console.log('📧 Submitting contact form to:', `${API_BASE_URL}/contact`);
       
       const response = await axios.post(`${API_BASE_URL}/contact`, contactData, {
-        timeout: 10000,
+        timeout: 15000,
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        withCredentials: false
       });
       
       console.log('✅ Contact form submitted successfully:', response.data);
@@ -214,10 +214,12 @@ export const apiService = {
     } catch (error) {
       console.error('❌ Contact form submission error:', error);
       
-      if (error.code === 'ECONNABORTED') {
+      // For GitHub Pages, return success in development mode
+      if (process.env.NODE_ENV === 'development') {
+        console.log('📧 Mock contact submission successful');
         return { 
-          success: false, 
-          error: 'Request timeout. Please check your connection.' 
+          success: true, 
+          data: { message: 'Message received successfully! We will get back to you soon.' } 
         };
       }
       
@@ -228,11 +230,11 @@ export const apiService = {
     }
   },
 
-  // Get services - FIXED error handling
   getServices: async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/services`, {
-        timeout: 10000
+        timeout: 15000,
+        withCredentials: false
       });
       return { success: true, data: response.data };
     } catch (error) {
@@ -244,46 +246,15 @@ export const apiService = {
     }
   },
 
-  // Get service details - FIXED for Azure Functions
   getServiceDetails: async (serviceId) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/services/${serviceId}`, {
-        timeout: 10000
+        timeout: 15000,
+        withCredentials: false
       });
       return { success: true, data: response.data };
     } catch (error) {
       console.error(`❌ Error fetching service ${serviceId}:`, error);
-      
-      // Return mock data only in development
-      if (process.env.NODE_ENV === 'development') {
-        const mockServices = {
-          "1": {
-            id: "1",
-            title: "ICT Solutions",
-            description: "Technology solutions for businesses - infrastructure, networking, and digital transformation services.",
-            icon: "Monitor",
-            features: ["Network Infrastructure", "Cloud Solutions", "Digital Transformation", "IT Consulting"],
-            detailed_info: {
-              overview: "Our ICT solutions provide comprehensive technology infrastructure and digital transformation services to modernize your business operations.",
-              benefits: [
-                "Improved operational efficiency and productivity",
-                "Enhanced security and data protection",
-                "Scalable infrastructure that grows with your business"
-              ],
-              technologies: [
-                "Cloud Platforms (AWS, Azure, Google Cloud)",
-                "Network Security Systems",
-                "Enterprise Software Solutions"
-              ],
-              case_studies: [
-                "Migrated 500+ employee company to cloud infrastructure, reducing IT costs by 40%"
-              ]
-            }
-          }
-        };
-        return { success: true, data: mockServices[serviceId] || mockServices["1"] };
-      }
-      
       return { 
         success: false, 
         error: error.response?.data?.detail || error.message || 'Failed to fetch service details' 
@@ -291,11 +262,11 @@ export const apiService = {
     }
   },
 
-  // Get company information - FIXED for Azure Functions
   getCompanyInfo: async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/company`, {
-        timeout: 10000
+        timeout: 15000,
+        withCredentials: false
       });
       return { success: true, data: response.data };
     } catch (error) {

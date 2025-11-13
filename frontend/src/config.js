@@ -1,15 +1,14 @@
-// config.js - FIXED VERSION
+// config.js - UPDATED
 const config = {
   development: {
     apiBaseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000/api'
   },
   production: {
-    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximoix-api.azurewebsites.net/api'
+    // Replace with your Vercel backend URL
+    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximoix-backend.vercel.app/api'
   }
 };
 
-// Use production for now to ensure it works
 const currentConfig = config.production;
-
 export const API_BASE_URL = currentConfig.apiBaseUrl;
 export default currentConfig;
