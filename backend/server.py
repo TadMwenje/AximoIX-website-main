@@ -7,6 +7,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime
 import uuid
 import json
+from bson import ObjectId
 
 # MongoDB connection
 MONGODB_URL = "mongodb+srv://tadiwamwenje00_db_user:RPvXEHmqSU4d12V6@aximoixcluster.yhr0vt9.mongodb.net/?retryWrites=true&w=majority&appName=aximoixcluster"
@@ -37,40 +38,29 @@ except Exception as e:
 
 app = FastAPI()
 
-# Update CORS configuration in server.py
+# CORS Configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "http://localhost:5173",
+        "http://localhost:5173", 
         "https://tadmwenje.github.io",
         "https://tadmwenje.github.io/AximoIX-website-main",
-        "https://aximo-ix-website-main.vercel.app",
-        "https://aximo-ix-website-main-tadmwenje.vercel.app"
+        "*"
     ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
-# Add this after CORS middleware
+# Security headers middleware
 @app.middleware("http")
 async def add_security_headers(request, call_next):
     response = await call_next(request)
-    # Add headers that help with CORS and security
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     return response
-
-# Add a simple test endpoint for frontend
-@app.get("/api/ping")
-async def ping():
-    return {
-        "message": "pong", 
-        "timestamp": datetime.utcnow().isoformat(),
-        "status": "success"
-    }
 
 class ContactForm(BaseModel):
     name: str
@@ -78,89 +68,35 @@ class ContactForm(BaseModel):
     service_interest: Optional[str] = None
     message: str
 
-@app.get("/")
-async def root():
-    return {"message": "AximoIX API is running!", "status": "healthy"}
-
-@app.get("/api")
-async def api_root():
-    return {"message": "AximoIX API", "version": "1.0.0"}
-
-@app.get("/api/test")
-async def test_endpoint():
-    """Test endpoint to check if basic API works"""
-    return {
-        "message": "API test successful!",
-        "timestamp": datetime.utcnow().isoformat(),
-        "status": "working"
-    }
-
-@app.post("/api/contact")
-async def submit_contact(contact: ContactForm):
-    try:
-        print(f"📧 Received contact from: {contact.name} ({contact.email})")
-        
-        contact_data = contact.dict()
-        contact_data["id"] = str(uuid.uuid4())
-        contact_data["created_at"] = datetime.utcnow()
-        contact_data["status"] = "new"
-        
-        # Save to MongoDB
-        result = await db.contacts.insert_one(contact_data)
-        
-        print(f"✅ Contact saved with ID: {contact_data['id']}")
-        
-        return {
-            "success": True,
-            "message": "Thank you! Your message has been sent successfully.",
-            "id": contact_data["id"]
-        }
-        
-    except Exception as e:
-        print(f"❌ Error saving contact: {e}")
-        # Return error response instead of raising exception
-        return {
-            "success": False,
-            "error": f"Failed to save contact: {str(e)}"
-        }
-
-@app.get("/api/company")
-async def get_company():
-    try:
-        # Try to get from database first
-        company = await db.company.find_one({"id": "aximoix-company"})
-        if company:
-            return company
-    except Exception as e:
-        print(f"❌ Error fetching company from DB: {e}")
+# Helper function to convert MongoDB documents to JSON-serializable format
+def convert_objectid(document):
+    """Convert MongoDB ObjectId to string and handle other serialization issues"""
+    if document is None:
+        return None
     
-    # Fallback to static data
-    return {
-        "name": "AximoIX",
-        "motto": "Innovate. Engage. Grow.",
-        "tagline": "Empowering Business, Amplifying Success",
-        "description": "AximoIX is a dynamic company offering a range of services, including ICT solutions, AI solutions, advertising and marketing, programming and coding, and financial technology. We partner with businesses to drive growth, improve efficiency, and achieve success.",
-        "about": {
-            "goal": "Empower businesses to thrive through innovative technology, creative marketing, and strategic financial solutions.",
-            "vision": "To be a leading provider of integrated ICT, AI, advertising, programming, and financial technology solutions, driving business growth and success.",
-            "mission": "At AximoIX, our mission is to deliver tailored solutions that combine technology, creativity, and innovation, fostering long-term partnerships and driving business success."
-        },
-        "contact": {
-            "email": "hello@aximoix.com",
-            "phone": "+1 (555) 123-4567",
-            "address": "123 Innovation Drive, Tech City, TC 12345",
-            "social_media": {
-                "linkedin": "#",
-                "twitter": "#",
-                "facebook": "#",
-                "instagram": "#"
-            }
-        }
-    }
+    if isinstance(document, list):
+        return [convert_objectid(item) for item in document]
+    
+    if isinstance(document, dict):
+        converted = {}
+        for key, value in document.items():
+            if isinstance(value, ObjectId):
+                converted[key] = str(value)
+            elif isinstance(value, (datetime,)):
+                converted[key] = value.isoformat()
+            elif isinstance(value, dict):
+                converted[key] = convert_objectid(value)
+            elif isinstance(value, list):
+                converted[key] = [convert_objectid(item) for item in value]
+            else:
+                converted[key] = value
+        return converted
+    
+    return document
 
-@app.get("/api/services")
-async def get_services():
-    services_data = [
+# Static services data for fallback
+def get_static_services():
+    return [
         {
             "id": "1",
             "title": "ICT Solutions",
@@ -282,17 +218,118 @@ async def get_services():
             "is_active": True
         }
     ]
+
+def get_static_service_by_id(service_id):
+    services = get_static_services()
+    for service in services:
+        if service["id"] == service_id:
+            return service
+    return None
+
+@app.get("/")
+async def root():
+    return {"message": "AximoIX API is running!", "status": "healthy"}
+
+@app.get("/api")
+async def api_root():
+    return {"message": "AximoIX API", "version": "1.0.0"}
+
+@app.get("/api/test")
+async def test_endpoint():
+    """Test endpoint to check if basic API works"""
+    return {
+        "message": "API test successful!",
+        "timestamp": datetime.utcnow().isoformat(),
+        "status": "working"
+    }
+
+@app.get("/api/ping")
+async def ping():
+    """Simple ping endpoint for connection testing"""
+    return {
+        "message": "pong", 
+        "timestamp": datetime.utcnow().isoformat(),
+        "status": "success"
+    }
+
+@app.post("/api/contact")
+async def submit_contact(contact: ContactForm):
+    try:
+        print(f"📧 Received contact from: {contact.name} ({contact.email})")
+        
+        contact_data = contact.dict()
+        contact_data["id"] = str(uuid.uuid4())
+        contact_data["created_at"] = datetime.utcnow()
+        contact_data["status"] = "new"
+        
+        # Save to MongoDB
+        result = await db.contacts.insert_one(contact_data)
+        
+        print(f"✅ Contact saved with ID: {contact_data['id']}")
+        
+        return {
+            "success": True,
+            "message": "Thank you! Your message has been sent successfully.",
+            "id": contact_data["id"]
+        }
+        
+    except Exception as e:
+        print(f"❌ Error saving contact: {e}")
+        return {
+            "success": False,
+            "error": f"Failed to save contact: {str(e)}"
+        }
+
+@app.get("/api/company")
+async def get_company():
+    try:
+        # Try to get from database first
+        company = await db.company.find_one({"id": "aximoix-company"})
+        if company:
+            return convert_objectid(company)
+    except Exception as e:
+        print(f"❌ Error fetching company from DB: {e}")
     
+    # Fallback to static data
+    return {
+        "name": "AximoIX",
+        "motto": "Innovate. Engage. Grow.",
+        "tagline": "Empowering Business, Amplifying Success",
+        "description": "AximoIX is a dynamic company offering a range of services, including ICT solutions, AI solutions, advertising and marketing, programming and coding, and financial technology. We partner with businesses to drive growth, improve efficiency, and achieve success.",
+        "about": {
+            "goal": "Empower businesses to thrive through innovative technology, creative marketing, and strategic financial solutions.",
+            "vision": "To be a leading provider of integrated ICT, AI, advertising, programming, and financial technology solutions, driving business growth and success.",
+            "mission": "At AximoIX, our mission is to deliver tailored solutions that combine technology, creativity, and innovation, fostering long-term partnerships and driving business success."
+        },
+        "contact": {
+            "email": "hello@aximoix.com",
+            "phone": "+1 (555) 123-4567",
+            "address": "123 Innovation Drive, Tech City, TC 12345",
+            "social_media": {
+                "linkedin": "#",
+                "twitter": "#",
+                "facebook": "#",
+                "instagram": "#"
+            }
+        }
+    }
+
+@app.get("/api/services")
+async def get_services():
     try:
         # Try to get from database first
         db_services = await db.services.find({"is_active": True}).to_list(100)
-        if db_services:
-            return db_services
+        if db_services and len(db_services) > 0:
+            # Convert ObjectId to string for JSON serialization
+            services = convert_objectid(db_services)
+            print(f"✅ Loaded {len(services)} services from database")
+            return services
     except Exception as e:
         print(f"❌ Error fetching services from DB: {e}")
     
     # Return static data as fallback
-    return services_data
+    print("📋 Using static services data as fallback")
+    return get_static_services()
 
 @app.get("/api/services/{service_id}")
 async def get_service(service_id: str):
@@ -300,15 +337,18 @@ async def get_service(service_id: str):
         # Try to get from database first
         service = await db.services.find_one({"id": service_id})
         if service:
-            return service
+            # Convert ObjectId to string for JSON serialization
+            converted_service = convert_objectid(service)
+            print(f"✅ Loaded service {service_id} from database")
+            return converted_service
     except Exception as e:
         print(f"❌ Error fetching service from DB: {e}")
     
     # Fallback to static data
-    services_data = await get_services()
-    for service in services_data:
-        if service["id"] == service_id:
-            return service
+    static_service = get_static_service_by_id(service_id)
+    if static_service:
+        print(f"📋 Using static data for service {service_id}")
+        return static_service
     
     raise HTTPException(status_code=404, detail="Service not found")
 
@@ -347,18 +387,37 @@ async def debug_info():
         # Check contacts collection
         contact_count = await db.contacts.count_documents({})
         
+        # Check services collection
+        services_count = await db.services.count_documents({})
+        
     except Exception as e:
         db_status = f"disconnected: {str(e)}"
         collections = []
         contact_count = 0
+        services_count = 0
     
     return {
         "backend": "running",
         "database": db_status,
         "collections": collections,
         "contact_submissions": contact_count,
+        "services_count": services_count,
         "timestamp": datetime.utcnow().isoformat()
     }
+
+@app.get("/api/debug/services")
+async def debug_services():
+    """Debug endpoint to check services data structure"""
+    try:
+        services = await db.services.find({}).to_list(10)
+        return {
+            "raw_count": len(services),
+            "sample_raw": services[0] if services else None,
+            "converted_sample": convert_objectid(services[0]) if services else None,
+            "collections": await db.list_collection_names()
+        }
+    except Exception as e:
+        return {"error": str(e)}
 
 if __name__ == "__main__":
     import uvicorn

@@ -1,4 +1,4 @@
-// useApi.js - IMPROVED ERROR HANDLING
+// useApi.js - ENHANCED WITH BETTER SERVICE DETAILS HANDLING
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import config, { API_BASE_URL } from '../config';
@@ -13,23 +13,40 @@ export const useApi = (endpoint, dependencies = []) => {
     try {
       setLoading(true);
       setError(null);
-      console.log(`🌐 Fetching: ${API_BASE_URL}${endpoint}`);
       
-      const response = await axios.get(`${API_BASE_URL}${endpoint}`, {
-        timeout: 10000,
+      const apiUrl = `${API_BASE_URL}${endpoint}`;
+      console.log(`🌐 Fetching from: ${apiUrl}`);
+      
+      const response = await axios.get(apiUrl, {
+        timeout: 15000,
         headers: {
           'Content-Type': 'application/json',
-        }
+          'Accept': 'application/json',
+        },
+        withCredentials: false
       });
       
       console.log(`✅ Success: ${endpoint}`, response.data);
       setData(response.data);
     } catch (err) {
       console.error(`❌ Error fetching ${endpoint}:`, err);
-      const errorMsg = err.response?.data?.detail || err.message || 'Network error';
+      
+      let errorMsg = 'Network error - cannot connect to server';
+      
+      if (err.code === 'ECONNABORTED') {
+        errorMsg = 'Request timeout. Please check your connection.';
+      } else if (err.response) {
+        // Server responded with error status
+        errorMsg = err.response.data?.detail || err.response.data?.message || `Server error: ${err.response.status}`;
+      } else if (err.request) {
+        // Request was made but no response received
+        errorMsg = 'No response from server. The backend might be down.';
+      }
+      
       setError(errorMsg);
       
       // Use mock data as fallback
+      console.log('📋 Using mock data as fallback for:', endpoint);
       setMockData(endpoint, setData);
     } finally {
       setLoading(false);
@@ -71,129 +88,140 @@ const setMockData = (endpoint, setData) => {
       }
     });
   } else if (endpoint === '/services') {
-    setData([
-      {
-        id: "1",
-        title: "ICT Solutions",
-        description: "Technology solutions for businesses - infrastructure, networking, and digital transformation services.",
-        icon: "Monitor",
-        features: ["Network Infrastructure", "Cloud Solutions", "Digital Transformation", "IT Consulting"],
-        detailed_info: {
-          overview: "Our ICT solutions provide comprehensive technology infrastructure and digital transformation services to modernize your business operations.",
-          benefits: [
-            "Improved operational efficiency and productivity",
-            "Enhanced security and data protection",
-            "Scalable infrastructure that grows with your business"
-          ],
-          technologies: [
-            "Cloud Platforms (AWS, Azure, Google Cloud)",
-            "Network Security Systems",
-            "Enterprise Software Solutions"
-          ],
-          case_studies: [
-            "Migrated 500+ employee company to cloud infrastructure, reducing IT costs by 40%"
-          ]
-        },
-        is_active: true
-      },
-      {
-        id: "2",
-        title: "AI Solutions",
-        description: "Artificial intelligence-powered solutions to automate processes and enhance decision-making.",
-        icon: "Brain",
-        features: ["Machine Learning", "Predictive Analytics", "Process Automation", "AI Consulting"],
-        detailed_info: {
-          overview: "Transform your business with cutting-edge AI solutions that automate complex processes and provide predictive insights.",
-          benefits: [
-            "Automated workflow processes saving 60% manual effort",
-            "Predictive analytics for better business forecasting",
-            "Enhanced customer experience through AI chatbots"
-          ],
-          technologies: [
-            "Machine Learning Algorithms",
-            "Natural Language Processing",
-            "Computer Vision"
-          ],
-          case_studies: [
-            "Developed AI chatbot reducing customer service response time by 75%"
-          ]
-        },
-        is_active: true
-      },
-      {
-        id: "3",
-        title: "Advertising & Marketing",
-        description: "Creative campaigns and strategies to amplify your brand and reach your target audience.",
-        icon: "Megaphone",
-        features: ["Digital Marketing", "Brand Strategy", "Creative Campaigns", "Social Media Marketing"],
-        detailed_info: {
-          overview: "Our comprehensive marketing and advertising services help businesses build strong brand presence and drive measurable growth.",
-          benefits: [
-            "Increased brand visibility and recognition",
-            "Higher customer engagement and conversion rates",
-            "Data-driven marketing strategies for better ROI"
-          ],
-          technologies: [
-            "Marketing Automation Platforms",
-            "Social Media Management Tools",
-            "Analytics and Tracking Systems"
-          ],
-          case_studies: [
-            "Increased client's social media engagement by 300% in 6 months"
-          ]
-        },
-        is_active: true
-      },
-      {
-        id: "4",
-        title: "Programming & Coding",
-        description: "Custom software development solutions tailored to your business needs and objectives.",
-        icon: "Code",
-        features: ["Web Development", "Mobile Apps", "Custom Software", "API Integration"],
-        detailed_info: {
-          overview: "Our expert development team creates custom software solutions specifically designed to meet your unique business requirements.",
-          benefits: [
-            "Custom solutions tailored to your specific needs",
-            "Scalable architecture for future growth",
-            "Modern, responsive user interfaces"
-          ],
-          technologies: [
-            "React, Node.js, Python, Java",
-            "Mobile Development (React Native, Flutter)",
-            "Database Systems (MongoDB, PostgreSQL)"
-          ],
-          case_studies: [
-            "Built e-commerce platform handling 10,000+ daily transactions"
-          ]
-        },
-        is_active: true
-      },
-      {
-        id: "5",
-        title: "Financial Technology",
-        description: "Innovative fintech solutions to streamline financial processes and enhance user experience.",
-        icon: "CreditCard",
-        features: ["Payment Systems", "Digital Banking", "Blockchain Solutions", "Financial Analytics"],
-        detailed_info: {
-          overview: "Our fintech solutions revolutionize financial operations through secure payment systems and advanced financial analytics.",
-          benefits: [
-            "Secure and compliant financial transactions",
-            "Streamlined payment processing",
-            "Advanced financial analytics and reporting"
-          ],
-          technologies: [
-            "Payment Gateway Integration",
-            "Blockchain Platforms",
-            "Digital Wallet Systems"
-          ],
-          case_studies: [
-            "Implemented payment system processing $1M+ monthly transactions"
-          ]
-        },
-        is_active: true
-      }
-    ]);
+    setData(getMockServices());
   }
+};
+
+// Helper function for mock services
+const getMockServices = () => {
+  return [
+    {
+      id: "1",
+      title: "ICT Solutions",
+      description: "Technology solutions for businesses - infrastructure, networking, and digital transformation services.",
+      icon: "Monitor",
+      features: ["Network Infrastructure", "Cloud Solutions", "Digital Transformation", "IT Consulting"],
+      detailed_info: {
+        overview: "Our ICT solutions provide comprehensive technology infrastructure and digital transformation services to modernize your business operations.",
+        benefits: [
+          "Improved operational efficiency and productivity",
+          "Enhanced security and data protection",
+          "Scalable infrastructure that grows with your business"
+        ],
+        technologies: [
+          "Cloud Platforms (AWS, Azure, Google Cloud)",
+          "Network Security Systems",
+          "Enterprise Software Solutions"
+        ],
+        case_studies: [
+          "Migrated 500+ employee company to cloud infrastructure, reducing IT costs by 40%"
+        ]
+      },
+      is_active: true
+    },
+    {
+      id: "2",
+      title: "AI Solutions",
+      description: "Artificial intelligence-powered solutions to automate processes and enhance decision-making.",
+      icon: "Brain",
+      features: ["Machine Learning", "Predictive Analytics", "Process Automation", "AI Consulting"],
+      detailed_info: {
+        overview: "Transform your business with cutting-edge AI solutions that automate complex processes and provide predictive insights.",
+        benefits: [
+          "Automated workflow processes saving 60% manual effort",
+          "Predictive analytics for better business forecasting",
+          "Enhanced customer experience through AI chatbots"
+        ],
+        technologies: [
+          "Machine Learning Algorithms",
+          "Natural Language Processing",
+          "Computer Vision"
+        ],
+        case_studies: [
+          "Developed AI chatbot reducing customer service response time by 75%"
+        ]
+      },
+      is_active: true
+    },
+    {
+      id: "3",
+      title: "Advertising & Marketing",
+      description: "Creative campaigns and strategies to amplify your brand and reach your target audience.",
+      icon: "Megaphone",
+      features: ["Digital Marketing", "Brand Strategy", "Creative Campaigns", "Social Media Marketing"],
+      detailed_info: {
+        overview: "Our comprehensive marketing and advertising services help businesses build strong brand presence and drive measurable growth.",
+        benefits: [
+          "Increased brand visibility and recognition",
+          "Higher customer engagement and conversion rates",
+          "Data-driven marketing strategies for better ROI"
+        ],
+        technologies: [
+          "Marketing Automation Platforms",
+          "Social Media Management Tools",
+          "Analytics and Tracking Systems"
+        ],
+        case_studies: [
+          "Increased client's social media engagement by 300% in 6 months"
+        ]
+      },
+      is_active: true
+    },
+    {
+      id: "4",
+      title: "Programming & Coding",
+      description: "Custom software development solutions tailored to your business needs and objectives.",
+      icon: "Code",
+      features: ["Web Development", "Mobile Apps", "Custom Software", "API Integration"],
+      detailed_info: {
+        overview: "Our expert development team creates custom software solutions specifically designed to meet your unique business requirements.",
+        benefits: [
+          "Custom solutions tailored to your specific needs",
+          "Scalable architecture for future growth",
+          "Modern, responsive user interfaces"
+        ],
+        technologies: [
+          "React, Node.js, Python, Java",
+          "Mobile Development (React Native, Flutter)",
+          "Database Systems (MongoDB, PostgreSQL)"
+        ],
+        case_studies: [
+          "Built e-commerce platform handling 10,000+ daily transactions"
+        ]
+      },
+      is_active: true
+    },
+    {
+      id: "5",
+      title: "Financial Technology",
+      description: "Innovative fintech solutions to streamline financial processes and enhance user experience.",
+      icon: "CreditCard",
+      features: ["Payment Systems", "Digital Banking", "Blockchain Solutions", "Financial Analytics"],
+      detailed_info: {
+        overview: "Our fintech solutions revolutionize financial operations through secure payment systems and advanced financial analytics.",
+        benefits: [
+          "Secure and compliant financial transactions",
+          "Streamlined payment processing",
+          "Advanced financial analytics and reporting"
+        ],
+        technologies: [
+          "Payment Gateway Integration",
+          "Blockchain Platforms",
+          "Digital Wallet Systems"
+        ],
+        case_studies: [
+          "Implemented payment system processing $1M+ monthly transactions"
+        ]
+      },
+      is_active: true
+    }
+  ];
+};
+
+// Helper function to find mock service by ID
+const getMockServiceById = (serviceId) => {
+  const mockServices = getMockServices();
+  return mockServices.find(service => service.id === serviceId) || null;
 };
 
 // API service functions
@@ -242,25 +270,39 @@ export const apiService = {
       return { success: true, data: response.data };
     } catch (error) {
       console.error('❌ Error fetching services:', error);
-      return { 
-        success: false, 
-        error: error.response?.data?.detail || error.message || 'Failed to fetch services' 
-      };
+      
+      // Return mock data as fallback
+      const mockServices = getMockServices();
+      console.log('📋 Using mock services data as fallback');
+      return { success: true, data: mockServices };
     }
   },
 
   getServiceDetails: async (serviceId) => {
     try {
+      console.log(`🔍 Fetching service details for: ${serviceId}`);
       const response = await axios.get(`${API_BASE_URL}/services/${serviceId}`, {
         timeout: 15000,
         withCredentials: false
       });
+      
+      console.log(`✅ Service details loaded:`, response.data);
       return { success: true, data: response.data };
+      
     } catch (error) {
       console.error(`❌ Error fetching service ${serviceId}:`, error);
+      
+      // Fallback to mock data
+      const mockService = getMockServiceById(serviceId);
+      
+      if (mockService) {
+        console.log(`📋 Using mock data for service: ${serviceId}`);
+        return { success: true, data: mockService };
+      }
+      
       return { 
         success: false, 
-        error: error.response?.data?.detail || error.message || 'Failed to fetch service details' 
+        error: error.response?.data?.detail || error.message || 'Service not found' 
       };
     }
   },
@@ -277,6 +319,23 @@ export const apiService = {
       return { 
         success: false, 
         error: error.response?.data?.detail || error.message || 'Failed to fetch company information' 
+      };
+    }
+  },
+
+  // Test connection function
+  testConnection: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/ping`, {
+        timeout: 10000,
+        withCredentials: false
+      });
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('❌ Connection test failed:', error);
+      return { 
+        success: false, 
+        error: 'Cannot connect to backend server' 
       };
     }
   }
