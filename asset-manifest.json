@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/AximoIX-website-main/static/css/main.c14fd081.css",
+    "main.js": "/AximoIX-website-main/static/js/main.433ec6bb.js",
+    "static/js/271.17a999a0.chunk.js": "/AximoIX-website-main/static/js/271.17a999a0.chunk.js",
+    "static/js/230.726ee53c.chunk.js": "/AximoIX-website-main/static/js/230.726ee53c.chunk.js",
+    "static/js/330.8a81569b.chunk.js": "/AximoIX-website-main/static/js/330.8a81569b.chunk.js",
+    "static/js/287.1774907d.chunk.js": "/AximoIX-website-main/static/js/287.1774907d.chunk.js",
+    "static/js/849.6cbcea01.chunk.js": "/AximoIX-website-main/static/js/849.6cbcea01.chunk.js",
+    "static/js/851.f6b96b27.chunk.js": "/AximoIX-website-main/static/js/851.f6b96b27.chunk.js",
+    "static/js/113.ff606c9d.chunk.js": "/AximoIX-website-main/static/js/113.ff606c9d.chunk.js",
+    "static/js/94.bf49eba8.chunk.js": "/AximoIX-website-main/static/js/94.bf49eba8.chunk.js",
+    "index.html": "/AximoIX-website-main/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.c14fd081.css",
+    "static/js/main.433ec6bb.js"
+  ]
+}
