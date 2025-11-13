@@ -1,11 +1,11 @@
-// config.js - UPDATED
+// frontend/config.js - DOUBLE CHECK THIS
 const config = {
   development: {
     apiBaseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000/api'
   },
   production: {
-    // Replace with your Vercel backend URL
-    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximo-ix-website-main.vercel.app'
+    // MAKE SURE THIS IS YOUR ACTUAL VERCEL URL
+    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximo-ix-website-main.vercel.app/api'
   }
 };
 

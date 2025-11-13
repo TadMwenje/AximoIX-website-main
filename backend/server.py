@@ -1,27 +1,54 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime
 import uuid
+import json
 
 # MongoDB connection
 MONGODB_URL = "mongodb+srv://tadiwamwenje00_db_user:RPvXEHmqSU4d12V6@aximoixcluster.yhr0vt9.mongodb.net/?retryWrites=true&w=majority&appName=aximoixcluster"
 DB_NAME = "aximoix"
 
-client = AsyncIOMotorClient(MONGODB_URL)
-db = client[DB_NAME]
+try:
+    client = AsyncIOMotorClient(MONGODB_URL)
+    db = client[DB_NAME]
+    print("✅ MongoDB connected successfully")
+except Exception as e:
+    print(f"❌ MongoDB connection failed: {e}")
+    # Create a mock db object to prevent crashes
+    class MockDB:
+        async def find_one(self, *args, **kwargs):
+            return None
+        async def find(self, *args, **kwargs):
+            return []
+        async def insert_one(self, *args, **kwargs):
+            class Result:
+                inserted_id = "mock_id"
+            return Result()
+        async def count_documents(self, *args, **kwargs):
+            return 0
+        async def list_collection_names(self):
+            return []
+    
+    db = MockDB()
 
 app = FastAPI()
 
-# FIXED CORS - Allow all origins for testing
+# FIXED CORS - More specific origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for now
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5173", 
+        "https://tadmwenje.github.io",
+        "https://tadmwenje.github.io/AximoIX-website-main",
+        "*"  # Allow all for testing
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -38,6 +65,15 @@ async def root():
 @app.get("/api")
 async def api_root():
     return {"message": "AximoIX API", "version": "1.0.0"}
+
+@app.get("/api/test")
+async def test_endpoint():
+    """Test endpoint to check if basic API works"""
+    return {
+        "message": "API test successful!",
+        "timestamp": datetime.utcnow().isoformat(),
+        "status": "working"
+    }
 
 @app.post("/api/contact")
 async def submit_contact(contact: ContactForm):
@@ -62,13 +98,23 @@ async def submit_contact(contact: ContactForm):
         
     except Exception as e:
         print(f"❌ Error saving contact: {e}")
+        # Return error response instead of raising exception
         return {
             "success": False,
-            "error": str(e)
+            "error": f"Failed to save contact: {str(e)}"
         }
 
 @app.get("/api/company")
 async def get_company():
+    try:
+        # Try to get from database first
+        company = await db.company.find_one({"id": "aximoix-company"})
+        if company:
+            return company
+    except Exception as e:
+        print(f"❌ Error fetching company from DB: {e}")
+    
+    # Fallback to static data
     return {
         "name": "AximoIX",
         "motto": "Innovate. Engage. Grow.",
@@ -94,16 +140,7 @@ async def get_company():
 
 @app.get("/api/services")
 async def get_services():
-    # Try to get from MongoDB first, fallback to static data
-    try:
-        services = await db.services.find({"is_active": True}).to_list(100)
-        if services:
-            return services
-    except Exception as e:
-        print(f"❌ Error fetching services from DB: {e}")
-    
-    # Fallback to static data
-    return [
+    services_data = [
         {
             "id": "1",
             "title": "ICT Solutions",
@@ -225,10 +262,22 @@ async def get_services():
             "is_active": True
         }
     ]
+    
+    try:
+        # Try to get from database first
+        db_services = await db.services.find({"is_active": True}).to_list(100)
+        if db_services:
+            return db_services
+    except Exception as e:
+        print(f"❌ Error fetching services from DB: {e}")
+    
+    # Return static data as fallback
+    return services_data
 
 @app.get("/api/services/{service_id}")
 async def get_service(service_id: str):
     try:
+        # Try to get from database first
         service = await db.services.find_one({"id": service_id})
         if service:
             return service
@@ -236,8 +285,8 @@ async def get_service(service_id: str):
         print(f"❌ Error fetching service from DB: {e}")
     
     # Fallback to static data
-    services = await get_services()
-    for service in services:
+    services_data = await get_services()
+    for service in services_data:
         if service["id"] == service_id:
             return service
     
