@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/AximoIX-website-main/static/css/main.c14fd081.css",
-    "main.js": "/AximoIX-website-main/static/js/main.b20c8ae1.js",
+    "main.js": "/AximoIX-website-main/static/js/main.38d0ce92.js",
     "static/js/271.17a999a0.chunk.js": "/AximoIX-website-main/static/js/271.17a999a0.chunk.js",
     "static/js/230.726ee53c.chunk.js": "/AximoIX-website-main/static/js/230.726ee53c.chunk.js",
     "static/js/330.8a81569b.chunk.js": "/AximoIX-website-main/static/js/330.8a81569b.chunk.js",
@@ -14,6 +14,6 @@
   },
   "entrypoints": [
     "static/css/main.c14fd081.css",
-    "static/js/main.b20c8ae1.js"
+    "static/js/main.38d0ce92.js"
   ]
 }
