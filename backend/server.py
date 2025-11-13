@@ -37,20 +37,40 @@ except Exception as e:
 
 app = FastAPI()
 
-# FIXED CORS - More specific origins
+# Update CORS configuration in server.py
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "http://localhost:5173", 
+        "http://localhost:5173",
         "https://tadmwenje.github.io",
         "https://tadmwenje.github.io/AximoIX-website-main",
-        "*"  # Allow all for testing
+        "https://aximo-ix-website-main.vercel.app",
+        "https://aximo-ix-website-main-tadmwenje.vercel.app"
     ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add this after CORS middleware
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    response = await call_next(request)
+    # Add headers that help with CORS and security
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    return response
+
+# Add a simple test endpoint for frontend
+@app.get("/api/ping")
+async def ping():
+    return {
+        "message": "pong", 
+        "timestamp": datetime.utcnow().isoformat(),
+        "status": "success"
+    }
 
 class ContactForm(BaseModel):
     name: str
