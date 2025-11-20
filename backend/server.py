@@ -3,17 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 import os
-from motor.motor_asyncio import AsyncIOMotorClient
+import pymongo
 from datetime import datetime
 import uuid
 import json
 from bson import ObjectId
 
-# MongoDB connection with enhanced options
+# MongoDB connection with pymongo (synchronous)
 MONGODB_URL = "mongodb+srv://tadiwamwenje00_db_user:RPvXEHmqSU4d12V6@aximoixcluster.yhr0vt9.mongodb.net/aximoix?retryWrites=true&w=majority&appName=aximoixcluster"
 
 try:
-    client = AsyncIOMotorClient(
+    client = pymongo.MongoClient(
         MONGODB_URL,
         serverSelectionTimeoutMS=10000,
         connectTimeoutMS=15000,
@@ -26,24 +26,24 @@ try:
     
     # Test connection immediately
     client.admin.command('ping')
-    db = client.get_database("aximoix")
+    db = client["aximoix"]
     print("✅ MongoDB connected successfully")
     
 except Exception as e:
     print(f"❌ MongoDB connection failed: {e}")
     # Create a mock db object to prevent crashes
     class MockDB:
-        async def find_one(self, *args, **kwargs):
+        def find_one(self, *args, **kwargs):
             return None
-        async def find(self, *args, **kwargs):
+        def find(self, *args, **kwargs):
             return []
-        async def insert_one(self, *args, **kwargs):
+        def insert_one(self, *args, **kwargs):
             class Result:
                 inserted_id = "mock_id"
             return Result()
-        async def count_documents(self, *args, **kwargs):
+        def count_documents(self, *args, **kwargs):
             return 0
-        async def list_collection_names(self):
+        def list_collection_names(self):
             return []
     
     db = MockDB()
@@ -232,18 +232,18 @@ def get_static_service_by_id(service_id):
             return service
     return None
 
-async def seed_database():
+def seed_database():
     """Initialize database with default data if empty"""
     try:
         # Check if services collection is empty
-        services_count = await db.services.count_documents({})
-        company_count = await db.company.count_documents({})
+        services_count = db.services.count_documents({})
+        company_count = db.company.count_documents({})
         
         if services_count == 0:
             print("🌱 Seeding services data...")
             services_data = get_static_services()
             for service in services_data:
-                await db.services.insert_one(service)
+                db.services.insert_one(service)
             print(f"✅ Seeded {len(services_data)} services")
         
         if company_count == 0:
@@ -271,17 +271,14 @@ async def seed_database():
                     }
                 }
             }
-            await db.company.insert_one(company_data)
+            db.company.insert_one(company_data)
             print("✅ Seeded company information")
             
     except Exception as e:
         print(f"❌ Error seeding database: {e}")
 
-# Call this function when the app starts
-@app.on_event("startup")
-async def startup_event():
-    print("🚀 Starting AximoIX API Server...")
-    await seed_database()
+# Seed database on startup
+seed_database()
 
 @app.get("/")
 async def root():
@@ -320,9 +317,9 @@ async def submit_contact(contact: ContactForm):
         contact_data["status"] = "new"
         
         # Check if MongoDB is connected (not mock)
-        if hasattr(db, 'contacts') and callable(getattr(db.contacts, 'insert_one', None)):
+        if hasattr(db, 'contacts') and hasattr(db.contacts, 'insert_one'):
             # Save to MongoDB
-            result = await db.contacts.insert_one(contact_data)
+            result = db.contacts.insert_one(contact_data)
             print(f"✅ Contact saved to MongoDB with ID: {contact_data['id']}")
             
             return {
@@ -352,7 +349,7 @@ async def submit_contact(contact: ContactForm):
 async def get_company():
     try:
         # Try to get from database first
-        company = await db.company.find_one({"id": "aximoix-company"})
+        company = db.company.find_one({"id": "aximoix-company"})
         if company:
             return convert_objectid(company)
     except Exception as e:
@@ -386,7 +383,7 @@ async def get_company():
 async def get_services():
     try:
         # Try to get from database first
-        db_services = await db.services.find({"is_active": True}).to_list(100)
+        db_services = list(db.services.find({"is_active": True}))
         if db_services and len(db_services) > 0:
             # Convert ObjectId to string for JSON serialization
             services = convert_objectid(db_services)
@@ -403,7 +400,7 @@ async def get_services():
 async def get_service(service_id: str):
     try:
         # Try to get from database first
-        service = await db.services.find_one({"id": service_id})
+        service = db.services.find_one({"id": service_id})
         if service:
             # Convert ObjectId to string for JSON serialization
             converted_service = convert_objectid(service)
@@ -424,15 +421,15 @@ async def get_service(service_id: str):
 async def health_check():
     try:
         # Test MongoDB connection
-        await client.admin.command('ping')
+        client.admin.command('ping')
         
         # Check if collections exist
-        collections = await db.list_collection_names()
+        collections = db.list_collection_names()
         
         # Get counts
-        services_count = await db.services.count_documents({})
-        company_count = await db.company.count_documents({})
-        contacts_count = await db.contacts.count_documents({})
+        services_count = db.services.count_documents({})
+        company_count = db.company.count_documents({})
+        contacts_count = db.contacts.count_documents({})
         
         return {
             "status": "healthy", 
@@ -459,17 +456,17 @@ async def debug_info():
     try:
         # Test MongoDB
         db_status = "connected"
-        await client.admin.command('ping')
-        collections = await db.list_collection_names()
+        client.admin.command('ping')
+        collections = db.list_collection_names()
         
         # Check contacts collection
-        contact_count = await db.contacts.count_documents({})
+        contact_count = db.contacts.count_documents({})
         
         # Check services collection
-        services_count = await db.services.count_documents({})
+        services_count = db.services.count_documents({})
         
         # Check company collection
-        company_count = await db.company.count_documents({})
+        company_count = db.company.count_documents({})
         
     except Exception as e:
         db_status = f"disconnected: {str(e)}"
@@ -488,29 +485,15 @@ async def debug_info():
         "timestamp": datetime.utcnow().isoformat()
     }
 
-@app.get("/api/debug/services")
-async def debug_services():
-    """Debug endpoint to check services data structure"""
-    try:
-        services = await db.services.find({}).to_list(10)
-        return {
-            "raw_count": len(services),
-            "sample_raw": services[0] if services else None,
-            "converted_sample": convert_objectid(services[0]) if services else None,
-            "collections": await db.list_collection_names()
-        }
-    except Exception as e:
-        return {"error": str(e)}
-
 @app.get("/api/test-db")
 async def test_database():
     """Test database connection and operations"""
     try:
         # Test connection
-        await client.admin.command('ping')
+        client.admin.command('ping')
         
         # Test collections
-        collections = await db.list_collection_names()
+        collections = db.list_collection_names()
         
         # Test insert
         test_doc = {
@@ -520,15 +503,15 @@ async def test_database():
         }
         
         if 'test' not in collections:
-            await db.create_collection('test')
+            db.create_collection('test')
         
-        result = await db.test.insert_one(test_doc)
+        result = db.test.insert_one(test_doc)
         
         # Test read
-        found_doc = await db.test.find_one({"id": test_doc["id"]})
+        found_doc = db.test.find_one({"id": test_doc["id"]})
         
         # Clean up
-        await db.test.delete_one({"id": test_doc["id"]})
+        db.test.delete_one({"id": test_doc["id"]})
         
         return {
             "status": "success",
@@ -536,8 +519,7 @@ async def test_database():
             "collections": collections,
             "test_insert": "successful",
             "test_read": "successful" if found_doc else "failed",
-            "connection_string": "Working correctly",
-            "mongodb_url": MONGODB_URL[:50] + "..."  # Show partial URL for security
+            "connection_string": "Working correctly"
         }
         
     except Exception as e:
@@ -545,8 +527,7 @@ async def test_database():
             "status": "error",
             "database": "disconnected",
             "error": str(e),
-            "connection_string": "Failed",
-            "mongodb_url": MONGODB_URL[:50] + "..."  # Show partial URL for security
+            "connection_string": "Failed"
         }
 
 if __name__ == "__main__":
