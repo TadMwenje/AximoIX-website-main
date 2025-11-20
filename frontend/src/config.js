@@ -5,7 +5,7 @@ const config = {
   },
   production: {
     // Use your actual Vercel backend URL
-    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximo-ix-website-main.vercel.app/api'
+    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximoixwebsitemain.vercel.app/api'
   }
 };
 
