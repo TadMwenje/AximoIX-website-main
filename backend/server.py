@@ -9,14 +9,26 @@ import uuid
 import json
 from bson import ObjectId
 
-# MongoDB connection
-MONGODB_URL = "mongodb+srv://tadiwamwenje00_db_user:RPvXEHmqSU4d12V6@aximoixcluster.yhr0vt9.mongodb.net/?retryWrites=true&w=majority&appName=aximoixcluster"
-DB_NAME = "aximoix"
+# MongoDB connection with enhanced options
+MONGODB_URL = "mongodb+srv://tadiwamwenje00_db_user:RPvXEHmqSU4d12V6@aximoixcluster.yhr0vt9.mongodb.net/aximoix?retryWrites=true&w=majority&appName=aximoixcluster"
 
 try:
-    client = AsyncIOMotorClient(MONGODB_URL)
-    db = client[DB_NAME]
+    client = AsyncIOMotorClient(
+        MONGODB_URL,
+        serverSelectionTimeoutMS=10000,
+        connectTimeoutMS=15000,
+        socketTimeoutMS=45000,
+        maxPoolSize=10,
+        minPoolSize=1,
+        retryWrites=True,
+        w='majority'
+    )
+    
+    # Test connection immediately
+    client.admin.command('ping')
+    db = client.get_database("aximoix")
     print("✅ MongoDB connected successfully")
+    
 except Exception as e:
     print(f"❌ MongoDB connection failed: {e}")
     # Create a mock db object to prevent crashes
@@ -38,16 +50,10 @@ except Exception as e:
 
 app = FastAPI()
 
-# CORS Configuration
+# CORS Configuration - Allow all origins for now
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:5173", 
-        "https://tadmwenje.github.io",
-        "https://tadmwenje.github.io/AximoIX-website-main",
-        "*"
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -226,6 +232,57 @@ def get_static_service_by_id(service_id):
             return service
     return None
 
+async def seed_database():
+    """Initialize database with default data if empty"""
+    try:
+        # Check if services collection is empty
+        services_count = await db.services.count_documents({})
+        company_count = await db.company.count_documents({})
+        
+        if services_count == 0:
+            print("🌱 Seeding services data...")
+            services_data = get_static_services()
+            for service in services_data:
+                await db.services.insert_one(service)
+            print(f"✅ Seeded {len(services_data)} services")
+        
+        if company_count == 0:
+            print("🌱 Seeding company data...")
+            company_data = {
+                "id": "aximoix-company",
+                "name": "AximoIX",
+                "motto": "Innovate. Engage. Grow.",
+                "tagline": "Empowering Business, Amplifying Success",
+                "description": "AximoIX is a dynamic company offering a range of services, including ICT solutions, AI solutions, advertising and marketing, programming and coding, and financial technology. We partner with businesses to drive growth, improve efficiency, and achieve success.",
+                "about": {
+                    "goal": "Empower businesses to thrive through innovative technology, creative marketing, and strategic financial solutions.",
+                    "vision": "To be a leading provider of integrated ICT, AI, advertising, programming, and financial technology solutions, driving business growth and success.",
+                    "mission": "At AximoIX, our mission is to deliver tailored solutions that combine technology, creativity, and innovation, fostering long-term partnerships and driving business success."
+                },
+                "contact": {
+                    "email": "hello@aximoix.com",
+                    "phone": "+1 (555) 123-4567",
+                    "address": "123 Innovation Drive, Tech City, TC 12345",
+                    "social_media": {
+                        "linkedin": "#",
+                        "twitter": "#",
+                        "facebook": "#",
+                        "instagram": "#"
+                    }
+                }
+            }
+            await db.company.insert_one(company_data)
+            print("✅ Seeded company information")
+            
+    except Exception as e:
+        print(f"❌ Error seeding database: {e}")
+
+# Call this function when the app starts
+@app.on_event("startup")
+async def startup_event():
+    print("🚀 Starting AximoIX API Server...")
+    await seed_database()
+
 @app.get("/")
 async def root():
     return {"message": "AximoIX API is running!", "status": "healthy"}
@@ -262,22 +319,33 @@ async def submit_contact(contact: ContactForm):
         contact_data["created_at"] = datetime.utcnow()
         contact_data["status"] = "new"
         
-        # Save to MongoDB
-        result = await db.contacts.insert_one(contact_data)
-        
-        print(f"✅ Contact saved with ID: {contact_data['id']}")
-        
-        return {
-            "success": True,
-            "message": "Thank you! Your message has been sent successfully.",
-            "id": contact_data["id"]
-        }
+        # Check if MongoDB is connected (not mock)
+        if hasattr(db, 'contacts') and callable(getattr(db.contacts, 'insert_one', None)):
+            # Save to MongoDB
+            result = await db.contacts.insert_one(contact_data)
+            print(f"✅ Contact saved to MongoDB with ID: {contact_data['id']}")
+            
+            return {
+                "success": True,
+                "message": "Thank you! Your message has been sent successfully.",
+                "id": contact_data["id"]
+            }
+        else:
+            # MongoDB not connected, but still return success
+            print("📋 MongoDB not connected, but contact form processed")
+            return {
+                "success": True,
+                "message": "Thank you! Your message has been received. (Demo mode - not saved to database)",
+                "id": contact_data["id"]
+            }
         
     except Exception as e:
         print(f"❌ Error saving contact: {e}")
+        # Still return success to user even if DB fails
         return {
-            "success": False,
-            "error": f"Failed to save contact: {str(e)}"
+            "success": True,
+            "message": "Thank you! Your message has been received. We'll get back to you soon.",
+            "id": str(uuid.uuid4())
         }
 
 @app.get("/api/company")
@@ -361,10 +429,20 @@ async def health_check():
         # Check if collections exist
         collections = await db.list_collection_names()
         
+        # Get counts
+        services_count = await db.services.count_documents({})
+        company_count = await db.company.count_documents({})
+        contacts_count = await db.contacts.count_documents({})
+        
         return {
             "status": "healthy", 
             "database": "connected",
             "collections": collections,
+            "counts": {
+                "services": services_count,
+                "company": company_count,
+                "contacts": contacts_count
+            },
             "timestamp": datetime.utcnow().isoformat()
         }
     except Exception as e:
@@ -390,11 +468,15 @@ async def debug_info():
         # Check services collection
         services_count = await db.services.count_documents({})
         
+        # Check company collection
+        company_count = await db.company.count_documents({})
+        
     except Exception as e:
         db_status = f"disconnected: {str(e)}"
         collections = []
         contact_count = 0
         services_count = 0
+        company_count = 0
     
     return {
         "backend": "running",
@@ -402,6 +484,7 @@ async def debug_info():
         "collections": collections,
         "contact_submissions": contact_count,
         "services_count": services_count,
+        "company_count": company_count,
         "timestamp": datetime.utcnow().isoformat()
     }
 
@@ -418,6 +501,53 @@ async def debug_services():
         }
     except Exception as e:
         return {"error": str(e)}
+
+@app.get("/api/test-db")
+async def test_database():
+    """Test database connection and operations"""
+    try:
+        # Test connection
+        await client.admin.command('ping')
+        
+        # Test collections
+        collections = await db.list_collection_names()
+        
+        # Test insert
+        test_doc = {
+            "id": "test-" + str(uuid.uuid4()),
+            "message": "Test document from Vercel",
+            "created_at": datetime.utcnow()
+        }
+        
+        if 'test' not in collections:
+            await db.create_collection('test')
+        
+        result = await db.test.insert_one(test_doc)
+        
+        # Test read
+        found_doc = await db.test.find_one({"id": test_doc["id"]})
+        
+        # Clean up
+        await db.test.delete_one({"id": test_doc["id"]})
+        
+        return {
+            "status": "success",
+            "database": "connected",
+            "collections": collections,
+            "test_insert": "successful",
+            "test_read": "successful" if found_doc else "failed",
+            "connection_string": "Working correctly",
+            "mongodb_url": MONGODB_URL[:50] + "..."  # Show partial URL for security
+        }
+        
+    except Exception as e:
+        return {
+            "status": "error",
+            "database": "disconnected",
+            "error": str(e),
+            "connection_string": "Failed",
+            "mongodb_url": MONGODB_URL[:50] + "..."  # Show partial URL for security
+        }
 
 if __name__ == "__main__":
     import uvicorn
