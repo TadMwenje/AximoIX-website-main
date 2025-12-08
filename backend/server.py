@@ -3,14 +3,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
 import os
+from dotenv import load_dotenv
 import pymongo
 from datetime import datetime
 import uuid
 import json
 from bson import ObjectId
 
-# MongoDB connection with pymongo (synchronous)
-MONGODB_URL = "mongodb+srv://tadiwamwenje00_db_user:RPvXEHmqSU4d12V6@aximoixcluster.yhr0vt9.mongodb.net/aximoix?retryWrites=true&w=majority&appName=aximoixcluster"
+# Load environment variables
+load_dotenv()
+
+# MongoDB connection from environment variable - NO CREDENTIALS IN CODE!
+MONGODB_URL = os.getenv("MONGODB_URL")
+
+if not MONGODB_URL:
+    print("⚠️ MONGODB_URL environment variable is not set")
+    print("⚠️ Using fallback to local MongoDB. Set MONGODB_URL in .env file or environment variables.")
+    # Provide a clear error message for development
+    MONGODB_URL = "mongodb://localhost:27017/aximoix"
+
+print(f"🔗 Connecting to MongoDB... (URL hidden for security)")
 
 try:
     client = pymongo.MongoClient(
@@ -31,6 +43,7 @@ try:
     
 except Exception as e:
     print(f"❌ MongoDB connection failed: {e}")
+    print("⚠️ Running in demo mode with fallback data")
     # Create a mock db object to prevent crashes
     class MockDB:
         def find_one(self, *args, **kwargs):
