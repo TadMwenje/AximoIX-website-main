@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import config, { API_BASE_URL } from '../config';
 
+// Add this console log to debug
+console.log('🔧 Current Environment:', process.env.NODE_ENV);
+console.log('🔧 API_BASE_URL from config:', API_BASE_URL);
+console.log('🔧 REACT_APP_API_URL from env:', process.env.REACT_APP_API_URL);
 // Custom hook for API calls
 export const useApi = (endpoint, dependencies = []) => {
   const [data, setData] = useState(null);

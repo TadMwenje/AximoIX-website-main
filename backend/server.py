@@ -13,7 +13,7 @@ from bson import ObjectId
 # Load environment variables
 load_dotenv()
 
-
+# IMPORTANT: Vercel uses MONGODB_URL (not MONGO_URL)
 MONGODB_URL = os.getenv("MONGODB_URL")
 
 if not MONGODB_URL:
@@ -22,18 +22,16 @@ if not MONGODB_URL:
     # Provide a clear error message for development
     MONGODB_URL = "mongodb://localhost:27017/aximoix"
 
-print(f"🔗 Connecting to MongoDB... (URL hidden for security)")
+print(f"🔗 Attempting to connect to MongoDB...")
 
 try:
+    # For Vercel/Atlas, use the connection string directly
+    # Remove the extra parameters that might cause issues
     client = pymongo.MongoClient(
         MONGODB_URL,
         serverSelectionTimeoutMS=10000,
         connectTimeoutMS=15000,
-        socketTimeoutMS=45000,
-        maxPoolSize=10,
-        minPoolSize=1,
-        retryWrites=True,
-        w='majority'
+        socketTimeoutMS=45000
     )
     
     # Test connection immediately
@@ -79,6 +77,7 @@ async def add_security_headers(request, call_next):
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
 class ContactForm(BaseModel):
@@ -319,6 +318,19 @@ async def ping():
         "status": "success"
     }
 
+# NEW: Debug endpoint to check environment variables
+@app.get("/api/env-check")
+async def env_check():
+    """Debug endpoint to check environment variables"""
+    return {
+        "MONGODB_URL_exists": bool(os.getenv("MONGODB_URL")),
+        "MONGODB_URL_first_50": os.getenv("MONGODB_URL", "")[:50] + "..." if os.getenv("MONGODB_URL") else "NOT SET",
+        "DB_NAME": os.getenv("DB_NAME", "NOT SET"),
+        "environment": os.getenv("VERCEL_ENV", "development"),
+        "all_mongo_vars": {k: "SET" for k in os.environ if "MONGO" in k or "URL" in k or "DB" in k},
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
 @app.post("/api/contact")
 async def submit_contact(contact: ContactForm):
     try:
@@ -331,6 +343,10 @@ async def submit_contact(contact: ContactForm):
         
         # Check if MongoDB is connected (not mock)
         if hasattr(db, 'contacts') and hasattr(db.contacts, 'insert_one'):
+            # Create contacts collection if it doesn't exist
+            if 'contacts' not in db.list_collection_names():
+                db.create_collection('contacts')
+                
             # Save to MongoDB
             result = db.contacts.insert_one(contact_data)
             print(f"✅ Contact saved to MongoDB with ID: {contact_data['id']}")
@@ -442,7 +458,7 @@ async def health_check():
         # Get counts
         services_count = db.services.count_documents({})
         company_count = db.company.count_documents({})
-        contacts_count = db.contacts.count_documents({})
+        contacts_count = db.contacts.count_documents({}) if 'contacts' in collections else 0
         
         return {
             "status": "healthy", 
@@ -468,18 +484,18 @@ async def debug_info():
     """Debug endpoint to check everything"""
     try:
         # Test MongoDB
-        db_status = "connected"
         client.admin.command('ping')
+        db_status = "connected"
         collections = db.list_collection_names()
         
         # Check contacts collection
-        contact_count = db.contacts.count_documents({})
+        contact_count = db.contacts.count_documents({}) if 'contacts' in collections else 0
         
         # Check services collection
-        services_count = db.services.count_documents({})
+        services_count = db.services.count_documents({}) if 'services' in collections else 0
         
         # Check company collection
-        company_count = db.company.count_documents({})
+        company_count = db.company.count_documents({}) if 'company' in collections else 0
         
     except Exception as e:
         db_status = f"disconnected: {str(e)}"
@@ -495,7 +511,8 @@ async def debug_info():
         "contact_submissions": contact_count,
         "services_count": services_count,
         "company_count": company_count,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
+        "mongodb_url_set": bool(os.getenv("MONGODB_URL"))
     }
 
 @app.get("/api/test-db")
