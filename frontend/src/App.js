@@ -1,3 +1,7 @@
+if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+  window.location.href = '/AximoIX-website-main/';
+}
+
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navigation from "./components/Navigation";
