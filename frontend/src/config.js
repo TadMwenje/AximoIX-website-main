@@ -4,8 +4,8 @@ const config = {
     apiBaseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000/api'
   },
   production: {
-    // Use your actual Vercel backend URL
-    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximoixwebsitemain.vercel.app/api'
+    // Use your actual GitHub Pages backend URL
+    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximo-ix-website-main.vercel.app/api'
   }
 };
 
