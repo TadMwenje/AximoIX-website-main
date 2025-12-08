@@ -13,7 +13,7 @@ from bson import ObjectId
 # Load environment variables
 load_dotenv()
 
-# MongoDB connection from environment variable - NO CREDENTIALS IN CODE!
+
 MONGODB_URL = os.getenv("MONGODB_URL")
 
 if not MONGODB_URL:
