@@ -7,7 +7,7 @@ load_dotenv()
 def test_atlas_connection():
     try:
         # Your Atlas connection string
-        connection_string = "mongodb+srv://tadiwamwenje00_db_user:RPvXEHmqSU4d12V6@aximoixcluster.yhr0vt9.mongodb.net/?retryWrites=true&w=majority&appName=aximoixcluster"
+      
         
         client = pymongo.MongoClient(connection_string)
         
