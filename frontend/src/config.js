@@ -1,9 +1,32 @@
-const config = {
-  development: {
-    apiBaseUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000/api'
-  },
-  production: {
-    // CORRECT Vercel URL - NOTE THE DASHES!
-    apiBaseUrl: process.env.REACT_APP_API_URL || 'https://aximo-ix-website-main.vercel.app/api'
+// config.js - Frontend configuration
+const getApiBaseUrl = () => {
+  // If we're on GitHub Pages, use Vercel backend
+  if (window.location.hostname.includes('github.io')) {
+    return 'https://aximoixwebsitemain.vercel.app/api';
   }
+  
+  // For local development
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:8000/api';
+  }
+  
+  // Default to Vercel backend
+  return 'https://aximoixwebsitemain.vercel.app/api';
 };
+
+const config = {
+  API_BASE_URL: getApiBaseUrl(),
+  ENV: process.env.NODE_ENV || 'production',
+  IS_PRODUCTION: process.env.NODE_ENV === 'production'
+};
+
+// Debug info
+console.log('🔧 Frontend Configuration:');
+console.log('🔧 Hostname:', window.location.hostname);
+console.log('🔧 API Base URL:', config.API_BASE_URL);
+console.log('🔧 NODE_ENV:', process.env.NODE_ENV);
+console.log('🔧 REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+console.log('🔧 REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL);
+
+export { config };
+export default config;

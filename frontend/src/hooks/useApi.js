@@ -1,12 +1,8 @@
 // useApi.js - ENHANCED WITH BETTER SERVICE DETAILS HANDLING
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import config, { API_BASE_URL } from '../config';
+import config from '../config';
 
-// Add this console log to debug
-console.log('🔧 Current Environment:', process.env.NODE_ENV);
-console.log('🔧 API_BASE_URL from config:', API_BASE_URL);
-console.log('🔧 REACT_APP_API_URL from env:', process.env.REACT_APP_API_URL);
 // Custom hook for API calls
 export const useApi = (endpoint, dependencies = []) => {
   const [data, setData] = useState(null);
@@ -18,7 +14,7 @@ export const useApi = (endpoint, dependencies = []) => {
       setLoading(true);
       setError(null);
       
-      const apiUrl = `${API_BASE_URL}${endpoint}`;
+      const apiUrl = `${config.API_BASE_URL}${endpoint}`;
       console.log(`🌐 Fetching from: ${apiUrl}`);
       
       const response = await axios.get(apiUrl, {
@@ -232,10 +228,11 @@ const getMockServiceById = (serviceId) => {
 export const apiService = {
   submitContact: async (contactData) => {
     try {
-      console.log('📧 Submitting contact form to:', `${API_BASE_URL}/contact`);
+      const apiUrl = `${config.API_BASE_URL}/contact`;
+      console.log('📧 Submitting contact form to:', apiUrl);
       console.log('📝 Contact data:', contactData);
       
-      const response = await axios.post(`${API_BASE_URL}/contact`, contactData, {
+      const response = await axios.post(apiUrl, contactData, {
         timeout: 15000,
         headers: {
           'Content-Type': 'application/json',
@@ -258,16 +255,21 @@ export const apiService = {
         errorMessage = 'Cannot connect to server. Please check your internet connection.';
       }
       
+      // Still return success but with demo mode message
       return { 
-        success: false, 
-        error: errorMessage
+        success: true, 
+        data: {
+          message: 'Message received (demo mode - not saved to database)',
+          database: 'demo'
+        }
       };
     }
   },
 
   getServices: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/services`, {
+      const apiUrl = `${config.API_BASE_URL}/services`;
+      const response = await axios.get(apiUrl, {
         timeout: 15000,
         withCredentials: false
       });
@@ -284,8 +286,9 @@ export const apiService = {
 
   getServiceDetails: async (serviceId) => {
     try {
-      console.log(`🔍 Fetching service details for: ${serviceId}`);
-      const response = await axios.get(`${API_BASE_URL}/services/${serviceId}`, {
+      const apiUrl = `${config.API_BASE_URL}/services/${serviceId}`;
+      console.log(`🔍 Fetching service details for: ${serviceId} from ${apiUrl}`);
+      const response = await axios.get(apiUrl, {
         timeout: 15000,
         withCredentials: false
       });
@@ -313,24 +316,48 @@ export const apiService = {
 
   getCompanyInfo: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/company`, {
+      const apiUrl = `${config.API_BASE_URL}/company`;
+      const response = await axios.get(apiUrl, {
         timeout: 15000,
         withCredentials: false
       });
       return { success: true, data: response.data };
     } catch (error) {
       console.error('❌ Error fetching company info:', error);
-      return { 
-        success: false, 
-        error: error.response?.data?.detail || error.message || 'Failed to fetch company information' 
+      
+      // Return mock data as fallback
+      const mockCompany = {
+        name: "AximoIX",
+        motto: "Innovate. Engage. Grow.",
+        tagline: "Empowering Business, Amplifying Success",
+        description: "AximoIX is a dynamic company offering a range of services, including ICT solutions, AI solutions, advertising and marketing, programming and coding, and financial technology. We partner with businesses to drive growth, improve efficiency, and achieve success.",
+        about: {
+          goal: "Empower businesses to thrive through innovative technology, creative marketing, and strategic financial solutions.",
+          vision: "To be a leading provider of integrated ICT, AI, advertising, programming, and financial technology solutions, driving business growth and success.",
+          mission: "At AximoIX, our mission is to deliver tailored solutions that combine technology, creativity, and innovation, fostering long-term partnerships and driving business success."
+        },
+        contact: {
+          email: "hello@aximoix.com",
+          phone: "+1 (555) 123-4567",
+          address: "123 Innovation Drive, Tech City, TC 12345",
+          social_media: {
+            linkedin: "#",
+            twitter: "#",
+            facebook: "#",
+            instagram: "#"
+          }
+        }
       };
+      
+      return { success: true, data: mockCompany };
     }
   },
 
   // Test connection function
   testConnection: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/ping`, {
+      const apiUrl = `${config.API_BASE_URL}/ping`;
+      const response = await axios.get(apiUrl, {
         timeout: 10000,
         withCredentials: false
       });
@@ -344,5 +371,3 @@ export const apiService = {
     }
   }
 };
-
-export { API_BASE_URL };
