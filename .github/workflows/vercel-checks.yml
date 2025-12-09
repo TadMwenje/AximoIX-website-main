@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  statuses: write  # Required to update GitHub commit statuses
+
 jobs:
   lint:
     name: ESLint Check
@@ -28,14 +31,32 @@ jobs:
         run: npm run lint || npx eslint src/ --ext .js,.jsx
       
       - name: Update GitHub Status - Lint
-        uses: commit-status/github-action@v1
         if: always()
+        uses: actions/github-script@v7
+        env:
+          JOB_STATUS: ${{ job.status }}
         with:
-          sha: ${{ github.sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          state: ${{ job.status }}
-          context: 'Vercel - aximoixwebsitemain: lint'
-          description: 'ESLint check completed'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Map workflow job.status to commit status states
+            const stateMap = {
+              success: 'success',
+              failure: 'failure',
+              cancelled: 'error',
+              skipped: 'error',
+              neutral: 'success'
+            };
+            const state = stateMap[process.env.JOB_STATUS] || 'failure';
+            
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: state,
+              context: 'Vercel - aximoixwebsitemain: lint',
+              description: 'ESLint check completed',
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            });
 
   build:
     name: Build Check
@@ -62,14 +83,31 @@ jobs:
           PUBLIC_URL: https://tadmwenje.github.io/AximoIX-website-main
       
       - name: Update GitHub Status - Build
-        uses: commit-status/github-action@v1
         if: always()
+        uses: actions/github-script@v7
+        env:
+          JOB_STATUS: ${{ job.status }}
         with:
-          sha: ${{ github.sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          state: ${{ job.status }}
-          context: 'Vercel - aximoixwebsitemain: build'
-          description: 'Build check completed'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const stateMap = {
+              success: 'success',
+              failure: 'failure',
+              cancelled: 'error',
+              skipped: 'error',
+              neutral: 'success'
+            };
+            const state = stateMap[process.env.JOB_STATUS] || 'failure';
+            
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: state,
+              context: 'Vercel - aximoixwebsitemain: build',
+              description: 'Build check completed',
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            });
 
   test:
     name: Test Check
@@ -93,11 +131,28 @@ jobs:
         run: npm test -- --passWithNoTests
       
       - name: Update GitHub Status - Test
-        uses: commit-status/github-action@v1
         if: always()
+        uses: actions/github-script@v7
+        env:
+          JOB_STATUS: ${{ job.status }}
         with:
-          sha: ${{ github.sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          state: ${{ job.status }}
-          context: 'Vercel - aximoixwebsitemain: test'
-          description: 'Test check completed'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const stateMap = {
+              success: 'success',
+              failure: 'failure',
+              cancelled: 'error',
+              skipped: 'error',
+              neutral: 'success'
+            };
+            const state = stateMap[process.env.JOB_STATUS] || 'failure';
+            
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: state,
+              context: 'Vercel - aximoixwebsitemain: test',
+              description: 'Test check completed',
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            });
