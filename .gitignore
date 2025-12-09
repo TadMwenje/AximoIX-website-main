@@ -58,4 +58,8 @@ Thumbs.db
 .coverage
 .nyc_output
 htmlcov/
-.pytest_cache/
+.pytest_cache/# Prevent accidental commits of command names
+ls
+cat
+rm
+cd
