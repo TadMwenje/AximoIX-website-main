@@ -25,18 +25,12 @@ jobs:
         run: npm ci
       
       - name: Run ESLint
+        id: lint
         run: npm run lint || npx eslint src/ --ext .js,.jsx
       
       - name: Notify Vercel - Lint
-        uses: amondnet/vercel-action@v25
         if: always()
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          github-comment: false
-          github-deployment: false
+        run: echo "Lint check completed with status ${{ steps.lint.outcome }}"
 
   build:
     name: Build Check
@@ -57,25 +51,20 @@ jobs:
         run: npm ci
       
       - name: Build project
+        id: build
         run: npm run build
         env:
           REACT_APP_API_URL: https://aximoixwebsitemain.vercel.app/api
           PUBLIC_URL: https://tadmwenje.github.io/AximoIX-website-main
       
       - name: Notify Vercel - Build
-        uses: amondnet/vercel-action@v25
         if: always()
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          github-comment: false
-          github-deployment: false
+        run: echo "Build check completed with status ${{ steps.build.outcome }}"
 
   test:
     name: Test Check
     runs-on: ubuntu-latest
+    needs: [lint]
     
     steps:
       - name: Checkout code
@@ -91,15 +80,9 @@ jobs:
         run: npm ci
       
       - name: Run tests
+        id: test
         run: npm test -- --passWithNoTests
       
       - name: Notify Vercel - Test
-        uses: amondnet/vercel-action@v25
         if: always()
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          github-comment: false
-          github-deployment: false
+        run: echo "Test check completed with status ${{ steps.test.outcome }}"
