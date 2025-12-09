@@ -1,5 +1,5 @@
 // useApi.js - ENHANCED WITH BETTER SERVICE DETAILS HANDLING
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import config from '../config';
 
@@ -9,7 +9,7 @@ export const useApi = (endpoint, dependencies = []) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -51,11 +51,11 @@ export const useApi = (endpoint, dependencies = []) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [endpoint, ...dependencies]);
 
   useEffect(() => {
     fetchData();
-  }, [endpoint, ...dependencies]);
+  }, [fetchData]);
 
   return { data, loading, error, refetch: fetchData };
 };

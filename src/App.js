@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Navigation from "./components/Navigation";
 import SplineComponent from "./components/SplineComponent";
@@ -477,139 +476,139 @@ function App() {
               </div>
             </div>
 
-      {/* Right - Contact Form */}
-      <div>
-        <form onSubmit={handleContactSubmit}>
-          <div style={{ marginBottom: '24px' }}>
-            <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
-              Name *
-            </label>
-            <input 
-              type="text"
-              name="name"
-              value={contactForm.name}
-              onChange={handleContactChange}
-              required
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                background: 'var(--bg-primary)',
-                border: '1px solid var(--border-subtle)',
-                color: 'var(--text-primary)',
-                fontSize: '16px',
-                borderRadius: '4px'
-              }}
-            />
-          </div>
+            {/* Right - Contact Form */}
+            <div>
+              <form onSubmit={handleContactSubmit}>
+                <div style={{ marginBottom: '24px' }}>
+                  <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                    Name *
+                  </label>
+                  <input 
+                    type="text"
+                    name="name"
+                    value={contactForm.name}
+                    onChange={handleContactChange}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      background: 'var(--bg-primary)',
+                      border: '1px solid var(--border-subtle)',
+                      color: 'var(--text-primary)',
+                      fontSize: '16px',
+                      borderRadius: '4px'
+                    }}
+                  />
+                </div>
 
-          <div style={{ marginBottom: '24px' }}>
-            <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
-              Email *
-            </label>
-            <input 
-              type="email"
-              name="email"
-              value={contactForm.email}
-              onChange={handleContactChange}
-              required
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                background: 'var(--bg-primary)',
-                border: '1px solid var(--border-subtle)',
-                color: 'var(--text-primary)',
-                fontSize: '16px',
-                borderRadius: '4px'
-              }}
-            />
-          </div>
+                <div style={{ marginBottom: '24px' }}>
+                  <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                    Email *
+                  </label>
+                  <input 
+                    type="email"
+                    name="email"
+                    value={contactForm.email}
+                    onChange={handleContactChange}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      background: 'var(--bg-primary)',
+                      border: '1px solid var(--border-subtle)',
+                      color: 'var(--text-primary)',
+                      fontSize: '16px',
+                      borderRadius: '4px'
+                    }}
+                  />
+                </div>
 
-          <div style={{ marginBottom: '24px' }}>
-            <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
-              Service Interest
-            </label>
-            <select 
-              name="service_interest"
-              value={contactForm.service_interest}
-              onChange={handleContactChange}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                background: 'var(--bg-primary)',
-                border: '1px solid var(--border-subtle)',
-                color: 'var(--text-primary)',
-                fontSize: '16px',
-                borderRadius: '4px'
-              }}
-            >
-              <option value="">Select a service</option>
-              {servicesData?.map(service => (
-                <option key={service.id} value={service.title}>
-                  {service.title}
-                </option>
-              ))}
-            </select>
-          </div>
+                <div style={{ marginBottom: '24px' }}>
+                  <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                    Service Interest
+                  </label>
+                  <select 
+                    name="service_interest"
+                    value={contactForm.service_interest}
+                    onChange={handleContactChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      background: 'var(--bg-primary)',
+                      border: '1px solid var(--border-subtle)',
+                      color: 'var(--text-primary)',
+                      fontSize: '16px',
+                      borderRadius: '4px'
+                    }}
+                  >
+                    <option value="">Select a service</option>
+                    {servicesData?.map(service => (
+                      <option key={service.id} value={service.title}>
+                        {service.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-          <div style={{ marginBottom: '32px' }}>
-            <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
-              Message *
-            </label>
-            <textarea 
-              name="message"
-              value={contactForm.message}
-              onChange={handleContactChange}
-              required
-              rows={4}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                background: 'var(--bg-primary)',
-                border: '1px solid var(--border-subtle)',
-                color: 'var(--text-primary)',
-                fontSize: '16px',
-                borderRadius: '4px',
-                resize: 'vertical'
-              }}
-            />
-          </div>
+                <div style={{ marginBottom: '32px' }}>
+                  <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                    Message *
+                  </label>
+                  <textarea 
+                    name="message"
+                    value={contactForm.message}
+                    onChange={handleContactChange}
+                    required
+                    rows={4}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      background: 'var(--bg-primary)',
+                      border: '1px solid var(--border-subtle)',
+                      color: 'var(--text-primary)',
+                      fontSize: '16px',
+                      borderRadius: '4px',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
 
-          {contactMessage && (
-            <div style={{
-              marginBottom: '24px',
-              padding: '12px 16px',
-              borderRadius: '4px',
-              backgroundColor: contactMessage.includes('Error') ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 209, 0.1)',
-              border: `1px solid ${contactMessage.includes('Error') ? '#ff0000' : 'var(--brand-primary)'}`,
-              color: contactMessage.includes('Error') ? '#ff6b6b' : 'var(--brand-primary)'
-            }}>
-              {contactMessage}
+                {contactMessage && (
+                  <div style={{
+                    marginBottom: '24px',
+                    padding: '12px 16px',
+                    borderRadius: '4px',
+                    backgroundColor: contactMessage.includes('Error') ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 209, 0.1)',
+                    border: `1px solid ${contactMessage.includes('Error') ? '#ff0000' : 'var(--brand-primary)'}`,
+                    color: contactMessage.includes('Error') ? '#ff6b6b' : 'var(--brand-primary)'
+                  }}>
+                    {contactMessage}
+                  </div>
+                )}
+
+                <button 
+                  type="submit" 
+                  className="btn-primary dark-button-animate" 
+                  style={{ width: '100%' }}
+                  disabled={contactSubmitting}
+                >
+                  {contactSubmitting ? (
+                    <>
+                      <Loader2 size={20} style={{ animation: 'spin 1s linear infinite' }} />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <ArrowRight size={20} />
+                    </>
+                  )}
+                </button>
+              </form>
             </div>
-          )}
-
-          <button 
-            type="submit" 
-            className="btn-primary dark-button-animate" 
-            style={{ width: '100%' }}
-            disabled={contactSubmitting}
-          >
-            {contactSubmitting ? (
-              <>
-                <Loader2 size={20} style={{ animation: 'spin 1s linear infinite' }} />
-                Sending...
-              </>
-            ) : (
-              <>
-                Send Message
-                <ArrowRight size={20} />
-              </>
-            )}
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="dark-full-container" style={{ 
