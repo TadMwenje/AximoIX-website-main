@@ -159,22 +159,30 @@ function App() {
                 {companyData?.description || 'Loading company information...'}
               </p>
               
-              <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-                <button 
-                  className="btn-primary dark-button-animate"
-                  onClick={() => scrollToSection('services')}
-                >
-                  Explore Services
-                  <ArrowRight size={20} />
-                </button>
-                <button 
-                  className="btn-secondary dark-button-animate"
-                  onClick={() => scrollToSection('contact')}
-                >
-                  Get Started
-                  <ArrowRight size={20} />
-                </button>
-              </div>
+              {/* Replace the existing button container div with this: */}
+<div className="btn-container" style={{ 
+  display: 'flex', 
+  gap: '20px', 
+  flexWrap: 'wrap',
+  flexDirection: window.innerWidth <= 480 ? 'column' : 'row'
+}}>
+  <button 
+    className="btn-primary dark-button-animate"
+    onClick={() => scrollToSection('services')}
+    style={{ flex: window.innerWidth <= 480 ? '1' : 'none' }}
+  >
+    Explore Services
+    <ArrowRight size={20} />
+  </button>
+  <button 
+    className="btn-secondary dark-button-animate"
+    onClick={() => scrollToSection('contact')}
+    style={{ flex: window.innerWidth <= 480 ? '1' : 'none' }}
+  >
+    Get Started
+    <ArrowRight size={20} />
+  </button>
+</div>
             </div>
 
             {/* Right Content - Spline 3D */}

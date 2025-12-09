@@ -3,8 +3,8 @@ import Spline from '@splinetool/react-spline';
 
 const SplineComponent = ({ 
   scene = "https://prod.spline.design/NbVmy6DPLhY-5Lvg/scene.splinecode",
-  width = "700px",
-  height = "700px",
+  width = "100%", // Changed from fixed px to percentage
+  height = "400px", // Reduced height for mobile
   fallbackContent = null
 }) => {
   const [isLowData, setIsLowData] = useState(false);
@@ -35,16 +35,15 @@ const SplineComponent = ({
     return (
       <div 
         style={{ 
-          width, 
-          height, 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          background: 'rgba(255, 255, 255, 0.1)',
-          border: '1px solid rgba(0, 255, 209, 0.3)',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
+        width, 
+        height, 
+        overflow: 'visible', 
+        position: 'relative',
+        border: '1px solid rgba(0, 255, 209, 0.2)',
+        background: 'rgba(0, 0, 0, 0.5)',
+        maxWidth: '600px', // Limit max width
+        margin: '0 auto' // Center on desktop
+      }}
       >
         {fallbackContent || (
           <div style={{ textAlign: 'center', color: '#00FFD1' }}>
