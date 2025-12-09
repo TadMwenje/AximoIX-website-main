@@ -25,12 +25,17 @@ jobs:
         run: npm ci
       
       - name: Run ESLint
-        id: lint
         run: npm run lint || npx eslint src/ --ext .js,.jsx
       
-      - name: Notify Vercel - Lint
+      - name: Update GitHub Status - Lint
+        uses: commit-status/github-action@v1
         if: always()
-        run: echo "Lint check completed with status ${{ steps.lint.outcome }}"
+        with:
+          sha: ${{ github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state: ${{ job.status }}
+          context: 'Vercel - aximoixwebsitemain: lint'
+          description: 'ESLint check completed'
 
   build:
     name: Build Check
@@ -51,15 +56,20 @@ jobs:
         run: npm ci
       
       - name: Build project
-        id: build
         run: npm run build
         env:
           REACT_APP_API_URL: https://aximoixwebsitemain.vercel.app/api
           PUBLIC_URL: https://tadmwenje.github.io/AximoIX-website-main
       
-      - name: Notify Vercel - Build
+      - name: Update GitHub Status - Build
+        uses: commit-status/github-action@v1
         if: always()
-        run: echo "Build check completed with status ${{ steps.build.outcome }}"
+        with:
+          sha: ${{ github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state: ${{ job.status }}
+          context: 'Vercel - aximoixwebsitemain: build'
+          description: 'Build check completed'
 
   test:
     name: Test Check
@@ -80,9 +90,14 @@ jobs:
         run: npm ci
       
       - name: Run tests
-        id: test
         run: npm test -- --passWithNoTests
       
-      - name: Notify Vercel - Test
+      - name: Update GitHub Status - Test
+        uses: commit-status/github-action@v1
         if: always()
-        run: echo "Test check completed with status ${{ steps.test.outcome }}"
+        with:
+          sha: ${{ github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state: ${{ job.status }}
+          context: 'Vercel - aximoixwebsitemain: test'
+          description: 'Test check completed'
