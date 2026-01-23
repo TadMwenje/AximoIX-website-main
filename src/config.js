@@ -1,16 +1,11 @@
 // config.js - Frontend configuration
 const getApiBaseUrl = () => {
-  // If we're on GitHub Pages, use Vercel backend
-  if (window.location.hostname.includes('github.io')) {
-    return 'https://aximoixwebsitemain.vercel.app/api';
-  }
-  
   // For local development
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     return 'http://localhost:8000/api';
   }
   
-  // Default to Vercel backend
+  // For custom domain (aximoix.com) or GitHub Pages - use Vercel backend
   return 'https://aximoixwebsitemain.vercel.app/api';
 };
 
