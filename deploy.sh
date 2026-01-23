@@ -14,4 +14,4 @@ git commit -m "Deploy to GitHub Pages"
 git subtree push --prefix build origin gh-pages
 
 echo "Deployment complete!"
-echo "Your site should be live at: https://tadmwenje.github.io/AximoIX-website-main"
+echo "Your site should be live at: http://aximoix.com"
