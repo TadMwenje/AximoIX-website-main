@@ -22,10 +22,6 @@ import {
   Loader2
 } from 'lucide-react';
 
-if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-  window.location.href = '/AximoIX-website-main/';
-}
-
 // Icon mapping for services
 const iconMap = {
   Monitor,
