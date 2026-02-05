@@ -623,8 +623,8 @@ async def get_company():
         },
         "contact": {
             "email": "hello@aximoix.com",
-            "phone": "+1 (555) 123-4567",
-            "address": "123 Innovation Drive, Tech City, TC 12345",
+            "phone": "+1 (470)506-4390",
+            "address": "1100 Peachtree St NE Suite 200 Atlanta, Georgia, USA",
             "social_media": {
                 "linkedin": "#",
                 "twitter": "#",
