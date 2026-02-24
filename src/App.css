@@ -13,7 +13,7 @@
   /* Text - High Contrast for Dark Theme */
   --text-primary: #FFFFFF;         /* Main headings and content */
   --text-secondary: rgba(255, 255, 255, 0.85); /* Supporting text */
-  --text-muted: #808080;           /* Muted text, navigation (WCAG AA 5.3:1 on #000) */
+  --text-muted: #C0C0C0;           /* Muted text, navigation (WCAG AA 10:1 on #000) */
   
   /* Borders - Subtle Dark Theme */
   --border-subtle: rgba(255, 255, 255, 0.25); /* Subtle separators */
@@ -248,11 +248,13 @@ body {
 }
 
 .dark-nav-link:hover {
-  color: var(--text-primary);
+  color: #FFFFFF;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .dark-nav-link.active {
   color: var(--brand-active);
+  text-shadow: 0 0 8px rgba(111, 210, 192, 0.4);
 }
 
 /* Spacing System */
@@ -911,6 +913,18 @@ footer a:hover {
 .stagger-3 { transition-delay: 0.3s; }
 .stagger-4 { transition-delay: 0.4s; }
 .stagger-5 { transition-delay: 0.5s; }
+
+/* Safety fallback: auto-reveal after animation delay if observer never fires */
+@keyframes safeReveal {
+  to { opacity: 1; transform: none; }
+}
+.reveal, .reveal-left, .reveal-right, .reveal-scale {
+  animation: safeReveal 0.8s ease forwards;
+  animation-delay: 1.5s;
+}
+.reveal.revealed, .reveal-left.revealed, .reveal-right.revealed, .reveal-scale.revealed {
+  animation: none;
+}
 
 /* ========== Hero Gradient Mesh Background ========== */
 .hero-gradient-mesh {

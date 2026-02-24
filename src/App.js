@@ -287,6 +287,14 @@ function App() {
 
             {/* Right Content - Spline 3D */}
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Suspense fallback={
+                <div style={{ width: '600px', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,255,209,0.2)', background: 'rgba(0,0,0,0.5)' }}>
+                  <div style={{ textAlign: 'center', color: '#00FFD1' }}>
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚡</div>
+                    <div style={{ fontSize: '14px', opacity: 0.7 }}>Loading 3D Experience...</div>
+                  </div>
+                </div>
+              }>
               <SplineComponent 
                 width="600px" 
                 height="600px"
@@ -309,6 +317,7 @@ function App() {
                   </div>
                 }
               />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -994,13 +1003,19 @@ function App() {
   );
 
   return (
-    <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
-      <Routes>
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<TermsOfService />} />
-        <Route path="*" element={mainPageContent} />
-      </Routes>
-    </Suspense>
+    <Routes>
+      <Route path="/privacy" element={
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
+          <PrivacyPolicy />
+        </Suspense>
+      } />
+      <Route path="/terms" element={
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
+          <TermsOfService />
+        </Suspense>
+      } />
+      <Route path="*" element={mainPageContent} />
+    </Routes>
   );
 }
 
