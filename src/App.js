@@ -720,6 +720,7 @@ function App() {
                   <input 
                     type="text"
                     name="name"
+                    autoComplete="name"
                     value={contactForm.name}
                     onChange={handleContactChange}
                     required
@@ -742,6 +743,7 @@ function App() {
                   <input 
                     type="email"
                     name="email"
+                    autoComplete="email"
                     value={contactForm.email}
                     onChange={handleContactChange}
                     required
@@ -763,6 +765,7 @@ function App() {
                   </label>
                   <select 
                     name="service_interest"
+                    autoComplete="off"
                     value={contactForm.service_interest}
                     onChange={handleContactChange}
                     style={{
@@ -790,6 +793,7 @@ function App() {
                   </label>
                   <textarea 
                     name="message"
+                    autoComplete="off"
                     value={contactForm.message}
                     onChange={handleContactChange}
                     required
