@@ -1,7 +1,6 @@
 /* AximoIX Dark Theme Styles */
 
-/* Import KodeMono font */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+/* JetBrains Mono font loaded via index.html <link> for non-blocking render */
 
 /* Core Variables */
 :root {
@@ -14,7 +13,7 @@
   /* Text - High Contrast for Dark Theme */
   --text-primary: #FFFFFF;         /* Main headings and content */
   --text-secondary: rgba(255, 255, 255, 0.85); /* Supporting text */
-  --text-muted: #4D4D4D;           /* Muted text, navigation */
+  --text-muted: #808080;           /* Muted text, navigation (WCAG AA 5.3:1 on #000) */
   
   /* Borders - Subtle Dark Theme */
   --border-subtle: rgba(255, 255, 255, 0.25); /* Subtle separators */

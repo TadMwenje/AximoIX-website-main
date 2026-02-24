@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navigation from "./components/Navigation";
-import SplineComponent from "./components/SplineComponent";
 import ServiceModal from "./components/ServiceModal";
-import PrivacyPolicy from "./components/PrivacyPolicy";
-import TermsOfService from "./components/TermsOfService";
 import { useApi, apiService } from "./hooks/useApi";
 import { 
   Monitor, 
@@ -26,6 +23,11 @@ import {
   Globe,
   TrendingUp
 } from 'lucide-react';
+
+// Lazy-loaded components for code splitting
+const SplineComponent = lazy(() => import('./components/SplineComponent'));
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./components/TermsOfService'));
 
 // Icon mapping for services
 const iconMap = {
@@ -214,6 +216,7 @@ function App() {
   const mainPageContent = (
     <div className="App">
       <Navigation />
+      <main>
       
       {/* Hero Section */}
       <section id="hero" className="dark-full-container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative' }}>
@@ -500,28 +503,28 @@ function App() {
                 <div className="reveal stagger-1" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                   <Shield size={24} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Enterprise-Grade Security</h4>
+                    <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Enterprise-Grade Security</h3>
                     <p style={{ fontSize: '14px', opacity: 0.7 }}>SOC 2 aligned processes and zero-trust architecture</p>
                   </div>
                 </div>
                 <div className="reveal stagger-2" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                   <Zap size={24} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Rapid Delivery</h4>
+                    <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Rapid Delivery</h3>
                     <p style={{ fontSize: '14px', opacity: 0.7 }}>Agile sprints with 2-week deployment cycles</p>
                   </div>
                 </div>
                 <div className="reveal stagger-3" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                   <Globe size={24} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Global Reach</h4>
+                    <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Global Reach</h3>
                     <p style={{ fontSize: '14px', opacity: 0.7 }}>Operations spanning 4 continents and 12+ countries</p>
                   </div>
                 </div>
                 <div className="reveal stagger-4" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                   <TrendingUp size={24} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Measurable ROI</h4>
+                    <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Measurable ROI</h3>
                     <p style={{ fontSize: '14px', opacity: 0.7 }}>Every engagement tied to KPIs that move the needle</p>
                   </div>
                 </div>
@@ -648,7 +651,7 @@ function App() {
               { name: 'TaxTim', logo: '/partners/taxtim.svg' },
             ]).map((partner, index) => (
               <div key={index} className="partner-logo-item">
-                <img src={partner.logo} alt={partner.name} title={partner.name} />
+                <img src={partner.logo} alt={partner.name} title={partner.name} width="120" height="40" loading="lazy" />
               </div>
             ))}
           </div>
@@ -714,10 +717,11 @@ function App() {
             <div>
               <form onSubmit={handleContactSubmit}>
                 <div style={{ marginBottom: '24px' }}>
-                  <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                  <label htmlFor="contact-name" className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
                     Name *
                   </label>
                   <input 
+                    id="contact-name"
                     type="text"
                     name="name"
                     autoComplete="name"
@@ -737,10 +741,11 @@ function App() {
                 </div>
 
                 <div style={{ marginBottom: '24px' }}>
-                  <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                  <label htmlFor="contact-email" className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
                     Email *
                   </label>
                   <input 
+                    id="contact-email"
                     type="email"
                     name="email"
                     autoComplete="email"
@@ -760,10 +765,11 @@ function App() {
                 </div>
 
                 <div style={{ marginBottom: '24px' }}>
-                  <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                  <label htmlFor="contact-service" className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
                     Service Interest
                   </label>
                   <select 
+                    id="contact-service"
                     name="service_interest"
                     autoComplete="off"
                     value={contactForm.service_interest}
@@ -788,10 +794,11 @@ function App() {
                 </div>
 
                 <div style={{ marginBottom: '32px' }}>
-                  <label className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                  <label htmlFor="contact-message" className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
                     Message *
                   </label>
                   <textarea 
+                    id="contact-message"
                     name="message"
                     autoComplete="off"
                     value={contactForm.message}
@@ -847,6 +854,7 @@ function App() {
           </div>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="dark-full-container" style={{ 
@@ -863,7 +871,7 @@ function App() {
             {/* Brand Column */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                <img src="/logo.svg" alt="AximoIX" style={{ height: '36px', width: '36px' }} />
+                <img src="/logo.svg" alt="AximoIX" style={{ height: '36px', width: '36px' }} width="36" height="36" />
                 <span className="dark-logo" style={{ fontSize: '24px' }}>
                   {companyData?.name || 'AximoIX'}
                 </span>
@@ -876,7 +884,7 @@ function App() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Quick Links</h4>
+              <h3 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Quick Links</h3>
               <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <li><a href="#hero" onClick={(e) => { e.preventDefault(); scrollToSection('hero'); }} className="footer-link">Home</a></li>
                 <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollToSection('services'); }} className="footer-link">Services</a></li>
@@ -888,7 +896,7 @@ function App() {
 
             {/* Services */}
             <div>
-              <h4 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Services</h4>
+              <h3 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Services</h3>
               <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {servicesData?.map(service => (
                   <li key={service.id}><span className="footer-link">{service.title}</span></li>
@@ -898,7 +906,7 @@ function App() {
 
             {/* Contact Info */}
             <div>
-              <h4 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Contact</h4>
+              <h3 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Contact</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <Mail size={16} style={{ color: 'var(--brand-primary)', flexShrink: 0 }} />
@@ -986,11 +994,13 @@ function App() {
   );
 
   return (
-    <Routes>
-      <Route path="/privacy" element={<PrivacyPolicy />} />
-      <Route path="/terms" element={<TermsOfService />} />
-      <Route path="*" element={mainPageContent} />
-    </Routes>
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
+      <Routes>
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="*" element={mainPageContent} />
+      </Routes>
+    </Suspense>
   );
 }
 
