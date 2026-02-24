@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navigation from "./components/Navigation";
 import SplineComponent from "./components/SplineComponent";
 import ServiceModal from "./components/ServiceModal";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import TermsOfService from "./components/TermsOfService";
 import { useApi, apiService } from "./hooks/useApi";
 import { 
   Monitor, 
@@ -11,15 +14,17 @@ import {
   Code, 
   CreditCard, 
   ArrowRight,
+  ArrowUp,
   Mail,
   Phone,
   MapPin,
-  Linkedin,
-  Twitter,
-  Facebook,
-  Instagram,
+
   CheckCircle,
-  Loader2
+  Loader2,
+  Shield,
+  Zap,
+  Globe,
+  TrendingUp
 } from 'lucide-react';
 
 // Icon mapping for services
@@ -50,10 +55,93 @@ function App() {
   });
   const [contactSubmitting, setContactSubmitting] = useState(false);
   const [contactMessage, setContactMessage] = useState('');
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [typedText, setTypedText] = useState('');
+  const [countersStarted, setCountersStarted] = useState(false);
+  const [counters, setCounters] = useState({ projects: 0, clients: 0, countries: 0, uptime: 0 });
+  const statsRef = useRef(null);
 
   // API hooks
   const { data: companyData, loading: companyLoading } = useApi('/company');
   const { data: servicesData, loading: servicesLoading } = useApi('/services');
+
+  // Back to top scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Scroll reveal animation observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+    const elements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [companyLoading, servicesLoading]);
+
+  // Typing effect for hero tagline
+  const fullTagline = 'Where Vision Meets Velocity';
+  useEffect(() => {
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i <= fullTagline.length) {
+        setTypedText(fullTagline.slice(0, i));
+        i++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 60);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Counter animation for stats
+  const animateCounters = useCallback(() => {
+    if (countersStarted) return;
+    setCountersStarted(true);
+    const targets = { projects: 150, clients: 50, countries: 12, uptime: 99.9 };
+    const duration = 2000;
+    const steps = 60;
+    const interval = duration / steps;
+    let step = 0;
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setCounters({
+        projects: Math.round(targets.projects * eased),
+        clients: Math.round(targets.clients * eased),
+        countries: Math.round(targets.countries * eased),
+        uptime: Math.round(targets.uptime * eased * 10) / 10,
+      });
+      if (step >= steps) clearInterval(timer);
+    }, interval);
+  }, [countersStarted]);
+
+  // Stats observer for counter trigger
+  useEffect(() => {
+    const ref = statsRef.current;
+    if (!ref) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) animateCounters();
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(ref);
+    return () => observer.disconnect();
+  }, [animateCounters, companyLoading, servicesLoading]);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -122,13 +210,16 @@ function App() {
     );
   }
 
-  return (
+  // Main page content
+  const mainPageContent = (
     <div className="App">
       <Navigation />
       
       {/* Hero Section */}
-      <section id="hero" className="dark-full-container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-        <div className="dark-content-container">
+      <section id="hero" className="dark-full-container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative' }}>
+        <div className="hero-gradient-mesh" />
+        <div className="grid-bg" />
+        <div className="dark-content-container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: '1fr 1fr', 
@@ -138,47 +229,57 @@ function App() {
           }}>
             {/* Left Content */}
             <div>
-              <h1 className="display-huge glow-text" style={{ marginBottom: '24px' }}>
+              <div className="reveal stagger-1">
+                <p style={{ 
+                  fontSize: '14px', 
+                  textTransform: 'uppercase', 
+                  letterSpacing: '4px', 
+                  color: 'var(--brand-primary)', 
+                  marginBottom: '20px',
+                  fontWeight: 500
+                }}>
+                  <span className="pulse-dot" />
+                  Next-Generation Technology Partner
+                </p>
+              </div>
+              <h1 className="display-huge glow-text reveal stagger-2" style={{ marginBottom: '24px' }}>
                 {companyData?.name || 'AximoIX'}
               </h1>
-              <p className="display-medium" style={{ 
+              <p className="display-medium reveal stagger-3" style={{ 
                 marginBottom: '16px', 
                 color: 'var(--brand-primary)',
                 textShadow: '0 0 10px var(--brand-glow)'
               }}>
                 {companyData?.motto || 'Innovate. Engage. Grow.'}
               </p>
-              <p className="body-large" style={{ marginBottom: '40px', maxWidth: '500px' }}>
-                {companyData?.tagline || 'Empowering Business, Amplifying Success'}
+              <p className="body-large typing-cursor reveal stagger-4" style={{ marginBottom: '40px', maxWidth: '500px' }}>
+                {typedText || (companyData?.tagline || 'Where Vision Meets Velocity')}
               </p>
-              <p className="body-medium" style={{ marginBottom: '48px', maxWidth: '480px', opacity: 0.9 }}>
+              <p className="body-medium reveal stagger-5" style={{ marginBottom: '48px', maxWidth: '480px', opacity: 0.9 }}>
                 {companyData?.description || 'Loading company information...'}
               </p>
               
-              {/* Replace the existing button container div with this: */}
-<div className="btn-container" style={{ 
-  display: 'flex', 
-  gap: '20px', 
-  flexWrap: 'wrap',
-  flexDirection: window.innerWidth <= 480 ? 'column' : 'row'
-}}>
-  <button 
-    className="btn-primary dark-button-animate"
-    onClick={() => scrollToSection('services')}
-    style={{ flex: window.innerWidth <= 480 ? '1' : 'none' }}
-  >
-    Explore Services
-    <ArrowRight size={20} />
-  </button>
-  <button 
-    className="btn-secondary dark-button-animate"
-    onClick={() => scrollToSection('contact')}
-    style={{ flex: window.innerWidth <= 480 ? '1' : 'none' }}
-  >
-    Get Started
-    <ArrowRight size={20} />
-  </button>
-</div>
+              <div className="btn-container reveal" style={{ 
+                display: 'flex', 
+                gap: '20px', 
+                flexWrap: 'wrap',
+                transitionDelay: '0.6s'
+              }}>
+                <button 
+                  className="btn-primary dark-button-animate"
+                  onClick={() => scrollToSection('services')}
+                >
+                  Explore Services
+                  <ArrowRight size={20} />
+                </button>
+                <button 
+                  className="btn-secondary dark-button-animate"
+                  onClick={() => scrollToSection('contact')}
+                >
+                  Get Started
+                  <ArrowRight size={20} />
+                </button>
+              </div>
             </div>
 
             {/* Right Content - Spline 3D */}
@@ -210,15 +311,18 @@ function App() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* Services Section */}
-      <section id="services" className="dark-full-container" style={{ padding: '100px 0' }}>
-        <div className="dark-content-container">
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+      <section id="services" className="dark-full-container" style={{ padding: '100px 0', position: 'relative' }}>
+        <div className="grid-bg" />
+        <div className="dark-content-container" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ textAlign: 'center', marginBottom: '80px' }} className="reveal">
             <h2 className="display-large glow-text" style={{ marginBottom: '24px' }}>
               Our Services
             </h2>
             <p className="body-large" style={{ maxWidth: '600px', margin: '0 auto', opacity: 0.9 }}>
-              Comprehensive solutions tailored to drive your business forward in the digital age
+              End-to-end technology solutions engineered to dominate your market and accelerate growth
             </p>
           </div>
 
@@ -228,7 +332,7 @@ function App() {
               return (
                 <div 
                   key={service.id}
-                  className="service-card"
+                  className={`service-card reveal stagger-${(index % 3) + 1}`}
                   style={{
                     background: 'var(--bg-secondary)',
                     padding: '40px',
@@ -339,6 +443,103 @@ function App() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
+      {/* Stats Section */}
+      <section className="dark-full-container" style={{ padding: '80px 0', position: 'relative' }}>
+        <div className="dark-content-container">
+          {/* Marquee background text */}
+          <div className="marquee-wrapper" style={{ position: 'absolute', top: '50%', left: 0, right: 0, transform: 'translateY(-50%)', zIndex: 0 }}>
+            <span className="marquee-text">
+              INNOVATE &nbsp; ENGAGE &nbsp; GROW &nbsp; INNOVATE &nbsp; ENGAGE &nbsp; GROW &nbsp;
+              INNOVATE &nbsp; ENGAGE &nbsp; GROW &nbsp; INNOVATE &nbsp; ENGAGE &nbsp; GROW &nbsp;
+            </span>
+          </div>
+          <div ref={statsRef} className="stats-grid reveal" style={{ position: 'relative', zIndex: 1 }}>
+            <div className="stat-card reveal stagger-1">
+              <div className="stat-number">{counters.projects}+</div>
+              <div className="stat-label">Projects Delivered</div>
+            </div>
+            <div className="stat-card reveal stagger-2">
+              <div className="stat-number">{counters.clients}+</div>
+              <div className="stat-label">Global Clients</div>
+            </div>
+            <div className="stat-card reveal stagger-3">
+              <div className="stat-number">{counters.countries}+</div>
+              <div className="stat-label">Countries Served</div>
+            </div>
+            <div className="stat-card reveal stagger-4">
+              <div className="stat-number">{counters.uptime}%</div>
+              <div className="stat-label">Uptime SLA</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
+      {/* Why Choose Us / CTA Section */}
+      <section className="dark-full-container" style={{ padding: '100px 0' }}>
+        <div className="dark-content-container">
+          <div className="cta-banner reveal-scale">
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <h2 className="display-large glow-text" style={{ marginBottom: '24px' }}>
+                Why Industry Leaders Choose AximoIX
+              </h2>
+              <p className="body-large" style={{ maxWidth: '700px', margin: '0 auto 48px', opacity: 0.9 }}>
+                We don't just build technology — we engineer competitive advantages that compound over time.
+              </p>
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                gap: '32px', 
+                maxWidth: '900px', 
+                margin: '0 auto 48px',
+                textAlign: 'left'
+              }}>
+                <div className="reveal stagger-1" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                  <Shield size={24} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Enterprise-Grade Security</h4>
+                    <p style={{ fontSize: '14px', opacity: 0.7 }}>SOC 2 aligned processes and zero-trust architecture</p>
+                  </div>
+                </div>
+                <div className="reveal stagger-2" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                  <Zap size={24} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Rapid Delivery</h4>
+                    <p style={{ fontSize: '14px', opacity: 0.7 }}>Agile sprints with 2-week deployment cycles</p>
+                  </div>
+                </div>
+                <div className="reveal stagger-3" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                  <Globe size={24} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Global Reach</h4>
+                    <p style={{ fontSize: '14px', opacity: 0.7 }}>Operations spanning 4 continents and 12+ countries</p>
+                  </div>
+                </div>
+                <div className="reveal stagger-4" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                  <TrendingUp size={24} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Measurable ROI</h4>
+                    <p style={{ fontSize: '14px', opacity: 0.7 }}>Every engagement tied to KPIs that move the needle</p>
+                  </div>
+                </div>
+              </div>
+              <button 
+                className="btn-primary dark-button-animate"
+                onClick={() => scrollToSection('contact')}
+              >
+                Start a Conversation
+                <ArrowRight size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
       {/* About Section */}
       <section id="about" className="dark-full-container" style={{ padding: '100px 0' }}>
         <div className="dark-content-container">
@@ -350,11 +551,11 @@ function App() {
           }}>
             {/* Left - Content */}
             <div>
-              <h2 className="display-large glow-text" style={{ marginBottom: '40px' }}>
+              <h2 className="display-large glow-text reveal-left" style={{ marginBottom: '40px' }}>
                 About {companyData?.name || 'AximoIX'}
               </h2>
               
-              <div style={{ marginBottom: '40px' }}>
+              <div className="reveal stagger-1" style={{ marginBottom: '40px' }}>
                 <h3 className="heading-2" style={{ color: 'var(--brand-primary)', marginBottom: '16px' }}>
                   Our Goal
                 </h3>
@@ -363,7 +564,7 @@ function App() {
                 </p>
               </div>
 
-              <div style={{ marginBottom: '40px' }}>
+              <div className="reveal stagger-2" style={{ marginBottom: '40px' }}>
                 <h3 className="heading-2" style={{ color: 'var(--brand-primary)', marginBottom: '16px' }}>
                   Our Vision
                 </h3>
@@ -372,7 +573,7 @@ function App() {
                 </p>
               </div>
 
-              <div>
+              <div className="reveal stagger-3">
                 <h3 className="heading-2" style={{ color: 'var(--brand-primary)', marginBottom: '16px' }}>
                   Our Mission
                 </h3>
@@ -383,7 +584,7 @@ function App() {
             </div>
 
             {/* Right - Images */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="reveal-right" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <img 
                 src={staticImages.technology}
                 alt="Technology Innovation"
@@ -411,15 +612,60 @@ function App() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
+      {/* Partners & Collaborators Section */}
+      <section id="partners" className="dark-full-container" style={{ padding: '80px 0', overflow: 'hidden' }}>
+        <div className="dark-content-container">
+          <div style={{ textAlign: 'center', marginBottom: '60px' }} className="reveal">
+            <h2 className="display-large glow-text" style={{ marginBottom: '24px' }}>
+              Partners & Collaborators
+            </h2>
+            <p className="body-large" style={{ maxWidth: '600px', margin: '0 auto', opacity: 0.9 }}>
+              Trusted by industry-leading organizations worldwide
+            </p>
+          </div>
+        </div>
+        <div className="partners-carousel-wrapper">
+          <div className="partners-carousel-track">
+            {[
+              { name: 'Expensify', logo: '/partners/expensify.svg' },
+              { name: 'Pie Insurance', logo: '/partners/pie-insurance.svg' },
+              { name: 'CloudTalk', logo: '/partners/cloudtalk.svg' },
+              { name: 'Deskera', logo: '/partners/deskera.svg' },
+              { name: 'Reserve Bank of New Zealand', logo: '/partners/rbnz.svg' },
+              { name: 'Legal Ninjas', logo: '/partners/legal-ninjas.svg' },
+              { name: 'GEM - Payment Services', logo: '/partners/gem.svg' },
+              { name: 'TaxTim', logo: '/partners/taxtim.svg' },
+            ].concat([
+              { name: 'Expensify', logo: '/partners/expensify.svg' },
+              { name: 'Pie Insurance', logo: '/partners/pie-insurance.svg' },
+              { name: 'CloudTalk', logo: '/partners/cloudtalk.svg' },
+              { name: 'Deskera', logo: '/partners/deskera.svg' },
+              { name: 'Reserve Bank of New Zealand', logo: '/partners/rbnz.svg' },
+              { name: 'Legal Ninjas', logo: '/partners/legal-ninjas.svg' },
+              { name: 'GEM - Payment Services', logo: '/partners/gem.svg' },
+              { name: 'TaxTim', logo: '/partners/taxtim.svg' },
+            ]).map((partner, index) => (
+              <div key={index} className="partner-logo-item">
+                <img src={partner.logo} alt={partner.name} title={partner.name} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
       {/* Contact Section */}
       <section id="contact" className="dark-full-container" style={{ padding: '100px 0' }}>
         <div className="dark-content-container">
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '80px' }} className="reveal">
             <h2 className="display-large glow-text" style={{ marginBottom: '24px' }}>
               Get in Touch
             </h2>
             <p className="body-large" style={{ maxWidth: '600px', margin: '0 auto', opacity: 0.9 }}>
-              Ready to transform your business? Let's discuss how we can help you innovate, engage, and grow.
+              Ready to accelerate your business? Let's architect the technology ecosystem that puts you ahead of the competition.
             </p>
           </div>
 
@@ -447,7 +693,7 @@ function App() {
                   <h3 className="heading-3">Phone</h3>
                 </div>
                 <p className="body-medium" style={{ marginLeft: '40px' }}>
-                  {companyData?.contact?.phone || '+1 (555) 123-4567'}
+                  {companyData?.contact?.phone || '+1 470 506 4390'}
                 </p>
               </div>
 
@@ -457,27 +703,11 @@ function App() {
                   <h3 className="heading-3">Address</h3>
                 </div>
                 <p className="body-medium" style={{ marginLeft: '40px' }}>
-                  {companyData?.contact?.address || '123 Innovation Drive, Tech City, TC 12345'}
+                  {companyData?.contact?.address || '3rd Floor 120 West Trinity Place Decatur, GA 30030'}
                 </p>
               </div>
 
-              <div>
-                <h3 className="heading-3" style={{ marginBottom: '20px' }}>Follow Us</h3>
-                <div style={{ display: 'flex', gap: '16px', marginLeft: '40px' }}>
-                  <a href={companyData?.contact?.social_media?.linkedin || '#'} style={{ color: 'var(--brand-primary)' }}>
-                    <Linkedin size={24} />
-                  </a>
-                  <a href={companyData?.contact?.social_media?.twitter || '#'} style={{ color: 'var(--brand-primary)' }}>
-                    <Twitter size={24} />
-                  </a>
-                  <a href={companyData?.contact?.social_media?.facebook || '#'} style={{ color: 'var(--brand-primary)' }}>
-                    <Facebook size={24} />
-                  </a>
-                  <a href={companyData?.contact?.social_media?.instagram || '#'} style={{ color: 'var(--brand-primary)' }}>
-                    <Instagram size={24} />
-                  </a>
-                </div>
-              </div>
+
             </div>
 
             {/* Right - Contact Form */}
@@ -616,20 +846,89 @@ function App() {
 
       {/* Footer */}
       <footer className="dark-full-container" style={{ 
-        padding: '60px 0 40px', 
+        padding: '80px 0 40px', 
         borderTop: '1px solid var(--border-subtle)' 
       }}>
         <div className="dark-content-container">
-          <div style={{ textAlign: 'center' }}>
-            <div className="dark-logo" style={{ fontSize: '32px', marginBottom: '16px' }}>
-              {companyData?.name || 'AximoIX'}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', 
+            gap: '48px',
+            marginBottom: '60px'
+          }}>
+            {/* Brand Column */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                <img src="/logo.svg" alt="AximoIX" style={{ height: '36px', width: '36px' }} />
+                <span className="dark-logo" style={{ fontSize: '24px' }}>
+                  {companyData?.name || 'AximoIX'}
+                </span>
+              </div>
+              <p className="body-small" style={{ opacity: 0.7, marginBottom: '20px', maxWidth: '280px' }}>
+                {companyData?.motto || 'Innovate. Engage. Grow.'}
+              </p>
+
             </div>
-            <p className="body-medium" style={{ marginBottom: '24px', opacity: 0.8 }}>
-              {companyData?.motto || 'Innovate. Engage. Grow.'}
-            </p>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Quick Links</h4>
+              <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <li><a href="#hero" onClick={(e) => { e.preventDefault(); scrollToSection('hero'); }} className="footer-link">Home</a></li>
+                <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollToSection('services'); }} className="footer-link">Services</a></li>
+                <li><a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }} className="footer-link">About Us</a></li>
+                <li><a href="#partners" onClick={(e) => { e.preventDefault(); scrollToSection('partners'); }} className="footer-link">Partners</a></li>
+                <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }} className="footer-link">Contact</a></li>
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h4 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Services</h4>
+              <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {servicesData?.map(service => (
+                  <li key={service.id}><span className="footer-link">{service.title}</span></li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact Info */}
+            <div>
+              <h4 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Contact</h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Mail size={16} style={{ color: 'var(--brand-primary)', flexShrink: 0 }} />
+                  <span className="body-small" style={{ opacity: 0.8 }}>{companyData?.contact?.email || 'hello@aximoix.com'}</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Phone size={16} style={{ color: 'var(--brand-primary)', flexShrink: 0 }} />
+                  <span className="body-small" style={{ opacity: 0.8 }}>{companyData?.contact?.phone || '+1 470 506 4390'}</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <MapPin size={16} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '3px' }} />
+                  <span className="body-small" style={{ opacity: 0.8 }}>{companyData?.contact?.address || '3rd Floor 120 West Trinity Place Decatur, GA 30030'}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Bottom Bar */}
+          <div style={{ 
+            borderTop: '1px solid var(--border-subtle)', 
+            paddingTop: '24px', 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '12px'
+          }}>
             <p className="body-small" style={{ opacity: 0.6 }}>
-              © 2025 {companyData?.name || 'AximoIX'}. All rights reserved.
+              &copy; {new Date().getFullYear()} {companyData?.name || 'AximoIX'}. All rights reserved.
             </p>
+            <div style={{ display: 'flex', gap: '24px' }}>
+              <a href="#/privacy" className="footer-link" style={{ fontSize: '14px' }}>Privacy Policy</a>
+              <a href="#/terms" className="footer-link" style={{ fontSize: '14px' }}>Terms of Service</a>
+            </div>
           </div>
         </div>
       </footer>
@@ -643,6 +942,17 @@ function App() {
           setSelectedService(null);
         }}
       />
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          className="back-to-top dark-button-animate"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Back to top"
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
 
       {/* Mobile Responsive Styles */}
       <style jsx>{`
@@ -669,6 +979,14 @@ function App() {
         }
       `}</style>
     </div>
+  );
+
+  return (
+    <Routes>
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsOfService />} />
+      <Route path="*" element={mainPageContent} />
+    </Routes>
   );
 }
 

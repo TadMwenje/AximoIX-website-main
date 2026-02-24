@@ -1,0 +1,188 @@
+import React, { useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
+
+function TermsOfService() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="legal-page">
+      <div className="legal-content">
+        <a href="/" className="legal-back-link">
+          <ArrowLeft size={18} />
+          Back to Home
+        </a>
+
+        <h1>Terms of Service</h1>
+        <p className="legal-subtitle">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+
+        <p>
+          These Terms of Service ("Terms") govern your access to and use of the website, products, and services ("Services") provided by AximoIX ("Company," "we," "us," or "our"). By accessing or using our Services, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our Services. These Terms are enforceable in both the United States of America and the Republic of Zimbabwe.
+        </p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>
+          By accessing our website or engaging our Services, you confirm that you are at least 18 years of age (or the age of majority in your jurisdiction) and have the legal capacity to enter into a binding agreement. If you are using our Services on behalf of an organization, you represent and warrant that you have the authority to bind that organization to these Terms.
+        </p>
+
+        <h2>2. Description of Services</h2>
+        <p>AximoIX provides technology consulting and implementation services, including but not limited to:</p>
+        <ul>
+          <li>Information and Communications Technology (ICT) solutions</li>
+          <li>Artificial Intelligence (AI) solutions and consulting</li>
+          <li>Digital advertising and marketing services</li>
+          <li>Custom software development and programming</li>
+          <li>Financial technology (FinTech) solutions</li>
+        </ul>
+        <p>
+          The specific scope, deliverables, timelines, and fees for any engagement shall be defined in a separate Statement of Work ("SOW"), Service Agreement, or proposal executed by both parties.
+        </p>
+
+        <h2>3. User Accounts</h2>
+        <p>
+          Certain features of our Services may require you to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to immediately notify us of any unauthorized use of your account. We reserve the right to suspend or terminate accounts at our sole discretion for violation of these Terms.
+        </p>
+
+        <h2>4. Acceptable Use</h2>
+        <p>You agree not to use our Services to:</p>
+        <ul>
+          <li>Violate any applicable law, regulation, or ordinance in the United States, Zimbabwe, or any other applicable jurisdiction</li>
+          <li>Infringe upon the intellectual property rights of any third party</li>
+          <li>Transmit any malware, viruses, or other harmful code</li>
+          <li>Engage in any activity that disrupts, damages, or impairs the functionality of our Services</li>
+          <li>Attempt to gain unauthorized access to our systems, networks, or data</li>
+          <li>Use our Services for any fraudulent, deceptive, or illegal purpose</li>
+          <li>Collect, harvest, or store personal information of other users without their consent</li>
+          <li>Reverse engineer, decompile, or disassemble any part of our Services</li>
+        </ul>
+
+        <h2>5. Intellectual Property</h2>
+
+        <h3>5.1 Our Intellectual Property</h3>
+        <p>
+          All content, materials, software, trademarks, logos, designs, and other intellectual property on our website and in our Services are the exclusive property of AximoIX or its licensors and are protected by applicable intellectual property laws in the United States (including but not limited to the U.S. Copyright Act, the Lanham Act) and Zimbabwe (including but not limited to the Copyright and Neighbouring Rights Act [Chapter 26:05] and the Trade Marks Act [Chapter 26:04]). You may not reproduce, distribute, modify, create derivative works from, or otherwise use our intellectual property without our prior written consent.
+        </p>
+
+        <h3>5.2 Client Work Product</h3>
+        <p>
+          Unless otherwise specified in a separate agreement or SOW, ownership of work product created specifically for a client shall transfer to the client upon full payment of all applicable fees. AximoIX retains the right to use general knowledge, skills, experience, tools, and methodologies developed or refined during the engagement.
+        </p>
+
+        <h3>5.3 Feedback</h3>
+        <p>
+          If you provide us with feedback, suggestions, or ideas regarding our Services, you grant us a non-exclusive, worldwide, royalty-free, perpetual license to use, modify, and incorporate such feedback into our Services without obligation to you.
+        </p>
+
+        <h2>6. Payment Terms</h2>
+        <ul>
+          <li>Fees for our Services will be as specified in the applicable SOW, proposal, or invoice</li>
+          <li>Payment is due within the timeframe specified in the invoice (typically 30 days from the date of invoice unless otherwise agreed)</li>
+          <li>All fees are exclusive of applicable taxes, which are the responsibility of the client</li>
+          <li>Late payments may be subject to interest at the rate of 1.5% per month or the maximum rate permitted by applicable law, whichever is lower</li>
+          <li>We reserve the right to suspend Services for overdue payments</li>
+        </ul>
+
+        <h2>7. Confidentiality</h2>
+        <p>
+          Both parties agree to maintain the confidentiality of any proprietary or confidential information disclosed during the course of the engagement. Confidential information does not include information that: (a) is or becomes publicly available through no fault of the receiving party; (b) was already in the receiving party's possession; (c) is independently developed; or (d) is required to be disclosed by law. Confidentiality obligations survive the termination of these Terms for a period of three (3) years.
+        </p>
+
+        <h2>8. Warranties and Disclaimers</h2>
+
+        <h3>8.1 Limited Warranty</h3>
+        <p>
+          AximoIX warrants that its Services will be performed in a professional and workmanlike manner consistent with generally accepted industry standards. If Services fail to meet this warranty, your sole and exclusive remedy is for AximoIX to re-perform the deficient Services at no additional cost, provided you notify us in writing within thirty (30) days of delivery.
+        </p>
+
+        <h3>8.2 Disclaimer</h3>
+        <p>
+          EXCEPT AS EXPRESSLY SET FORTH HEREIN, OUR SERVICES AND WEBSITE ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, OR ACCURACY. WE DO NOT WARRANT THAT OUR SERVICES WILL BE UNINTERRUPTED, ERROR-FREE, OR SECURE.
+        </p>
+
+        <h2>9. Limitation of Liability</h2>
+        <p>
+          TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL AXIMOIX, ITS DIRECTORS, OFFICERS, EMPLOYEES, AGENTS, OR AFFILIATES BE LIABLE FOR:
+        </p>
+        <ul>
+          <li>Any indirect, incidental, special, consequential, or punitive damages</li>
+          <li>Any loss of profits, revenue, data, business opportunities, or goodwill</li>
+          <li>Any damages arising from your use of or inability to use our Services</li>
+        </ul>
+        <p>
+          OUR TOTAL AGGREGATE LIABILITY UNDER THESE TERMS SHALL NOT EXCEED THE TOTAL FEES PAID BY YOU TO AXIMOIX IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM, OR ONE THOUSAND U.S. DOLLARS ($1,000), WHICHEVER IS GREATER.
+        </p>
+        <p>
+          Nothing in these Terms shall exclude or limit liability that cannot be excluded or limited under applicable law, including liability for fraud, gross negligence, willful misconduct, or death or personal injury caused by negligence.
+        </p>
+
+        <h2>10. Indemnification</h2>
+        <p>
+          You agree to indemnify, defend, and hold harmless AximoIX and its directors, officers, employees, and agents from and against any claims, liabilities, damages, losses, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of our Services; (b) your violation of these Terms; (c) your violation of any applicable law; or (d) your infringement of any third-party rights.
+        </p>
+
+        <h2>11. Term and Termination</h2>
+        <ul>
+          <li>These Terms remain in effect until terminated by either party</li>
+          <li>You may terminate by discontinuing use of our Services and notifying us in writing</li>
+          <li>We may terminate or suspend your access to our Services at any time, with or without cause, upon reasonable notice</li>
+          <li>Specific engagement terms, including termination provisions, will be governed by the applicable SOW or Service Agreement</li>
+          <li>Upon termination, Sections 5 (Intellectual Property), 7 (Confidentiality), 8 (Disclaimers), 9 (Limitation of Liability), 10 (Indemnification), and 13 (Governing Law) shall survive</li>
+        </ul>
+
+        <h2>12. Force Majeure</h2>
+        <p>
+          Neither party shall be liable for any failure or delay in performance under these Terms due to causes beyond its reasonable control, including but not limited to acts of God, natural disasters, war, terrorism, pandemics, government actions, power failures, internet or telecommunications failures, or other events of force majeure.
+        </p>
+
+        <h2>13. Governing Law and Dispute Resolution</h2>
+
+        <h3>13.1 For U.S.-Based Users</h3>
+        <p>
+          These Terms shall be governed by and construed in accordance with the laws of the State of Georgia, United States of America, without regard to its conflict of law provisions. Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the state and federal courts located in DeKalb County, Georgia. Before initiating any formal legal proceedings, the parties agree to attempt to resolve disputes through good-faith negotiation for a period of thirty (30) days.
+        </p>
+
+        <h3>13.2 For Zimbabwe-Based Users</h3>
+        <p>
+          For users domiciled in Zimbabwe, these Terms shall be governed by and construed in accordance with the laws of the Republic of Zimbabwe. Any disputes arising under these Terms shall be referred to and finally resolved by arbitration under the rules of the Commercial Arbitration Centre of Zimbabwe, or alternatively, through the competent courts of Zimbabwe. Consumers in Zimbabwe retain all rights conferred by the Consumer Protection Act [Chapter 14:44] and the Zimbabwe Data Protection Act, 2021, and nothing in these Terms shall limit or exclude such statutory rights.
+        </p>
+
+        <h2>14. Third-Party Links and Services</h2>
+        <p>
+          Our website may contain links to third-party websites or services. We are not responsible for the content, accuracy, or practices of third-party websites. The inclusion of any link does not imply endorsement by AximoIX. Your interaction with third-party services is governed by their respective terms and policies.
+        </p>
+
+        <h2>15. Modifications to Terms</h2>
+        <p>
+          We reserve the right to modify these Terms at any time. We will provide notice of material changes by posting the updated Terms on our website with a revised "Last updated" date. Your continued use of our Services after such changes constitutes your acceptance of the modified Terms. If you do not agree with the changes, you must discontinue use of our Services.
+        </p>
+
+        <h2>16. Severability</h2>
+        <p>
+          If any provision of these Terms is held to be invalid, illegal, or unenforceable by a court of competent jurisdiction, such provision shall be modified to the minimum extent necessary to make it valid and enforceable, or if modification is not possible, severed from these Terms. The remaining provisions shall continue in full force and effect.
+        </p>
+
+        <h2>17. Entire Agreement</h2>
+        <p>
+          These Terms, together with any applicable SOW, Service Agreement, and our Privacy Policy, constitute the entire agreement between you and AximoIX regarding the subject matter hereof and supersede all prior or contemporaneous understandings, agreements, or representations, whether written or oral.
+        </p>
+
+        <h2>18. Contact Information</h2>
+        <p>If you have questions about these Terms of Service, please contact us:</p>
+        <ul>
+          <li><strong>Email:</strong> hello@aximoix.com</li>
+          <li><strong>Phone:</strong> +1 470 506 4390</li>
+          <li><strong>Address:</strong> 3rd Floor, 120 West Trinity Place, Decatur, GA 30030, United States</li>
+        </ul>
+
+        <div style={{ marginTop: '64px', padding: '24px', border: '1px solid var(--border-subtle)', background: 'var(--bg-secondary)' }}>
+          <p style={{ fontSize: '14px', opacity: 0.7, marginBottom: 0 }}>
+            These Terms of Service are effective as of the "Last updated" date above and apply to all users of AximoIX Services in the United States of America and the Republic of Zimbabwe. By using our Services, you acknowledge that you have read, understood, and agreed to be bound by these Terms.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default TermsOfService;

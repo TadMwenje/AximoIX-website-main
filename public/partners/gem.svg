@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" fill="none">
+  <!-- Diamond shape -->
+  <polygon points="40,8 60,30 40,62 20,30" fill="none" stroke="#FF1493" stroke-width="3"/>
+  <polygon points="40,14 54,30 40,56 26,30" fill="none" stroke="#FF1493" stroke-width="1.5"/>
+  <line x1="20" y1="30" x2="60" y2="30" stroke="#FF1493" stroke-width="2"/>
+  <text x="30" y="40" font-family="Arial, sans-serif" font-weight="900" font-size="14" fill="#FF1493">GEM</text>
+  <text x="78" y="36" font-family="Arial, sans-serif" font-weight="900" font-size="22" fill="#FF1493">GEM</text>
+  <text x="78" y="54" font-family="Arial, sans-serif" font-weight="400" font-size="12" fill="rgba(255,255,255,0.7)">Payment Services</text>
+</svg>

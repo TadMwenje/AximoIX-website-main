@@ -25,8 +25,9 @@ const Navigation = () => {
   return (
     <>
       <header className={`dark-header ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="dark-logo" onClick={() => scrollToSection('hero')}>
-          AximoIX
+        <div className="dark-logo" onClick={() => scrollToSection('hero')} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src="/logo.svg" alt="AximoIX" style={{ height: '36px', width: '36px' }} />
+          <span>AximoIX</span>
         </div>
         
         {/* Desktop Navigation */}

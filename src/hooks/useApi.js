@@ -15,7 +15,6 @@ export const useApi = (endpoint, dependencies = []) => {
       setError(null);
       
       const apiUrl = `${config.API_BASE_URL}${endpoint}`;
-      console.log(`🌐 Fetching from: ${apiUrl}`);
       
       const response = await axios.get(apiUrl, {
         timeout: 15000,
@@ -26,10 +25,8 @@ export const useApi = (endpoint, dependencies = []) => {
         withCredentials: false
       });
       
-      console.log(`✅ Success: ${endpoint}`, response.data);
       setData(response.data);
     } catch (err) {
-      console.error(`❌ Error fetching ${endpoint}:`, err);
       
       let errorMsg = 'Network error - cannot connect to server';
       
@@ -46,7 +43,6 @@ export const useApi = (endpoint, dependencies = []) => {
       setError(errorMsg);
       
       // Use mock data as fallback
-      console.log('📋 Using mock data as fallback for:', endpoint);
       setMockData(endpoint, setData);
     } finally {
       setLoading(false);
@@ -68,17 +64,17 @@ const setMockData = (endpoint, setData) => {
     setData({
       name: "AximoIX",
       motto: "Innovate. Engage. Grow.",
-      tagline: "Empowering Business, Amplifying Success",
-      description: "AximoIX is a dynamic company offering a range of services, including ICT solutions, AI solutions, advertising and marketing, programming and coding, and financial technology. We partner with businesses to drive growth, improve efficiency, and achieve success.",
+      tagline: "Where Vision Meets Velocity",
+      description: "AximoIX is a next-generation technology partner engineering the future of business. We fuse enterprise ICT infrastructure, artificial intelligence, strategic marketing, custom software development, and financial technology into a single, powerful ecosystem — giving organizations the edge they need to outperform, outscale, and outlast the competition.",
       about: {
-        goal: "Empower businesses to thrive through innovative technology, creative marketing, and strategic financial solutions.",
-        vision: "To be a leading provider of integrated ICT, AI, advertising, programming, and financial technology solutions, driving business growth and success.",
-        mission: "At AximoIX, our mission is to deliver tailored solutions that combine technology, creativity, and innovation, fostering long-term partnerships and driving business success."
+        goal: "To architect transformative technology ecosystems that accelerate growth, eliminate inefficiency, and position every client at the forefront of their industry — today and for the decades ahead.",
+        vision: "To become the most trusted technology catalyst on the planet — the partner that enterprises, governments, and startups turn to when the stakes are high and the opportunity is now.",
+        mission: "We engineer bespoke solutions at the intersection of AI, cloud infrastructure, fintech, and digital strategy. Every engagement is built on deep technical expertise, relentless innovation, and an unwavering commitment to measurable results that compound over time."
       },
       contact: {
         email: "hello@aximoix.com",
-        phone: "+1 (555) 123-4567",
-        address: "123 Innovation Drive, Tech City, TC 12345",
+        phone: "+1 470 506 4390",
+        address: "3rd Floor 120 West Trinity Place Decatur, GA 30030",
         social_media: {
           linkedin: "#",
           twitter: "#",
@@ -329,17 +325,17 @@ export const apiService = {
       const mockCompany = {
         name: "AximoIX",
         motto: "Innovate. Engage. Grow.",
-        tagline: "Empowering Business, Amplifying Success",
-        description: "AximoIX is a dynamic company offering a range of services, including ICT solutions, AI solutions, advertising and marketing, programming and coding, and financial technology. We partner with businesses to drive growth, improve efficiency, and achieve success.",
+        tagline: "Where Vision Meets Velocity",
+        description: "AximoIX is a next-generation technology partner engineering the future of business. We fuse enterprise ICT infrastructure, artificial intelligence, strategic marketing, custom software development, and financial technology into a single, powerful ecosystem — giving organizations the edge they need to outperform, outscale, and outlast the competition.",
         about: {
-          goal: "Empower businesses to thrive through innovative technology, creative marketing, and strategic financial solutions.",
-          vision: "To be a leading provider of integrated ICT, AI, advertising, programming, and financial technology solutions, driving business growth and success.",
-          mission: "At AximoIX, our mission is to deliver tailored solutions that combine technology, creativity, and innovation, fostering long-term partnerships and driving business success."
+          goal: "To architect transformative technology ecosystems that accelerate growth, eliminate inefficiency, and position every client at the forefront of their industry — today and for the decades ahead.",
+          vision: "To become the most trusted technology catalyst on the planet — the partner that enterprises, governments, and startups turn to when the stakes are high and the opportunity is now.",
+          mission: "We engineer bespoke solutions at the intersection of AI, cloud infrastructure, fintech, and digital strategy. Every engagement is built on deep technical expertise, relentless innovation, and an unwavering commitment to measurable results that compound over time."
         },
         contact: {
           email: "hello@aximoix.com",
-          phone: "+1 (555) 123-4567",
-          address: "123 Innovation Drive, Tech City, TC 12345",
+          phone: "+1 470 506 4390",
+          address: "3rd Floor 120 West Trinity Place Decatur, GA 30030",
           social_media: {
             linkedin: "#",
             twitter: "#",

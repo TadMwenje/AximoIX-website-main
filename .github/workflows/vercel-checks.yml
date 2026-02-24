@@ -80,7 +80,7 @@ jobs:
         run: CI=false npm run build
         env:
           REACT_APP_API_URL: https://aximoixwebsitemain.vercel.app/api
-          PUBLIC_URL: https://tadmwenje.github.io/AximoIX-website-main
+          PUBLIC_URL: https://aximoix.com
       
       - name: Update GitHub Status - Build
         if: always()
