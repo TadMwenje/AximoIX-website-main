@@ -350,35 +350,31 @@ def seed_database():
         else:
             print(f"✅ Services already exist: {services_count} services")
         
-        if company_count == 0:
-            print("🌱 Seeding company data...")
-            company_data = {
-                "id": "aximoix-company",
-                "name": "AximoIX",
-                "motto": "Innovate. Engage. Grow.",
-                "tagline": "Where Vision Meets Velocity",
-                "description": "AximoIX is a next-generation technology partner engineering the future of business. We fuse enterprise ICT infrastructure, artificial intelligence, strategic marketing, custom software development, and financial technology into a single, powerful ecosystem — giving organizations the edge they need to outperform, outscale, and outlast the competition.",
-                "about": {
-                    "goal": "To architect transformative technology ecosystems that accelerate growth, eliminate inefficiency, and position every client at the forefront of their industry — today and for the decades ahead.",
-                    "vision": "To become the most trusted technology catalyst on the planet — the partner that enterprises, governments, and startups turn to when the stakes are high and the opportunity is now.",
-                    "mission": "We engineer bespoke solutions at the intersection of AI, cloud infrastructure, fintech, and digital strategy. Every engagement is built on deep technical expertise, relentless innovation, and an unwavering commitment to measurable results that compound over time."
-                },
-                "contact": {
-                    "email": "hello@aximoix.com",
-                    "phone": "+1 470 506 4390",
-                    "address": "3rd Floor 120 West Trinity Place Decatur, GA 30030",
-                    "social_media": {
-                        "linkedin": "#",
-                        "twitter": "#",
-                        "facebook": "#",
-                        "instagram": "#"
-                    }
-                }
+        # Always upsert company data to ensure latest copy is in DB
+        print("🌱 Updating company data...")
+        company_data = {
+            "id": "aximoix-company",
+            "name": "AximoIX",
+            "motto": "Innovate. Engage. Grow.",
+            "tagline": "Where Vision Meets Velocity",
+            "description": "AximoIX is a next-generation technology partner engineering the future of business. We fuse enterprise ICT infrastructure, artificial intelligence, strategic marketing, custom software development, and financial technology into a single, powerful ecosystem — giving organizations the edge they need to outperform, outscale, and outlast the competition.",
+            "about": {
+                "goal": "To architect transformative technology ecosystems that accelerate growth, eliminate inefficiency, and position every client at the forefront of their industry — today and for the decades ahead.",
+                "vision": "To become the most trusted technology catalyst on the planet — the partner that enterprises, governments, and startups turn to when the stakes are high and the opportunity is now.",
+                "mission": "We engineer bespoke solutions at the intersection of AI, cloud infrastructure, fintech, and digital strategy. Every engagement is built on deep technical expertise, relentless innovation, and an unwavering commitment to measurable results that compound over time."
+            },
+            "contact": {
+                "email": "hello@aximoix.com",
+                "phone": "+1 470 506 4390",
+                "address": "3rd Floor 120 West Trinity Place Decatur, GA 30030"
             }
-            db.company.insert_one(company_data)
-            print("✅ Seeded company information")
-        else:
-            print("✅ Company info already exists")
+        }
+        db.company.replace_one(
+            {"id": "aximoix-company"},
+            company_data,
+            upsert=True
+        )
+        print("✅ Company data updated")
             
     except Exception as e:
         print(f"❌ Error seeding database: {e}")
@@ -629,14 +625,8 @@ async def get_company():
         },
         "contact": {
             "email": "hello@aximoix.com",
-            "phone": "+1 (470)506-4390",
-            "address": "1100 Peachtree St NE Suite 200 Atlanta, Georgia, USA",
-            "social_media": {
-                "linkedin": "#",
-                "twitter": "#",
-                "facebook": "#",
-                "instagram": "#"
-            }
+            "phone": "+1 470 506 4390",
+            "address": "3rd Floor 120 West Trinity Place Decatur, GA 30030"
         }
     }
 
