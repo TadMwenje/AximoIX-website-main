@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Outer Gear/Cog Ring -->
+  <g stroke="#00FFD1" stroke-width="8" fill="none">
+    <!-- Main circle -->
+    <circle cx="256" cy="256" r="180"/>
+    <!-- Gear teeth (12 teeth around the circle) -->
+    <rect x="244" y="52" width="24" height="40" rx="4" fill="#00FFD1" stroke="none"/>
+    <rect x="244" y="420" width="24" height="40" rx="4" fill="#00FFD1" stroke="none"/>
+    <rect x="52" y="244" width="40" height="24" rx="4" fill="#00FFD1" stroke="none"/>
+    <rect x="420" y="244" width="40" height="24" rx="4" fill="#00FFD1" stroke="none"/>
+    <!-- Diagonal teeth -->
+    <rect x="370" y="100" width="24" height="40" rx="4" fill="#00FFD1" stroke="none" transform="rotate(45 382 120)"/>
+    <rect x="118" y="372" width="24" height="40" rx="4" fill="#00FFD1" stroke="none" transform="rotate(45 130 392)"/>
+    <rect x="372" y="372" width="24" height="40" rx="4" fill="#00FFD1" stroke="none" transform="rotate(-45 384 392)"/>
+    <rect x="116" y="100" width="24" height="40" rx="4" fill="#00FFD1" stroke="none" transform="rotate(-45 128 120)"/>
+    <!-- Additional teeth at 30deg intervals -->
+    <rect x="320" y="68" width="20" height="36" rx="4" fill="#00FFD1" stroke="none" transform="rotate(30 330 86)"/>
+    <rect x="172" y="408" width="20" height="36" rx="4" fill="#00FFD1" stroke="none" transform="rotate(30 182 426)"/>
+    <rect x="408" y="172" width="36" height="20" rx="4" fill="#00FFD1" stroke="none" transform="rotate(30 426 182)"/>
+    <rect x="68" y="320" width="36" height="20" rx="4" fill="#00FFD1" stroke="none" transform="rotate(30 86 330)"/>
+  </g>
+  
+  <!-- Inner circle -->
+  <circle cx="256" cy="256" r="140" stroke="#00FFD1" stroke-width="6" fill="none"/>
+  
+  <!-- Inner smaller circle -->
+  <circle cx="256" cy="256" r="40" stroke="#00FFD1" stroke-width="5" fill="none"/>
+  
+  <!-- Triangle (A shape) -->
+  <polygon points="256,130 350,330 162,330" stroke="#00FFD1" stroke-width="8" fill="none" stroke-linejoin="round"/>
+  
+  <!-- Inner triangle -->
+  <polygon points="256,180 316,300 196,300" stroke="#00FFD1" stroke-width="5" fill="none" stroke-linejoin="round"/>
+  
+  <!-- Small triangle cutout at top -->
+  <polygon points="256,210 280,260 232,260" stroke="#00FFD1" stroke-width="4" fill="none" stroke-linejoin="round"/>
+</svg>

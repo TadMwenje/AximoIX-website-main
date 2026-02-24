@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
+  <circle cx="40" cy="40" r="30" fill="#FFFFFF"/>
+  <circle cx="40" cy="40" r="24" fill="#0B9B47"/>
+  <rect x="28" y="30" width="4" height="20" rx="1" fill="#FFFFFF"/>
+  <rect x="36" y="25" width="4" height="25" rx="1" fill="#FFFFFF" transform="rotate(0)"/>
+  <rect x="44" y="33" width="4" height="14" rx="1" fill="#FFFFFF"/>
+  <text x="80" y="46" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="#FFFFFF">Expensify</text>
+</svg>

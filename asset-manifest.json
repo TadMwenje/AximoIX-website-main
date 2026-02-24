@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/AximoIX-website-main/static/css/main.c25c6781.css",
-    "main.js": "/AximoIX-website-main/static/js/main.73a469be.js",
-    "static/js/208.5dede114.chunk.js": "/AximoIX-website-main/static/js/208.5dede114.chunk.js",
-    "static/js/293.72e8204a.chunk.js": "/AximoIX-website-main/static/js/293.72e8204a.chunk.js",
-    "static/js/917.d84c2b1f.chunk.js": "/AximoIX-website-main/static/js/917.d84c2b1f.chunk.js",
-    "static/js/516.73770e9e.chunk.js": "/AximoIX-website-main/static/js/516.73770e9e.chunk.js",
-    "static/js/519.b74c4ea6.chunk.js": "/AximoIX-website-main/static/js/519.b74c4ea6.chunk.js",
-    "static/js/946.903f280f.chunk.js": "/AximoIX-website-main/static/js/946.903f280f.chunk.js",
-    "static/js/160.c2632f86.chunk.js": "/AximoIX-website-main/static/js/160.c2632f86.chunk.js",
-    "static/js/23.55fcf02c.chunk.js": "/AximoIX-website-main/static/js/23.55fcf02c.chunk.js",
-    "index.html": "/AximoIX-website-main/index.html",
-    "main.c25c6781.css.map": "/AximoIX-website-main/static/css/main.c25c6781.css.map",
-    "main.73a469be.js.map": "/AximoIX-website-main/static/js/main.73a469be.js.map",
-    "208.5dede114.chunk.js.map": "/AximoIX-website-main/static/js/208.5dede114.chunk.js.map",
-    "293.72e8204a.chunk.js.map": "/AximoIX-website-main/static/js/293.72e8204a.chunk.js.map",
-    "917.d84c2b1f.chunk.js.map": "/AximoIX-website-main/static/js/917.d84c2b1f.chunk.js.map",
-    "516.73770e9e.chunk.js.map": "/AximoIX-website-main/static/js/516.73770e9e.chunk.js.map",
-    "519.b74c4ea6.chunk.js.map": "/AximoIX-website-main/static/js/519.b74c4ea6.chunk.js.map",
-    "946.903f280f.chunk.js.map": "/AximoIX-website-main/static/js/946.903f280f.chunk.js.map",
-    "160.c2632f86.chunk.js.map": "/AximoIX-website-main/static/js/160.c2632f86.chunk.js.map",
-    "23.55fcf02c.chunk.js.map": "/AximoIX-website-main/static/js/23.55fcf02c.chunk.js.map"
+    "main.css": "https://aximoix.com/static/css/main.f65830ea.css",
+    "main.js": "https://aximoix.com/static/js/main.fe2607ed.js",
+    "static/js/208.5dede114.chunk.js": "https://aximoix.com/static/js/208.5dede114.chunk.js",
+    "static/js/293.72e8204a.chunk.js": "https://aximoix.com/static/js/293.72e8204a.chunk.js",
+    "static/js/917.d84c2b1f.chunk.js": "https://aximoix.com/static/js/917.d84c2b1f.chunk.js",
+    "static/js/516.73770e9e.chunk.js": "https://aximoix.com/static/js/516.73770e9e.chunk.js",
+    "static/js/519.b74c4ea6.chunk.js": "https://aximoix.com/static/js/519.b74c4ea6.chunk.js",
+    "static/js/946.903f280f.chunk.js": "https://aximoix.com/static/js/946.903f280f.chunk.js",
+    "static/js/160.c2632f86.chunk.js": "https://aximoix.com/static/js/160.c2632f86.chunk.js",
+    "static/js/23.55fcf02c.chunk.js": "https://aximoix.com/static/js/23.55fcf02c.chunk.js",
+    "index.html": "https://aximoix.com/index.html",
+    "main.f65830ea.css.map": "https://aximoix.com/static/css/main.f65830ea.css.map",
+    "main.fe2607ed.js.map": "https://aximoix.com/static/js/main.fe2607ed.js.map",
+    "208.5dede114.chunk.js.map": "https://aximoix.com/static/js/208.5dede114.chunk.js.map",
+    "293.72e8204a.chunk.js.map": "https://aximoix.com/static/js/293.72e8204a.chunk.js.map",
+    "917.d84c2b1f.chunk.js.map": "https://aximoix.com/static/js/917.d84c2b1f.chunk.js.map",
+    "516.73770e9e.chunk.js.map": "https://aximoix.com/static/js/516.73770e9e.chunk.js.map",
+    "519.b74c4ea6.chunk.js.map": "https://aximoix.com/static/js/519.b74c4ea6.chunk.js.map",
+    "946.903f280f.chunk.js.map": "https://aximoix.com/static/js/946.903f280f.chunk.js.map",
+    "160.c2632f86.chunk.js.map": "https://aximoix.com/static/js/160.c2632f86.chunk.js.map",
+    "23.55fcf02c.chunk.js.map": "https://aximoix.com/static/js/23.55fcf02c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c25c6781.css",
-    "static/js/main.73a469be.js"
+    "static/css/main.f65830ea.css",
+    "static/js/main.fe2607ed.js"
   ]
 }
