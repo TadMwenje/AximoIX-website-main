@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "https://aximoix.com/static/css/main.f65830ea.css",
-    "main.js": "https://aximoix.com/static/js/main.fe2607ed.js",
+    "main.js": "https://aximoix.com/static/js/main.22b2ba30.js",
     "static/js/208.5dede114.chunk.js": "https://aximoix.com/static/js/208.5dede114.chunk.js",
     "static/js/293.72e8204a.chunk.js": "https://aximoix.com/static/js/293.72e8204a.chunk.js",
     "static/js/917.d84c2b1f.chunk.js": "https://aximoix.com/static/js/917.d84c2b1f.chunk.js",
@@ -12,7 +12,7 @@
     "static/js/23.55fcf02c.chunk.js": "https://aximoix.com/static/js/23.55fcf02c.chunk.js",
     "index.html": "https://aximoix.com/index.html",
     "main.f65830ea.css.map": "https://aximoix.com/static/css/main.f65830ea.css.map",
-    "main.fe2607ed.js.map": "https://aximoix.com/static/js/main.fe2607ed.js.map",
+    "main.22b2ba30.js.map": "https://aximoix.com/static/js/main.22b2ba30.js.map",
     "208.5dede114.chunk.js.map": "https://aximoix.com/static/js/208.5dede114.chunk.js.map",
     "293.72e8204a.chunk.js.map": "https://aximoix.com/static/js/293.72e8204a.chunk.js.map",
     "917.d84c2b1f.chunk.js.map": "https://aximoix.com/static/js/917.d84c2b1f.chunk.js.map",
@@ -24,6 +24,6 @@
   },
   "entrypoints": [
     "static/css/main.f65830ea.css",
-    "static/js/main.fe2607ed.js"
+    "static/js/main.22b2ba30.js"
   ]
 }

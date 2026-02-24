@@ -1,0 +1,22 @@
+{
+  "short_name": "AximoIX",
+  "name": "AximoIX — Innovate. Engage. Grow.",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "description": "Where Vision Meets Velocity. Next-generation ICT, AI, Marketing, Software & FinTech solutions."
+}
