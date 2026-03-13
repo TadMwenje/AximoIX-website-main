@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "https://aximoix.com/static/css/main.1b102558.css",
-    "main.js": "https://aximoix.com/static/js/main.8759f9d5.js",
+    "main.css": "https://aximoix.com/static/css/main.134a6a5b.css",
+    "main.js": "https://aximoix.com/static/js/main.1f0a8e9b.js",
     "static/js/919.219633fb.chunk.js": "https://aximoix.com/static/js/919.219633fb.chunk.js",
     "static/js/205.0f9d6741.chunk.js": "https://aximoix.com/static/js/205.0f9d6741.chunk.js",
     "static/js/16.73868dd4.chunk.js": "https://aximoix.com/static/js/16.73868dd4.chunk.js",
@@ -15,8 +15,8 @@
     "static/js/23.55fcf02c.chunk.js": "https://aximoix.com/static/js/23.55fcf02c.chunk.js",
     "static/js/840.9e70ce5d.chunk.js": "https://aximoix.com/static/js/840.9e70ce5d.chunk.js",
     "index.html": "https://aximoix.com/index.html",
-    "main.1b102558.css.map": "https://aximoix.com/static/css/main.1b102558.css.map",
-    "main.8759f9d5.js.map": "https://aximoix.com/static/js/main.8759f9d5.js.map",
+    "main.134a6a5b.css.map": "https://aximoix.com/static/css/main.134a6a5b.css.map",
+    "main.1f0a8e9b.js.map": "https://aximoix.com/static/js/main.1f0a8e9b.js.map",
     "919.219633fb.chunk.js.map": "https://aximoix.com/static/js/919.219633fb.chunk.js.map",
     "205.0f9d6741.chunk.js.map": "https://aximoix.com/static/js/205.0f9d6741.chunk.js.map",
     "16.73868dd4.chunk.js.map": "https://aximoix.com/static/js/16.73868dd4.chunk.js.map",
@@ -31,7 +31,7 @@
     "840.9e70ce5d.chunk.js.map": "https://aximoix.com/static/js/840.9e70ce5d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1b102558.css",
-    "static/js/main.8759f9d5.js"
+    "static/css/main.134a6a5b.css",
+    "static/js/main.1f0a8e9b.js"
   ]
 }
