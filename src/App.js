@@ -813,13 +813,18 @@ function App() {
                     style={{
                       width: '100%',
                       padding: '14px 16px',
+                      paddingRight: '40px',
                       background: 'var(--bg-secondary)',
                       border: '2px solid var(--border-subtle)',
                       color: 'var(--text-primary)',
                       fontSize: '16px',
+                      fontWeight: '500',
                       borderRadius: '8px',
                       transition: 'all 0.3s ease',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      appearance: 'none',
+                      WebkitAppearance: 'none',
+                      MozAppearance: 'none'
                     }}
                     onFocus={(e) => {
                       e.target.style.borderColor = 'var(--brand-primary)';
@@ -832,9 +837,9 @@ function App() {
                       e.target.style.background = 'var(--bg-secondary)';
                     }}
                   >
-                    <option value="">Select a service</option>
+                    <option value="" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>Select a service</option>
                     {servicesData?.map(service => (
-                      <option key={service.id} value={service.title}>
+                      <option key={service.id} value={service.title} style={{ color: '#ffffff', background: '#121212' }}>
                         {service.title}
                       </option>
                     ))}
