@@ -1,0 +1,25 @@
+# robots.txt - AximoIX Website
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /.env
+Disallow: /node_modules
+Disallow: /__pycache__
+
+# Google-specific directives
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Reference to sitemap
+Sitemap: https://aximoix.com/sitemap.xml
+Sitemap: https://www.aximoix.com/sitemap.xml
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1
