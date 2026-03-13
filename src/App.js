@@ -725,8 +725,8 @@ function App() {
             {/* Right - Contact Form */}
             <div>
               <form onSubmit={handleContactSubmit}>
-                <div style={{ marginBottom: '24px' }}>
-                  <label htmlFor="contact-name" className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                <div style={{ marginBottom: '28px' }}>
+                  <label htmlFor="contact-name" className="body-medium" style={{ display: 'block', marginBottom: '10px', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', letterSpacing: '0.5px' }}>
                     Name *
                   </label>
                   <input 
@@ -737,20 +737,34 @@ function App() {
                     value={contactForm.name}
                     onChange={handleContactChange}
                     required
+                    placeholder="Your full name"
+                    className="aximoix-form-input"
                     style={{
                       width: '100%',
-                      padding: '12px 16px',
-                      background: 'var(--bg-primary)',
-                      border: '1px solid var(--border-subtle)',
+                      padding: '14px 16px',
+                      background: 'var(--bg-secondary)',
+                      border: '2px solid var(--border-subtle)',
                       color: 'var(--text-primary)',
                       fontSize: '16px',
-                      borderRadius: '4px'
+                      borderRadius: '8px',
+                      transition: 'all 0.3s ease',
+                      outlineOffset: 'none'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--brand-primary)';
+                      e.target.style.boxShadow = '0 0 20px rgba(0, 255, 209, 0.3)';
+                      e.target.style.background = 'rgba(0, 255, 209, 0.05)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--border-subtle)';
+                      e.target.style.boxShadow = 'none';
+                      e.target.style.background = 'var(--bg-secondary)';
                     }}
                   />
                 </div>
 
-                <div style={{ marginBottom: '24px' }}>
-                  <label htmlFor="contact-email" className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                <div style={{ marginBottom: '28px' }}>
+                  <label htmlFor="contact-email" className="body-medium" style={{ display: 'block', marginBottom: '10px', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', letterSpacing: '0.5px' }}>
                     Email *
                   </label>
                   <input 
@@ -761,20 +775,33 @@ function App() {
                     value={contactForm.email}
                     onChange={handleContactChange}
                     required
+                    placeholder="your.email@company.com"
+                    className="aximoix-form-input"
                     style={{
                       width: '100%',
-                      padding: '12px 16px',
-                      background: 'var(--bg-primary)',
-                      border: '1px solid var(--border-subtle)',
+                      padding: '14px 16px',
+                      background: 'var(--bg-secondary)',
+                      border: '2px solid var(--border-subtle)',
                       color: 'var(--text-primary)',
                       fontSize: '16px',
-                      borderRadius: '4px'
+                      borderRadius: '8px',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--brand-primary)';
+                      e.target.style.boxShadow = '0 0 20px rgba(0, 255, 209, 0.3)';
+                      e.target.style.background = 'rgba(0, 255, 209, 0.05)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--border-subtle)';
+                      e.target.style.boxShadow = 'none';
+                      e.target.style.background = 'var(--bg-secondary)';
                     }}
                   />
                 </div>
 
-                <div style={{ marginBottom: '24px' }}>
-                  <label htmlFor="contact-service" className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                <div style={{ marginBottom: '28px' }}>
+                  <label htmlFor="contact-service" className="body-medium" style={{ display: 'block', marginBottom: '10px', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', letterSpacing: '0.5px' }}>
                     Service Interest
                   </label>
                   <select 
@@ -785,12 +812,24 @@ function App() {
                     onChange={handleContactChange}
                     style={{
                       width: '100%',
-                      padding: '12px 16px',
-                      background: 'var(--bg-primary)',
-                      border: '1px solid var(--border-subtle)',
+                      padding: '14px 16px',
+                      background: 'var(--bg-secondary)',
+                      border: '2px solid var(--border-subtle)',
                       color: 'var(--text-primary)',
                       fontSize: '16px',
-                      borderRadius: '4px'
+                      borderRadius: '8px',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--brand-primary)';
+                      e.target.style.boxShadow = '0 0 20px rgba(0, 255, 209, 0.3)';
+                      e.target.style.background = 'rgba(0, 255, 209, 0.05)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--border-subtle)';
+                      e.target.style.boxShadow = 'none';
+                      e.target.style.background = 'var(--bg-secondary)';
                     }}
                   >
                     <option value="">Select a service</option>
@@ -803,7 +842,7 @@ function App() {
                 </div>
 
                 <div style={{ marginBottom: '32px' }}>
-                  <label htmlFor="contact-message" className="body-medium" style={{ display: 'block', marginBottom: '8px' }}>
+                  <label htmlFor="contact-message" className="body-medium" style={{ display: 'block', marginBottom: '10px', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', letterSpacing: '0.5px' }}>
                     Message *
                   </label>
                   <textarea 
@@ -814,15 +853,28 @@ function App() {
                     onChange={handleContactChange}
                     required
                     rows={4}
+                    placeholder="Tell us more about your inquiry..."
                     style={{
                       width: '100%',
-                      padding: '12px 16px',
-                      background: 'var(--bg-primary)',
-                      border: '1px solid var(--border-subtle)',
+                      padding: '14px 16px',
+                      background: 'var(--bg-secondary)',
+                      border: '2px solid var(--border-subtle)',
                       color: 'var(--text-primary)',
                       fontSize: '16px',
-                      borderRadius: '4px',
-                      resize: 'vertical'
+                      borderRadius: '8px',
+                      resize: 'vertical',
+                      transition: 'all 0.3s ease',
+                      fontFamily: 'inherit'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--brand-primary)';
+                      e.target.style.boxShadow = '0 0 20px rgba(0, 255, 209, 0.3)';
+                      e.target.style.background = 'rgba(0, 255, 209, 0.05)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--border-subtle)';
+                      e.target.style.boxShadow = 'none';
+                      e.target.style.background = 'var(--bg-secondary)';
                     }}
                   />
                 </div>

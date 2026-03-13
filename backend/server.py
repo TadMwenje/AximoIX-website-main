@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 import os
 import sys
@@ -8,10 +8,18 @@ from datetime import datetime
 import uuid
 import pymongo
 from bson import ObjectId
+import resend
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Load environment variables from .env file (for local development)
+env_path = Path(__file__).parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 # Debug: Print Python and pymongo versions
 print(f"🐍 Python version: {sys.version}")
 print(f"📦 PyMongo version: {pymongo.__version__}")
+print(f"📁 Loading .env from: {env_path}")
 
 # Get MongoDB connection string from environment variables
 # Vercel provides these directly, no need for dotenv in production
@@ -164,6 +172,152 @@ async def add_security_headers(request, call_next):
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     return response
+
+# ============ EMAIL CONFIGURATION (RESEND) ============
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+CONTACT_EMAIL_TO = os.getenv("CONTACT_EMAIL_TO", "services@aximoix.com")
+CONTACT_EMAIL_FROM = os.getenv("CONTACT_EMAIL_FROM", "noreply@aximoix.com")
+
+# Set Resend API key if available
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
+    print(f"✅ Resend API key configured")
+    print(f"📧 Emails will be sent TO: {CONTACT_EMAIL_TO}")
+    print(f"📧 Emails will be sent FROM: {CONTACT_EMAIL_FROM}")
+else:
+    print(f"⚠️ Resend API key not configured")
+
+def send_contact_email(contact_data: dict) -> bool:
+    """
+    Send contact form submission email to services@aximoix.com using Resend
+    
+    Args:
+        contact_data: Dictionary with keys: name, email, service_interest, message
+        
+    Returns:
+        bool: True if email sent successfully, False otherwise
+    """
+    try:
+        # Check if Resend API key is configured
+        if not RESEND_API_KEY:
+            print("⚠️ Resend API key not configured - skipping email send")
+            print(f"   Please set RESEND_API_KEY environment variable")
+            return False
+        
+        # Create email content
+        name = contact_data.get("name", "Unknown")
+        email = contact_data.get("email", "unknown@example.com")
+        service_interest = contact_data.get("service_interest", "Service not specified")
+        message = contact_data.get("message", "")
+        timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+        
+        # HTML email template - AximoIX Brand Colors (Dark Theme)
+        html_content = f"""
+        <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                    * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+                    body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; color: #ffffff; }}
+                    .container {{ max-width: 600px; margin: 0 auto; background: #121212; border: 1px solid rgba(0, 255, 209, 0.2); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 255, 209, 0.1); }}
+                    .header {{ background: linear-gradient(135deg, #00FFD1 0%, #00D4A8 100%); padding: 40px 30px; text-align: center; }}
+                    .header h1 {{ font-size: 28px; color: #000; margin: 0; font-weight: 600; }}
+                    .header p {{ font-size: 14px; color: rgba(0, 0, 0, 0.7); margin-top: 8px; }}
+                    .content {{ padding: 40px 30px; }}
+                    .field {{ margin-bottom: 30px; }}
+                    .label {{ font-weight: 600; color: #00FFD1; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }}
+                    .value {{ color: #ffffff; font-size: 16px; padding: 12px 16px; background: rgba(0, 255, 209, 0.08); border-left: 3px solid #00FFD1; border-radius: 4px; word-break: break-word; }}
+                    .value a {{ color: #00FFD1; text-decoration: none; font-weight: 500; }}
+                    .value a:hover {{ text-decoration: underline; }}
+                    .divider {{ height: 1px; background: rgba(0, 255, 209, 0.2); margin: 30px 0; }}
+                    .footer {{ padding: 25px 30px; background: rgba(0, 255, 209, 0.05); border-top: 1px solid rgba(0, 255, 209, 0.1); text-align: center; }}
+                    .footer p {{ font-size: 12px; color: rgba(255, 255, 255, 0.6); margin: 4px 0; }}
+                    .cta-section {{ background: rgba(0, 255, 209, 0.1); padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid rgba(0, 255, 209, 0.2); }}
+                    .cta-section p {{ color: rgba(255, 255, 255, 0.8); font-size: 14px; margin: 0; }}
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>✉️ New Contact Inquiry</h1>
+                        <p>Message from AximoIX Contact Form</p>
+                    </div>
+                    
+                    <div class="content">
+                        <div class="field">
+                            <span class="label">From</span>
+                            <div class="value"><a href="mailto:{email}">{name}</a></div>
+                        </div>
+                        
+                        <div class="field">
+                            <span class="label">Email Address</span>
+                            <div class="value"><a href="mailto:{email}">{email}</a></div>
+                        </div>
+                        
+                        <div class="field">
+                            <span class="label">Service Interest</span>
+                            <div class="value">{service_interest}</div>
+                        </div>
+                        
+                        <div class="divider"></div>
+                        
+                        <div class="field">
+                            <span class="label">Message</span>
+                            <div class="value" style="border-left-color: #00FFD1; white-space: pre-wrap;">{message}</div>
+                        </div>
+                        
+                        <div class="cta-section">
+                            <p><strong>💡 Quick Action:</strong> Click the email address above to reply directly to this inquiry</p>
+                        </div>
+                    </div>
+                    
+                    <div class="footer">
+                        <p><strong>AximoIX</strong> • Contact Form Submission</p>
+                        <p>Submitted: {timestamp}</p>
+                        <p style="margin-top: 12px; font-size: 11px; color: rgba(255, 255, 255, 0.4);">This is an automated email from your contact form.</p>
+                    </div>
+                </div>
+            </body>
+        </html>
+        """
+        
+        # Create plain text alternative
+        text_content = f"""
+New Contact Form Submission
+=============================
+
+Name: {name}
+Email: {email}
+Service Interest: {service_interest}
+
+Message:
+{message}
+
+---
+Submitted on: {timestamp}
+"""
+        
+        # Prepare email parameters for Resend
+        params = {
+            "from": CONTACT_EMAIL_FROM,
+            "to": [CONTACT_EMAIL_TO],
+            "subject": f"New Contact Form Submission from {name}",
+            "html": html_content,
+            "text": text_content,
+            "reply_to": email  # Reply-to set to contact person's email
+        }
+        
+        # Send email via Resend
+        response = resend.Emails.send(params)
+        
+        print(f"✅ Email sent successfully to {CONTACT_EMAIL_TO}")
+        print(f"   Email ID: {response.get('id', 'N/A')}")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error sending email: {type(e).__name__}: {str(e)}")
+        return False
 
 class ContactForm(BaseModel):
     name: str
@@ -568,37 +722,45 @@ async def submit_contact(contact: ContactForm):
         contact_data["id"] = str(uuid.uuid4())
         contact_data["created_at"] = datetime.utcnow()
         contact_data["status"] = "new"
+        contact_data["email_sent"] = False
         
-        # Check if we have real MongoDB connection
+        # Save to MongoDB if connected
         if client and hasattr(db, 'contacts'):
-            # Save to MongoDB
             result = db.contacts.insert_one(contact_data)
             print(f"✅ Contact saved to MongoDB with ID: {contact_data['id']}")
-            
-            return {
-                "success": True,
-                "message": "Thank you! Your message has been sent successfully.",
-                "id": contact_data["id"],
-                "database": "mongodb"
-            }
         else:
-            # MongoDB not connected, but still return success
             print("📋 Running in demo mode - contact saved locally")
-            return {
-                "success": True,
-                "message": "Thank you! Your message has been received. (Running in demo mode)",
-                "id": contact_data["id"],
-                "database": "demo"
-            }
+        
+        # Send email notification to services@aximoix.com
+        email_sent = send_contact_email(contact_data)
+        
+        # Update email_sent status in database if callback email was sent
+        if email_sent and client and hasattr(db, 'contacts'):
+            try:
+                db.contacts.update_one(
+                    {"id": contact_data["id"]},
+                    {"$set": {"email_sent": True}}
+                )
+                print(f"✅ Email status updated in database")
+            except Exception as e:
+                print(f"⚠️ Could not update email status in database: {e}")
+        
+        return {
+            "success": True,
+            "message": "Thank you! Your message has been sent successfully.",
+            "id": contact_data["id"],
+            "database": "mongodb" if client else "demo",
+            "email_status": "sent" if email_sent else "not_configured"
+        }
         
     except Exception as e:
-        print(f"❌ Error saving contact: {e}")
-        # Still return success to user even if DB fails
+        print(f"❌ Error processing contact: {e}")
+        # Still return success to user even if something fails
         return {
             "success": True,
             "message": "Thank you! Your message has been received. We'll get back to you soon.",
             "id": str(uuid.uuid4()),
-            "database": "error_fallback"
+            "error": str(e)
         }
 
 @app.get("/api/company")
