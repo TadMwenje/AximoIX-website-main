@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import "./App.css";
 import Navigation from "./components/Navigation";
 import ServiceModal from "./components/ServiceModal";
@@ -1060,19 +1062,23 @@ function App() {
   );
 
   return (
-    <Routes>
-      <Route path="/privacy" element={
-        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
-          <PrivacyPolicy />
-        </Suspense>
-      } />
-      <Route path="/terms" element={
-        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
-          <TermsOfService />
-        </Suspense>
-      } />
-      <Route path="*" element={mainPageContent} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/privacy" element={
+          <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
+            <PrivacyPolicy />
+          </Suspense>
+        } />
+        <Route path="/terms" element={
+          <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
+            <TermsOfService />
+          </Suspense>
+        } />
+        <Route path="*" element={mainPageContent} />
+      </Routes>
+      <Analytics />
+      <SpeedInsights />
+    </>
   );
 }
 
