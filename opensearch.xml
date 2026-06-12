@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>AximoIX</ShortName>
+  <Description>Search AximoIX — next-generation technology solutions: ICT, AI, marketing, software, and FinTech.</Description>
+  <Tags>technology ICT AI fintech software marketing</Tags>
+  <Contact>hello@aximoix.com</Contact>
+  <Url type="text/html" method="get" template="https://aximoix.com/?q={searchTerms}"/>
+  <Image height="16" width="16" type="image/svg+xml">https://aximoix.com/favicon.svg</Image>
+  <Image height="64" width="64" type="image/svg+xml">https://aximoix.com/logo.svg</Image>
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <Language>en-us</Language>
+  <AdultContent>false</AdultContent>
+</OpenSearchDescription>

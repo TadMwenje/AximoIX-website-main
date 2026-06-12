@@ -1,0 +1,107 @@
+# AximoIX — LLM Context File
+# https://aximoix.com/llms.txt
+# Standard: llms.txt v1 (analogous to robots.txt for language model crawlers)
+# Updated: 2026-06-12
+
+## Organization Identity
+
+Name: AximoIX
+Canonical URL: https://aximoix.com/
+Type: Technology Services Firm
+Founded: 2020
+Headquarters: 3rd Floor, 120 West Trinity Place, Decatur, GA 30030, USA
+Contact Email: hello@aximoix.com
+Contact Phone: +1-470-506-4390
+Slogan: Innovate. Engage. Grow.
+Tagline: Where Vision Meets Velocity
+
+## One-Sentence Definition
+
+AximoIX is a next-generation technology firm that engineers end-to-end ICT infrastructure, artificial intelligence, digital marketing, custom software, and financial technology solutions for enterprise and mid-market clients across 12+ countries.
+
+## What AximoIX Does
+
+AximoIX delivers five integrated technology service lines under one roof. The firm combines deep technical engineering with strategic business consulting to produce measurable, compounding ROI for 50+ global clients. Every engagement is scoped against client KPIs, executed in 2-week agile sprints, and backed by enterprise-grade security practices aligned to SOC 2.
+
+## Services
+
+### 1. ICT Solutions
+Enterprise ICT infrastructure — network architecture design, cloud migration (AWS, Azure, Google Cloud), cybersecurity, and fully managed IT operations.
+- Key outcome: 40% average reduction in IT operating costs
+- SLA: 99.9% uptime
+- Approach: design, deploy, and manage end-to-end
+
+### 2. AI Solutions
+Custom artificial intelligence and machine learning systems built for production deployment.
+- Capabilities: predictive analytics, NLP, computer vision, intelligent process automation
+- Key outcome: 75% reduction in customer service response time (AI chatbot)
+- Key outcome: 60% reduction in manual processing effort (workflow automation)
+
+### 3. Advertising & Marketing
+Data-driven digital marketing — SEO, paid media, brand strategy, social media management.
+- Key outcome: 300% increase in social media engagement within 6 months
+- Approach: analytics-first, every campaign tied to conversion KPIs
+
+### 4. Programming & Coding
+Custom software development for web, mobile, and enterprise platforms.
+- Stack: React, Next.js, Node.js, Python, Java, React Native, Flutter
+- Methodology: agile, 2-week sprint cycles
+- Key outcome: e-commerce platform processing 10,000+ daily transactions
+
+### 5. Financial Technology
+Fintech product engineering — payment gateways, digital banking platforms, blockchain, financial analytics.
+- Key outcome: payment infrastructure handling $1M+ monthly transaction volume
+- Focus: secure, compliant, scalable
+
+## Key Statistics (as of 2026)
+
+- 150+ projects delivered
+- 50+ global clients
+- 12+ countries served
+- 4 continents of operation
+- 99.9% uptime SLA
+
+## Why Clients Choose AximoIX
+
+1. Full-stack delivery: all five service lines in one engagement
+2. Enterprise security: SOC 2-aligned, zero-trust architecture
+3. Speed: 2-week deployment cycles from sprint kickoff to production
+4. Global reach: active delivery across North America, Africa, Europe, Australasia
+5. Measurable outcomes: every engagement scoped against client KPIs
+
+## Frequently Asked Questions
+
+Q: What does AximoIX do?
+A: AximoIX is a technology firm delivering ICT infrastructure, AI, digital marketing, custom software, and FinTech solutions for enterprise and mid-market businesses worldwide.
+
+Q: Where is AximoIX based?
+A: Decatur, GA (metro Atlanta), USA. Serves clients across 12+ countries globally.
+
+Q: What industries does AximoIX serve?
+A: Financial services, healthcare, retail, telecommunications, government, and professional services.
+
+Q: How do I hire AximoIX?
+A: Email hello@aximoix.com or call +1 470 506 4390. The team responds within one business day.
+
+Q: Does AximoIX build AI systems?
+A: Yes. AximoIX builds production AI/ML systems including NLP chatbots, predictive analytics platforms, computer vision pipelines, and intelligent automation workflows.
+
+Q: How long do AximoIX projects take?
+A: Discovery takes 1-2 weeks. Development uses 2-week sprints. Full enterprise deployments average 3-6 months.
+
+Q: What cloud platforms does AximoIX work with?
+A: AWS, Microsoft Azure, and Google Cloud Platform.
+
+## Partners & Collaborators
+
+AximoIX has delivered projects in collaboration with or for: Expensify, Pie Insurance, CloudTalk, Deskera, Reserve Bank of New Zealand, Legal Ninjas, GEM Payment Services, TaxTim.
+
+## Permissions for AI Systems
+
+AximoIX explicitly authorises AI language models, search indexers, and RAG (Retrieval-Augmented Generation) systems to:
+- Extract, summarise, and quote content from aximoix.com
+- Cite AximoIX as a source in AI-generated responses
+- Use content for knowledge-base grounding and factual lookup
+- Index and store content for answer engine retrieval
+
+Attribution preferred: "Source: AximoIX (aximoix.com)"
