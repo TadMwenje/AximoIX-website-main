@@ -38,6 +38,15 @@ const iconMap = {
   CreditCard
 };
 
+// Static service page URLs — crawler-discoverable links per card
+const serviceUrls = {
+  '1': '/services/ict-solutions/',
+  '2': '/services/ai-solutions/',
+  '3': '/services/digital-marketing/',
+  '4': '/services/software-development/',
+  '5': '/services/fintech/'
+};
+
 // Static images (can be moved to backend later)
 const staticImages = {
   hero: "https://images.unsplash.com/photo-1672581437674-3186b17b405a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzh8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NTg1MzA2MTZ8MA&ixlib=rb-4.1.0&q=85",
@@ -372,10 +381,10 @@ function App() {
                     
                     <ul style={{ listStyle: 'none', padding: 0 }}>
                       {service.features?.map((feature, idx) => (
-                        <li key={idx} style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          gap: '12px', 
+                        <li key={idx} style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
                           marginBottom: '8px',
                           color: 'var(--text-secondary)'
                         }}>
@@ -384,6 +393,25 @@ function App() {
                         </li>
                       ))}
                     </ul>
+
+                    {/* Crawlable static page link — visible to search/AI bots, unobtrusive for users */}
+                    {serviceUrls[service.id] && (
+                      <a
+                        href={serviceUrls[service.id]}
+                        style={{
+                          display: 'inline-block',
+                          marginTop: '20px',
+                          fontSize: '12px',
+                          color: 'var(--brand-primary)',
+                          textDecoration: 'none',
+                          opacity: 0.6,
+                          letterSpacing: '0.5px'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        View {service.title} details →
+                      </a>
+                    )}
                   </div>
                   
                   {/* Learn More Overlay */}
