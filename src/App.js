@@ -186,31 +186,21 @@ function App() {
     });
   };
 
-  // Loading state
-  if (companyLoading || servicesLoading) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'var(--bg-primary)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        gap: '20px'
-      }}>
-        <Loader2 size={48} style={{ color: 'var(--brand-primary)', animation: 'spin 1s linear infinite' }} />
-        <p className="body-large" style={{ color: 'var(--text-secondary)' }}>
-          Loading AximoIX experience...
-        </p>
-        <style jsx>{`
-          @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-        `}</style>
-      </div>
-    );
-  }
+  // Loading overlay — rendered on top of static content so crawlers always see the page
+  const loadingOverlay = (companyLoading || servicesLoading) && (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 9999,
+      background: 'var(--bg-primary)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      flexDirection: 'column', gap: '20px'
+    }}>
+      <Loader2 size={48} style={{ color: 'var(--brand-primary)', animation: 'spin 1s linear infinite' }} />
+      <p className="body-large" style={{ color: 'var(--text-secondary)' }}>
+        Loading AximoIX experience...
+      </p>
+      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
 
   // Main page content
   const mainPageContent = (
@@ -342,8 +332,9 @@ function App() {
             {servicesData?.map((service, index) => {
               const IconComponent = iconMap[service.icon];
               return (
-                <div 
+                <article
                   key={service.id}
+                  aria-label={`AximoIX service: ${service.title}`}
                   className={`service-card reveal stagger-${(index % 3) + 1}`}
                   style={{
                     background: 'var(--bg-secondary)',
@@ -448,7 +439,7 @@ function App() {
                     opacity: 0.1,
                     zIndex: 1
                   }} />
-                </div>
+                </article>
               );
             })}
           </div>
@@ -922,6 +913,85 @@ function App() {
       </section>
       </main>
 
+      {/* FAQ Section — visible and crawlable, feeds AI Overview extraction */}
+      <section id="faq" aria-label="Frequently Asked Questions about AximoIX" className="dark-full-container" style={{ padding: '100px 0' }}>
+        <div className="dark-content-container">
+          <div style={{ textAlign: 'center', marginBottom: '60px' }} className="reveal">
+            <h2 className="display-large glow-text" style={{ marginBottom: '16px' }}>
+              Frequently Asked Questions
+            </h2>
+            <p className="body-large" style={{ maxWidth: '560px', margin: '0 auto', opacity: 0.8 }}>
+              Everything you need to know about AximoIX's services, delivery model, and expertise.
+            </p>
+          </div>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            {[
+              {
+                q: 'What services does AximoIX offer?',
+                a: 'AximoIX delivers five integrated technology services: ICT infrastructure (network, cloud, managed IT), AI & machine learning solutions, digital marketing, custom software development, and financial technology (FinTech). All five pillars operate under one roof, enabling cohesive cross-functional delivery.'
+              },
+              {
+                q: 'How long does a project with AximoIX take?',
+                a: 'AximoIX runs agile 2-week sprint cycles. Discovery and scoping completes in 1-2 weeks, after which development begins immediately. Web and mobile MVPs typically ship in 4-8 weeks. Full enterprise deployments average 3-6 months depending on scope.'
+              },
+              {
+                q: 'Does AximoIX work with startups or only enterprise clients?',
+                a: 'AximoIX serves both enterprise organisations and growth-stage businesses. Engagement scope and pricing is tailored to client size. The firm has delivered for companies ranging from funded startups to regulated financial institutions and government bodies.'
+              },
+              {
+                q: 'What cloud platforms does AximoIX support?',
+                a: 'AximoIX architects and manages solutions on Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP). Services include cloud migration, infrastructure-as-code, cost optimisation, and ongoing managed operations.'
+              },
+              {
+                q: 'How does AximoIX approach AI development?',
+                a: 'AximoIX builds production AI systems — not prototypes. Each engagement starts with a data audit and outcome mapping. Development covers model training, validation, deployment pipelines, and monitoring. Reference outcomes: 75% reduction in customer service response time, 60% reduction in manual processing effort.'
+              }
+            ].map(({ q, a }, i) => (
+              <details
+                key={i}
+                itemScope
+                itemProp="mainEntity"
+                itemType="https://schema.org/Question"
+                style={{
+                  borderBottom: '1px solid var(--border-subtle)',
+                  padding: '28px 0',
+                  cursor: 'pointer'
+                }}
+              >
+                <summary
+                  itemProp="name"
+                  style={{
+                    fontWeight: 600,
+                    fontSize: '17px',
+                    color: 'var(--text-primary)',
+                    listStyle: 'none',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '16px'
+                  }}
+                >
+                  {q}
+                  <span style={{ color: 'var(--brand-primary)', fontSize: '22px', flexShrink: 0 }}>+</span>
+                </summary>
+                <div
+                  itemScope
+                  itemProp="acceptedAnswer"
+                  itemType="https://schema.org/Answer"
+                  style={{ paddingTop: '16px' }}
+                >
+                  <p itemProp="text" className="body-medium" style={{ opacity: 0.85, lineHeight: '1.75' }}>
+                    {a}
+                  </p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
       {/* Structured entity data block — machine-readable, visually hidden, for AI/RAG crawlers */}
       <div
         aria-hidden="true"
@@ -1079,24 +1149,24 @@ function App() {
       )}
 
       {/* Mobile Responsive Styles */}
-      <style jsx>{`
+      <style>{`
         @media (max-width: 768px) {
           #hero > div > div {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
             text-align: center;
           }
-          
+
           #about > div > div,
           #contact > div > div:last-child {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
           }
-          
+
           .display-huge {
             font-size: 40px !important;
           }
-          
+
           .display-large {
             font-size: 32px !important;
           }
@@ -1106,19 +1176,22 @@ function App() {
   );
 
   return (
-    <Routes>
-      <Route path="/privacy" element={
-        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
-          <PrivacyPolicy />
-        </Suspense>
-      } />
-      <Route path="/terms" element={
-        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
-          <TermsOfService />
-        </Suspense>
-      } />
-      <Route path="*" element={mainPageContent} />
-    </Routes>
+    <>
+      {loadingOverlay}
+      <Routes>
+        <Route path="/privacy" element={
+          <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
+            <PrivacyPolicy />
+          </Suspense>
+        } />
+        <Route path="/terms" element={
+          <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>
+            <TermsOfService />
+          </Suspense>
+        } />
+        <Route path="*" element={mainPageContent} />
+      </Routes>
+    </>
   );
 }
 

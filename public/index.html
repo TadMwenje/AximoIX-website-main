@@ -55,6 +55,12 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
+    <!-- OpenSearch — enables "Search on AximoIX" in browser address bars -->
+    <link rel="search" type="application/opensearchdescription+xml" title="AximoIX" href="/opensearch.xml" />
+
+    <!-- LLM Context File — structured content manifest for AI crawlers -->
+    <link rel="llms" type="text/plain" href="/llms.txt" />
+
     <!-- JSON-LD Structured Data — Entity Graph for Google Knowledge Graph & AI Engines -->
     <script type="application/ld+json">
     {
@@ -295,6 +301,38 @@
               "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "Yes. AximoIX builds custom AI and machine learning solutions including predictive analytics models, natural language processing systems, computer vision applications, and intelligent automation workflows. The firm has reduced client customer service response times by up to 75% through custom AI implementations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How long does a software project with AximoIX take?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AximoIX uses agile 2-week sprint cycles. Discovery and scoping takes 1-2 weeks, after which development begins immediately. Full enterprise projects average 3-6 months. Smaller web or mobile builds can reach MVP in 4-8 weeks."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What cloud platforms does AximoIX work with?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AximoIX designs and deploys solutions on Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP). The firm handles full cloud migration, architecture design, ongoing management, and cost optimisation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does AximoIX offer FinTech development services?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AximoIX builds fintech products including payment gateway integrations, digital banking platforms, blockchain applications, and financial analytics dashboards. A reference implementation handles over $1 million in monthly transaction volume."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What industries does AximoIX serve?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AximoIX serves clients across financial services, healthcare, retail, telecommunications, government, and professional services. The firm has delivered solutions across 12+ countries including operations in North America, Africa, Europe, and Australasia."
               }
             }
           ]
