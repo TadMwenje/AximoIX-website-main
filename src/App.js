@@ -219,7 +219,7 @@ function App() {
       <main>
       
       {/* Hero Section */}
-      <section id="hero" className="dark-full-container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative' }}>
+      <section id="hero" aria-label="Hero — AximoIX Technology Partner" className="dark-full-container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative' }}>
         <div className="hero-gradient-mesh" />
         <div className="grid-bg" />
         <div className="dark-content-container" style={{ position: 'relative', zIndex: 1 }}>
@@ -300,9 +300,9 @@ function App() {
                 height="600px"
                 fallbackContent={
                   <div style={{ textAlign: 'center', color: '#00FFD1' }}>
-                    <img 
+                    <img
                       src={staticImages.hero}
-                      alt="Futuristic Technology"
+                      alt="Futuristic AI and technology infrastructure representing AximoIX next-generation ICT solutions"
                       style={{
                         width: '400px',
                         height: '300px',
@@ -326,7 +326,7 @@ function App() {
       <div className="section-divider" />
 
       {/* Services Section */}
-      <section id="services" className="dark-full-container" style={{ padding: '100px 0', position: 'relative' }}>
+      <section id="services" aria-label="AximoIX Services" className="dark-full-container" style={{ padding: '100px 0', position: 'relative' }}>
         <div className="grid-bg" />
         <div className="dark-content-container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: '80px' }} className="reveal">
@@ -458,7 +458,7 @@ function App() {
       <div className="section-divider" />
 
       {/* Stats Section */}
-      <section className="dark-full-container" style={{ padding: '80px 0', position: 'relative' }}>
+      <section aria-label="AximoIX Key Metrics" className="dark-full-container" style={{ padding: '80px 0', position: 'relative' }}>
         <div className="dark-content-container">
           {/* Marquee background text */}
           <div className="marquee-wrapper" style={{ position: 'absolute', top: '50%', left: 0, right: 0, transform: 'translateY(-50%)', zIndex: 0 }}>
@@ -491,7 +491,7 @@ function App() {
       <div className="section-divider" />
 
       {/* Why Choose Us / CTA Section */}
-      <section className="dark-full-container" style={{ padding: '100px 0' }}>
+      <section aria-label="Why Choose AximoIX" className="dark-full-container" style={{ padding: '100px 0' }}>
         <div className="dark-content-container">
           <div className="cta-banner reveal-scale">
             <div style={{ position: 'relative', zIndex: 1 }}>
@@ -553,7 +553,7 @@ function App() {
       <div className="section-divider" />
 
       {/* About Section */}
-      <section id="about" className="dark-full-container" style={{ padding: '100px 0' }}>
+      <section id="about" aria-label="About AximoIX" className="dark-full-container" style={{ padding: '100px 0' }}>
         <div className="dark-content-container">
           <div style={{ 
             display: 'grid', 
@@ -597,9 +597,9 @@ function App() {
 
             {/* Right - Images */}
             <div className="reveal-right" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <img 
+              <img
                 src={staticImages.technology}
-                alt="Technology Innovation"
+                alt="Advanced technology infrastructure and digital innovation — AximoIX delivers cloud, AI, and ICT solutions that power enterprise transformation"
                 style={{
                   width: '100%',
                   height: '250px',
@@ -608,9 +608,9 @@ function App() {
                   border: '1px solid var(--border-subtle)'
                 }}
               />
-              <img 
+              <img
                 src={staticImages.business}
-                alt="Business Growth"
+                alt="Global business technology ecosystem — AximoIX serves 50+ clients across 12+ countries delivering measurable ROI through bespoke tech solutions"
                 style={{
                   width: '100%',
                   height: '200px',
@@ -627,7 +627,7 @@ function App() {
       <div className="section-divider" />
 
       {/* Partners & Collaborators Section */}
-      <section id="partners" className="dark-full-container" style={{ padding: '80px 0', overflow: 'hidden' }}>
+      <section id="partners" aria-label="AximoIX Partners and Collaborators" className="dark-full-container" style={{ padding: '80px 0', overflow: 'hidden' }}>
         <div className="dark-content-container">
           <div style={{ textAlign: 'center', marginBottom: '60px' }} className="reveal">
             <h2 className="display-large glow-text" style={{ marginBottom: '24px' }}>
@@ -670,7 +670,7 @@ function App() {
       <div className="section-divider" />
 
       {/* Contact Section */}
-      <section id="contact" className="dark-full-container" style={{ padding: '100px 0' }}>
+      <section id="contact" aria-label="Contact AximoIX" className="dark-full-container" style={{ padding: '100px 0' }}>
         <div className="dark-content-container">
           <div style={{ textAlign: 'center', marginBottom: '80px' }} className="reveal">
             <h2 className="display-large glow-text" style={{ marginBottom: '24px' }}>
@@ -922,8 +922,54 @@ function App() {
       </section>
       </main>
 
+      {/* Structured entity data block — machine-readable, visually hidden, for AI/RAG crawlers */}
+      <div
+        aria-hidden="true"
+        style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+      >
+        <article itemScope itemType="https://schema.org/Organization">
+          <span itemProp="name">AximoIX</span>
+          <span itemProp="description">AximoIX is a next-generation technology partner delivering ICT infrastructure, AI solutions, digital marketing, custom software development, and financial technology. Headquartered in Decatur, GA with operations across 12+ countries.</span>
+          <span itemProp="telephone">+1-470-506-4390</span>
+          <span itemProp="email">hello@aximoix.com</span>
+          <span itemProp="url">https://aximoix.com/</span>
+          <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+            <span itemProp="streetAddress">3rd Floor, 120 West Trinity Place</span>
+            <span itemProp="addressLocality">Decatur</span>
+            <span itemProp="addressRegion">GA</span>
+            <span itemProp="postalCode">30030</span>
+            <span itemProp="addressCountry">US</span>
+          </div>
+          <ul>
+            <li itemProp="hasOfferCatalog" itemScope itemType="https://schema.org/OfferCatalog">
+              <span itemProp="name">ICT Solutions — Network infrastructure, cloud integration (AWS, Azure, GCP), managed IT, 99.9% uptime SLA</span>
+            </li>
+            <li>
+              <span itemProp="hasOfferCatalog" itemScope itemType="https://schema.org/OfferCatalog">
+                <span itemProp="name">AI Solutions — Machine learning, NLP, predictive analytics, intelligent automation, 60% manual effort reduction</span>
+              </span>
+            </li>
+            <li>
+              <span itemProp="hasOfferCatalog" itemScope itemType="https://schema.org/OfferCatalog">
+                <span itemProp="name">Advertising and Marketing — SEO, paid media, brand strategy, social media, 300% engagement growth</span>
+              </span>
+            </li>
+            <li>
+              <span itemProp="hasOfferCatalog" itemScope itemType="https://schema.org/OfferCatalog">
+                <span itemProp="name">Programming and Coding — React, Node.js, Python, mobile apps, enterprise software, 2-week agile sprints</span>
+              </span>
+            </li>
+            <li>
+              <span itemProp="hasOfferCatalog" itemScope itemType="https://schema.org/OfferCatalog">
+                <span itemProp="name">Financial Technology — Payment gateways, digital banking, blockchain, $1M+ monthly transaction volume</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </div>
+
       {/* Footer */}
-      <footer className="dark-full-container" style={{ 
+      <footer className="dark-full-container" style={{
         padding: '80px 0 40px', 
         borderTop: '1px solid var(--border-subtle)' 
       }}>

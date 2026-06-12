@@ -1,17 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <title>AximoIX</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Page Not Found — AximoIX</title>
+
+  <!-- Prevent indexing of 404 pages -->
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Canonical points to homepage so crawlers identify the authoritative URL -->
+  <link rel="canonical" href="https://aximoix.com/" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .container { max-width: 600px; }
+    h1 { font-size: 6em; color: #00FFD1; letter-spacing: -2px; margin-bottom: 16px; }
+    h2 { font-size: 1.4em; color: #ffffff; margin-bottom: 12px; font-weight: 500; }
+    p { color: #aaaaaa; margin-bottom: 32px; line-height: 1.7; }
+    a.btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: #00FFD1;
+      color: #000000;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95em;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    a.btn:hover { opacity: 0.85; }
+    .divider { margin: 40px auto; width: 60px; height: 2px; background: #00FFD1; opacity: 0.3; }
+  </style>
 </head>
 <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script>
-        // Redirect to main page for custom domain
-        window.location.href = '/';
-    </script>
+  <div class="container">
+    <h1>404</h1>
+    <h2>Page Not Found</h2>
+    <p>The page you are looking for does not exist or has been moved.<br />Head back to the homepage to explore AximoIX's technology solutions.</p>
+    <a href="https://aximoix.com/" class="btn">Back to AximoIX</a>
+    <div class="divider"></div>
+    <p style="font-size: 0.85em;">
+      Contact us at <a href="mailto:hello@aximoix.com" style="color: #00FFD1;">hello@aximoix.com</a>
+      or call <a href="tel:+14705064390" style="color: #00FFD1;">+1 470 506 4390</a>
+    </p>
+  </div>
 </body>
 </html>

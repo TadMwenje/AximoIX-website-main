@@ -2,48 +2,414 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    
+
     <!-- Google Fonts: preconnect + non-blocking load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" /></noscript>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="AximoIX — Innovate. Engage. Grow. Next-generation technology partner delivering ICT infrastructure, AI, strategic marketing, custom software, and fintech solutions that accelerate growth." />
-    <meta name="keywords" content="AximoIX, ICT solutions, AI solutions, fintech, digital marketing, software development, technology consulting, enterprise solutions, cloud infrastructure, Decatur GA" />
+
+    <!-- Primary SEO Meta Tags -->
+    <title>AximoIX — Innovate. Engage. Grow. | Technology Partner</title>
+    <meta name="description" content="AximoIX is a next-generation technology partner delivering ICT infrastructure, AI solutions, digital marketing, custom software, and FinTech services. 150+ projects across 12+ countries. Based in Decatur, GA." />
+    <meta name="keywords" content="AximoIX, ICT solutions, AI solutions, artificial intelligence, fintech, digital marketing, software development, technology consulting, enterprise solutions, cloud infrastructure, Decatur GA, technology partner" />
     <meta name="author" content="AximoIX" />
-    
+
+    <!-- Geo / Location Signals -->
+    <meta name="geo.region" content="US-GA" />
+    <meta name="geo.placename" content="Decatur, Georgia" />
+    <meta name="geo.position" content="33.7748;-84.2963" />
+    <meta name="ICBM" content="33.7748, -84.2963" />
+
     <!-- Indexing & Crawling Directives -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    <!-- Canonical — single authoritative URL (HTTPS, non-www, trailing slash) -->
     <link rel="canonical" href="https://aximoix.com/" />
-    
+
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="AximoIX — Innovate. Engage. Grow." />
-    <meta property="og:description" content="Where Vision Meets Velocity. Next-generation ICT, AI, Marketing, Software & FinTech solutions." />
-    <meta property="og:image" content="%PUBLIC_URL%/logo.svg" />
-    <meta property="og:url" content="https://aximoix.com" />
+    <meta property="og:description" content="Next-generation technology partner delivering ICT, AI, Marketing, Software &amp; FinTech solutions. 150+ projects, 12+ countries." />
+    <meta property="og:image" content="https://aximoix.com/logo.svg" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="AximoIX Logo — Technology Partner" />
+    <meta property="og:url" content="https://aximoix.com/" />
     <meta property="og:site_name" content="AximoIX" />
-    
+    <meta property="og:locale" content="en_US" />
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="AximoIX — Innovate. Engage. Grow." />
-    <meta name="twitter:description" content="Where Vision Meets Velocity. Next-generation ICT, AI, Marketing, Software & FinTech solutions." />
-    <meta name="twitter:image" content="%PUBLIC_URL%/logo.svg" />
-    
+    <meta name="twitter:description" content="Next-generation technology partner: ICT, AI, Marketing, Software &amp; FinTech. Where Vision Meets Velocity." />
+    <meta name="twitter:image" content="https://aximoix.com/logo.svg" />
+    <meta name="twitter:image:alt" content="AximoIX — Technology Partner Logo" />
+
+    <!-- PWA Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>AximoIX — Innovate. Engage. Grow.</title>
+
+    <!-- JSON-LD Structured Data — Entity Graph for Google Knowledge Graph & AI Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://aximoix.com/#organization",
+          "name": "AximoIX",
+          "alternateName": ["Aximo IX", "AximoIX Technology"],
+          "url": "https://aximoix.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://aximoix.com/logo.svg",
+            "width": 512,
+            "height": 512,
+            "caption": "AximoIX Logo"
+          },
+          "description": "AximoIX is a next-generation technology partner engineering the future of business. We deliver enterprise ICT infrastructure, artificial intelligence, digital marketing, custom software development, and financial technology solutions — giving organizations the edge to outperform, outscale, and outlast the competition.",
+          "slogan": "Innovate. Engage. Grow.",
+          "foundingDate": "2020",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "3rd Floor, 120 West Trinity Place",
+            "addressLocality": "Decatur",
+            "addressRegion": "GA",
+            "postalCode": "30030",
+            "addressCountry": "US"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-470-506-4390",
+            "email": "hello@aximoix.com",
+            "contactType": "customer service",
+            "availableLanguage": "English"
+          },
+          "areaServed": {
+            "@type": "Place",
+            "name": "Worldwide"
+          },
+          "knowsAbout": [
+            "ICT Infrastructure",
+            "Artificial Intelligence",
+            "Machine Learning",
+            "Natural Language Processing",
+            "Digital Marketing",
+            "Custom Software Development",
+            "Financial Technology",
+            "Cloud Computing",
+            "Network Architecture",
+            "Cybersecurity",
+            "Digital Transformation",
+            "Blockchain"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://aximoix.com/#website",
+          "url": "https://aximoix.com/",
+          "name": "AximoIX",
+          "description": "Next-generation technology solutions for enterprise growth",
+          "publisher": { "@id": "https://aximoix.com/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://aximoix.com/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://aximoix.com/#webpage",
+          "url": "https://aximoix.com/",
+          "name": "AximoIX — Innovate. Engage. Grow. | Technology Partner",
+          "description": "AximoIX delivers ICT infrastructure, AI, digital marketing, software development, and FinTech solutions for enterprises worldwide.",
+          "isPartOf": { "@id": "https://aximoix.com/#website" },
+          "about": { "@id": "https://aximoix.com/#organization" },
+          "dateModified": "2026-06-12",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://aximoix.com/"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://aximoix.com/#localbusiness",
+          "name": "AximoIX",
+          "image": "https://aximoix.com/logo.svg",
+          "url": "https://aximoix.com/",
+          "telephone": "+1-470-506-4390",
+          "email": "hello@aximoix.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "3rd Floor, 120 West Trinity Place",
+            "addressLocality": "Decatur",
+            "addressRegion": "GA",
+            "postalCode": "30030",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.7748,
+            "longitude": -84.2963
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+            "opens": "09:00",
+            "closes": "18:00"
+          },
+          "priceRange": "$$",
+          "areaServed": "Worldwide"
+        },
+        {
+          "@type": "ItemList",
+          "name": "AximoIX Core Services",
+          "description": "Five integrated technology service pillars delivered by AximoIX",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Service",
+                "@id": "https://aximoix.com/#ict-solutions",
+                "name": "ICT Solutions",
+                "serviceType": "Information & Communications Technology",
+                "description": "Enterprise ICT infrastructure including network architecture, cloud integration (AWS, Azure, Google Cloud), and managed IT services. AximoIX delivers digital transformation with a 99.9% uptime SLA and has migrated 500+ employee organisations to cloud infrastructure, reducing IT costs by 40%.",
+                "provider": { "@id": "https://aximoix.com/#organization" },
+                "areaServed": "Worldwide",
+                "url": "https://aximoix.com/"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Service",
+                "@id": "https://aximoix.com/#ai-solutions",
+                "name": "AI Solutions",
+                "serviceType": "Artificial Intelligence Development",
+                "description": "Custom AI and machine learning solutions including predictive analytics, natural language processing, computer vision, and intelligent process automation. AximoIX AI implementations reduce manual effort by up to 60% and cut customer service response times by 75%.",
+                "provider": { "@id": "https://aximoix.com/#organization" },
+                "areaServed": "Worldwide",
+                "url": "https://aximoix.com/"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "Service",
+                "@id": "https://aximoix.com/#advertising-marketing",
+                "name": "Advertising & Marketing",
+                "serviceType": "Digital Marketing",
+                "description": "Data-driven digital marketing including SEO, paid media, brand strategy, and social media management. AximoIX marketing campaigns have increased client social media engagement by 300% within six months.",
+                "provider": { "@id": "https://aximoix.com/#organization" },
+                "areaServed": "Worldwide",
+                "url": "https://aximoix.com/"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "Service",
+                "@id": "https://aximoix.com/#software-development",
+                "name": "Programming & Coding",
+                "serviceType": "Custom Software Development",
+                "description": "Bespoke web, mobile, and enterprise software development using React, Node.js, Python, and mobile frameworks (React Native, Flutter). Agile 2-week sprint cycles. AximoIX has built e-commerce platforms handling 10,000+ daily transactions.",
+                "provider": { "@id": "https://aximoix.com/#organization" },
+                "areaServed": "Worldwide",
+                "url": "https://aximoix.com/"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "Service",
+                "@id": "https://aximoix.com/#fintech",
+                "name": "Financial Technology",
+                "serviceType": "FinTech Solutions",
+                "description": "Secure, compliant fintech solutions including payment gateway integration, digital banking platforms, blockchain solutions, and financial analytics. AximoIX fintech implementations handle over $1 million in monthly transaction volume.",
+                "provider": { "@id": "https://aximoix.com/#organization" },
+                "areaServed": "Worldwide",
+                "url": "https://aximoix.com/"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What services does AximoIX offer?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AximoIX offers five core technology services: ICT Solutions (network architecture, cloud integration, managed IT with 99.9% uptime SLA), AI Solutions (machine learning, NLP, predictive analytics, intelligent automation), Advertising & Marketing (SEO, paid media, brand strategy, social media), Programming & Coding (custom web, mobile, and enterprise software development), and Financial Technology (payment processing, digital banking, blockchain, financial analytics)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where is AximoIX headquartered?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AximoIX is headquartered at 3rd Floor, 120 West Trinity Place, Decatur, GA 30030, USA. The company serves clients across 12+ countries on 4 continents, operating globally from its US base."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I contact AximoIX?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Contact AximoIX by email at hello@aximoix.com or by phone at +1 470 506 4390. You can also submit an inquiry through the contact form at aximoix.com. The team typically responds within one business day."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What makes AximoIX different from other technology firms?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AximoIX delivers end-to-end technology under one roof — ICT, AI, marketing, software, and fintech — with enterprise-grade security (SOC 2-aligned processes), 2-week agile deployment cycles, and every engagement tied to measurable KPIs. With 150+ projects delivered for 50+ clients across 12+ countries, AximoIX combines global reach with outcome-focused engineering."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does AximoIX build custom AI solutions?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AximoIX builds custom AI and machine learning solutions including predictive analytics models, natural language processing systems, computer vision applications, and intelligent automation workflows. The firm has reduced client customer service response times by up to 75% through custom AI implementations."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!-- Noscript: rich fallback content for AI crawlers and no-JS environments -->
+    <noscript>
+      <div style="font-family: Georgia, serif; max-width: 960px; margin: 0 auto; padding: 40px 20px; background: #0a0a0a; color: #e0e0e0; line-height: 1.7;">
+        <header>
+          <h1 style="font-size: 2.4em; color: #00FFD1; margin-bottom: 8px;">AximoIX — Innovate. Engage. Grow.</h1>
+          <p style="font-size: 1.1em; color: #aaa;">Next-generation technology partner. Where Vision Meets Velocity.</p>
+        </header>
+
+        <main>
+          <section style="margin: 40px 0;">
+            <h2 style="color: #00FFD1;">About AximoIX</h2>
+            <p>AximoIX is a next-generation technology firm headquartered in Decatur, GA. We engineer bespoke solutions at the intersection of AI, cloud infrastructure, fintech, and digital strategy — delivering measurable results for 50+ clients across 12+ countries on 4 continents.</p>
+            <ul>
+              <li>150+ projects delivered</li>
+              <li>50+ global clients</li>
+              <li>12+ countries served</li>
+              <li>99.9% uptime SLA</li>
+            </ul>
+          </section>
+
+          <section style="margin: 40px 0;">
+            <h2 style="color: #00FFD1;">Our Services</h2>
+
+            <article style="margin: 24px 0; padding: 20px; border-left: 3px solid #00FFD1;">
+              <h3>ICT Solutions</h3>
+              <p>Enterprise ICT infrastructure including network architecture, cloud integration (AWS, Azure, Google Cloud), and managed IT services with a 99.9% uptime SLA. AximoIX has migrated 500+ employee organisations to cloud, reducing IT costs by 40%.</p>
+              <ul>
+                <li>Network Infrastructure Design &amp; Deployment</li>
+                <li>Cloud Migration &amp; Management</li>
+                <li>Digital Transformation Consulting</li>
+                <li>Managed IT Services</li>
+              </ul>
+            </article>
+
+            <article style="margin: 24px 0; padding: 20px; border-left: 3px solid #00FFD1;">
+              <h3>AI Solutions</h3>
+              <p>Custom artificial intelligence and machine learning systems that automate processes, predict outcomes, and accelerate decision-making. AximoIX AI implementations reduce manual effort by up to 60% and customer service response times by 75%.</p>
+              <ul>
+                <li>Machine Learning Model Development</li>
+                <li>Predictive Analytics Platforms</li>
+                <li>Natural Language Processing (NLP)</li>
+                <li>Intelligent Process Automation</li>
+              </ul>
+            </article>
+
+            <article style="margin: 24px 0; padding: 20px; border-left: 3px solid #00FFD1;">
+              <h3>Advertising &amp; Marketing</h3>
+              <p>Data-driven digital marketing that connects brands with their target markets. AximoIX campaigns have increased client social media engagement by 300% within six months.</p>
+              <ul>
+                <li>Search Engine Optimisation (SEO)</li>
+                <li>Paid Media &amp; PPC Campaigns</li>
+                <li>Brand Strategy &amp; Identity</li>
+                <li>Social Media Marketing</li>
+              </ul>
+            </article>
+
+            <article style="margin: 24px 0; padding: 20px; border-left: 3px solid #00FFD1;">
+              <h3>Programming &amp; Coding</h3>
+              <p>Custom software development for web, mobile, and enterprise platforms using agile 2-week sprint cycles. AximoIX has built e-commerce platforms handling 10,000+ daily transactions.</p>
+              <ul>
+                <li>Web Application Development (React, Node.js, Python)</li>
+                <li>Mobile App Development (React Native, Flutter)</li>
+                <li>API Design &amp; Integration</li>
+                <li>Enterprise Software Solutions</li>
+              </ul>
+            </article>
+
+            <article style="margin: 24px 0; padding: 20px; border-left: 3px solid #00FFD1;">
+              <h3>Financial Technology</h3>
+              <p>Secure, compliant fintech solutions including payment processing systems and digital banking platforms. AximoIX fintech implementations handle over $1 million in monthly transaction volume.</p>
+              <ul>
+                <li>Payment Gateway Integration</li>
+                <li>Digital Banking Platforms</li>
+                <li>Blockchain Solutions</li>
+                <li>Financial Analytics &amp; Reporting</li>
+              </ul>
+            </article>
+          </section>
+
+          <section style="margin: 40px 0;">
+            <h2 style="color: #00FFD1;">Why Choose AximoIX?</h2>
+            <ul>
+              <li><strong>Enterprise-Grade Security:</strong> SOC 2-aligned processes and zero-trust architecture protecting your data and operations.</li>
+              <li><strong>Rapid Delivery:</strong> Agile sprints with 2-week deployment cycles — from brief to production faster than traditional firms.</li>
+              <li><strong>Global Reach:</strong> Operations spanning 4 continents and 12+ countries, with localised expertise in each market.</li>
+              <li><strong>Measurable ROI:</strong> Every engagement is tied to KPIs — we engineer outcomes, not just features.</li>
+            </ul>
+          </section>
+
+          <section style="margin: 40px 0;">
+            <h2 style="color: #00FFD1;">Contact AximoIX</h2>
+            <address style="font-style: normal;">
+              <p><strong>Email:</strong> <a href="mailto:hello@aximoix.com" style="color: #00FFD1;">hello@aximoix.com</a></p>
+              <p><strong>Phone:</strong> <a href="tel:+14705064390" style="color: #00FFD1;">+1 470 506 4390</a></p>
+              <p><strong>Address:</strong> 3rd Floor, 120 West Trinity Place, Decatur, GA 30030, USA</p>
+            </address>
+            <p style="margin-top: 24px; color: #aaa;">JavaScript is required for the full interactive experience. Please enable JavaScript in your browser or <a href="mailto:hello@aximoix.com" style="color: #00FFD1;">contact us directly</a>.</p>
+          </section>
+        </main>
+
+        <footer style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #333;">
+          <p style="color: #888;">&copy; 2026 AximoIX. All rights reserved. | <a href="https://aximoix.com/" style="color: #00FFD1;">aximoix.com</a></p>
+        </footer>
+      </div>
+    </noscript>
+
     <div id="root"></div>
   </body>
 </html>

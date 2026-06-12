@@ -1,6 +1,7 @@
-# robots.txt - AximoIX Website
-# Allow all search engines to crawl the site
+# robots.txt — AximoIX (aximoix.com)
+# Updated: 2026-06-12
 
+# ——— Default: allow all crawlers ———
 User-agent: *
 Allow: /
 Disallow: /admin
@@ -9,17 +10,49 @@ Disallow: /.env
 Disallow: /node_modules
 Disallow: /__pycache__
 
-# Google-specific directives
+# ——— Google ———
 User-agent: Googlebot
 Allow: /
 
-# Bing
+# Opt into Google AI training extraction
+User-agent: Google-Extended
+Allow: /
+
+# ——— Bing ———
 User-agent: Bingbot
 Allow: /
 
-# Reference to sitemap
-Sitemap: https://aximoix.com/sitemap.xml
-Sitemap: https://www.aximoix.com/sitemap.xml
+# ——— OpenAI / ChatGPT ———
+User-agent: GPTBot
+Allow: /
 
-# Crawl delay (be nice to servers)
-Crawl-delay: 1
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# ——— Anthropic / Claude ———
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# ——— Perplexity ———
+User-agent: PerplexityBot
+Allow: /
+
+# ——— Meta / Facebook ———
+User-agent: FacebookBot
+Allow: /
+
+# ——— Common AI & Research Crawlers ———
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# ——— Sitemaps ———
+Sitemap: https://aximoix.com/sitemap.xml
