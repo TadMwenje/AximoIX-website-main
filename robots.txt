@@ -1,5 +1,5 @@
 # robots.txt — AximoIX (aximoix.com)
-# Updated: 2026-06-12
+# Updated: 2026-10-21
 
 # ——— Default: allow all crawlers ———
 User-agent: *
