@@ -1,182 +1,154 @@
 import React, { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
+const LAST_UPDATED = 'October 21, 2026';
+
 function PrivacyPolicy() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = 'Privacy Policy | AximoIX';
   }, []);
 
   return (
     <div className="legal-page">
-      <div className="legal-content">
+      <main className="legal-content">
         <a href="/" className="legal-back-link">
           <ArrowLeft size={18} />
           Back to Home
         </a>
 
         <h1>Privacy Policy</h1>
-        <p className="legal-subtitle">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+        <p className="legal-subtitle">Last updated: {LAST_UPDATED}</p>
 
         <p>
-          AximoIX ("we," "us," or "our") respects your privacy and is committed to protecting the personal information you share with us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, use our services, or otherwise interact with us. This policy applies to users in the United States of America and the Republic of Zimbabwe, and complies with applicable laws in both jurisdictions, including but not limited to the California Consumer Privacy Act (CCPA), applicable U.S. state privacy laws, and the Zimbabwe Data Protection Act, 2021.
+          Your privacy matters to us. This policy explains what information AximoIX collects when you visit our website or work with us, what we do with it, who we share it with, and the choices you have. We’ve written it in plain language so it’s easy to follow. If anything is unclear, just ask us.
         </p>
-
-        <h2>1. Information We Collect</h2>
-
-        <h3>1.1 Personal Information You Provide</h3>
-        <p>We may collect the following categories of personal information when you voluntarily provide it to us:</p>
-        <ul>
-          <li><strong>Identifiers:</strong> Name, email address, phone number, mailing address</li>
-          <li><strong>Professional Information:</strong> Job title, company name, industry</li>
-          <li><strong>Communication Data:</strong> Messages, inquiries, and correspondence you send us through our contact form or other channels</li>
-          <li><strong>Account Information:</strong> If you create an account, your login credentials and preferences</li>
-          <li><strong>Payment Information:</strong> Billing details processed through secure third-party payment processors (we do not store credit card numbers)</li>
-        </ul>
-
-        <h3>1.2 Information Collected Automatically</h3>
-        <p>When you access our website, we may automatically collect:</p>
-        <ul>
-          <li><strong>Device Information:</strong> IP address, browser type, operating system, device identifiers</li>
-          <li><strong>Usage Data:</strong> Pages visited, time spent on pages, referring URL, click patterns</li>
-          <li><strong>Cookies and Tracking Technologies:</strong> We use cookies, web beacons, and similar technologies to enhance your experience. See Section 7 for details.</li>
-          <li><strong>Location Data:</strong> Approximate geographic location inferred from your IP address</li>
-        </ul>
-
-        <h3>1.3 Information from Third Parties</h3>
-        <p>We may receive information about you from third-party sources, including business partners, analytics providers, and publicly available databases, to supplement the information we collect directly.</p>
-
-        <h2>2. How We Use Your Information</h2>
-        <p>We use the information we collect for the following purposes:</p>
-        <ul>
-          <li>To provide, operate, and maintain our services</li>
-          <li>To respond to your inquiries and fulfill your requests</li>
-          <li>To send administrative information, updates, and service-related communications</li>
-          <li>To personalize your experience and deliver relevant content</li>
-          <li>To process transactions and send related information</li>
-          <li>To send marketing and promotional communications (with your consent where required)</li>
-          <li>To detect, prevent, and address technical issues, fraud, and security threats</li>
-          <li>To comply with legal obligations and enforce our terms</li>
-          <li>To conduct analytics and improve our website and services</li>
-          <li>For any other purpose with your consent</li>
-        </ul>
-
-        <h2>3. Legal Basis for Processing</h2>
-
-        <h3>3.1 Under U.S. Law</h3>
-        <p>We process your personal information based on:</p>
-        <ul>
-          <li><strong>Consent:</strong> Where you have given us explicit permission</li>
-          <li><strong>Contractual Necessity:</strong> To perform our obligations under a contract with you</li>
-          <li><strong>Legitimate Interests:</strong> For our business purposes that do not override your rights</li>
-          <li><strong>Legal Compliance:</strong> To comply with applicable laws and regulations</li>
-        </ul>
-
-        <h3>3.2 Under Zimbabwe Data Protection Act, 2021</h3>
-        <p>In accordance with the Zimbabwe Data Protection Act, 2021, we process your personal information based on one or more of the following lawful grounds:</p>
-        <ul>
-          <li>Your express, informed, and voluntary consent</li>
-          <li>Performance of a contract to which you are a party</li>
-          <li>Compliance with a legal obligation to which we are subject</li>
-          <li>Protection of your vital interests or those of another person</li>
-          <li>Performance of a task carried out in the public interest</li>
-          <li>Our legitimate interests, provided these are not overridden by your fundamental rights and freedoms</li>
-        </ul>
-
-        <h2>4. How We Share Your Information</h2>
-        <p>We do not sell your personal information. We may share your information with:</p>
-        <ul>
-          <li><strong>Service Providers:</strong> Third-party vendors who perform services on our behalf (hosting, analytics, payment processing, email delivery)</li>
-          <li><strong>Business Partners:</strong> Trusted partners with whom we collaborate to deliver services, subject to confidentiality agreements</li>
-          <li><strong>Legal Requirements:</strong> When required by law, regulation, legal process, or governmental request</li>
-          <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, reorganization, or sale of assets</li>
-          <li><strong>With Your Consent:</strong> For any other purpose disclosed to you at the time of collection</li>
-        </ul>
-
-        <h2>5. Your Rights</h2>
-
-        <h3>5.1 Rights Under U.S. Law (Including CCPA)</h3>
-        <p>If you are a resident of California or another U.S. state with applicable privacy legislation, you may have the following rights:</p>
-        <ul>
-          <li><strong>Right to Know:</strong> Request disclosure of the categories and specific pieces of personal information we have collected about you</li>
-          <li><strong>Right to Delete:</strong> Request deletion of your personal information, subject to certain exceptions</li>
-          <li><strong>Right to Correct:</strong> Request correction of inaccurate personal information</li>
-          <li><strong>Right to Opt-Out:</strong> Opt out of the sale or sharing of personal information (we do not sell personal information)</li>
-          <li><strong>Right to Non-Discrimination:</strong> You will not be discriminated against for exercising your privacy rights</li>
-        </ul>
-
-        <h3>5.2 Rights Under Zimbabwe Data Protection Act, 2021</h3>
-        <p>If you are a data subject in Zimbabwe, you have the following rights under the Data Protection Act, 2021:</p>
-        <ul>
-          <li><strong>Right of Access:</strong> Request access to and a copy of your personal information held by us</li>
-          <li><strong>Right to Rectification:</strong> Request correction or updating of inaccurate or incomplete personal information</li>
-          <li><strong>Right to Erasure:</strong> Request deletion of your personal information where there is no compelling reason to continue processing</li>
-          <li><strong>Right to Restrict Processing:</strong> Request limitation of processing of your personal information in certain circumstances</li>
-          <li><strong>Right to Data Portability:</strong> Receive your personal information in a structured, commonly used, and machine-readable format</li>
-          <li><strong>Right to Object:</strong> Object to the processing of your personal information based on legitimate interests or direct marketing</li>
-          <li><strong>Right to Withdraw Consent:</strong> Withdraw your consent at any time where processing is based on consent</li>
-          <li><strong>Right to Lodge a Complaint:</strong> Lodge a complaint with the Postal and Telecommunications Regulatory Authority of Zimbabwe (POTRAZ) as the supervising authority</li>
-        </ul>
-
-        <p>To exercise any of these rights, please contact us using the information in Section 11.</p>
-
-        <h2>6. Data Retention</h2>
         <p>
-          We retain your personal information only for as long as necessary to fulfill the purposes for which it was collected, including to satisfy legal, accounting, or reporting requirements. When personal information is no longer needed, we will securely delete or anonymize it. Specific retention periods depend on the nature of the information and the purposes for which it is processed.
+          We operate in the United States and Zimbabwe, so this policy is written to meet the privacy laws of both, including U.S. state privacy laws such as the California Consumer Privacy Act (CCPA) and Zimbabwe’s Cyber and Data Protection Act [Chapter 12:07].
         </p>
 
-        <h2>7. Cookies and Tracking Technologies</h2>
-        <p>Our website uses cookies and similar tracking technologies to:</p>
+        <h2>1. What we collect</h2>
+
+        <h3>1.1 Information you give us</h3>
+        <p>Most of what we know about you comes from you directly, for example when you fill in our contact form, email us or hire us. This can include:</p>
         <ul>
-          <li>Remember your preferences and settings</li>
-          <li>Analyze website traffic and usage patterns</li>
-          <li>Improve website performance and user experience</li>
-          <li>Deliver relevant content and marketing</li>
+          <li><strong>Contact details:</strong> your name, email address, phone number and address</li>
+          <li><strong>Work details:</strong> your job title, company and industry</li>
+          <li><strong>Your messages:</strong> what you write to us through the contact form, email or other channels, including which service you’re interested in</li>
+          <li><strong>Project and billing details:</strong> if we work together, the information we need to deliver the project and invoice you. Card payments are handled by our payment providers, and we don’t store your card number.</li>
+        </ul>
+
+        <h3>1.2 Information collected automatically</h3>
+        <p>Like most websites, when you visit ours some technical information is collected automatically:</p>
+        <ul>
+          <li><strong>Device and connection details:</strong> your IP address, browser, operating system and device type</li>
+          <li><strong>How you use the site:</strong> pages you visit, the site that sent you to us, and when you visited. This mostly appears in the standard logs kept by our hosting providers.</li>
+          <li><strong>Rough location:</strong> the general area you’re in, worked out from your IP address. We never collect your precise location.</li>
+        </ul>
+
+        <h3>1.3 Information from others</h3>
+        <p>
+          Sometimes we receive information about you from someone else, for example a colleague who introduces us or a partner we’re working with on a project, or from public business sources such as company websites.
+        </p>
+
+        <h2>2. How we use your information</h2>
+        <p>We use your information to:</p>
+        <ul>
+          <li>Reply to your messages and questions</li>
+          <li>Prepare proposals and deliver the work you’ve asked for</li>
+          <li>Send invoices, project updates and other important messages</li>
+          <li>Keep our website and systems working, secure and free of abuse</li>
+          <li>Understand how our website is used so we can improve it</li>
+          <li>Send you news about our services, but only if you’ve agreed to it where the law requires that. You can unsubscribe at any time.</li>
+          <li>Meet our legal, tax and accounting obligations</li>
+        </ul>
+        <p>We don’t sell your personal information, and we never will.</p>
+
+        <h2>3. Our legal reasons for using your information</h2>
+        <p>We only use your information when we have a valid reason to. Those reasons are:</p>
+        <ul>
+          <li><strong>You agreed:</strong> for example, when you ask us to contact you or sign up for updates. You can withdraw your consent at any time.</li>
+          <li><strong>We need it for a contract:</strong> to give you a quote or deliver work you’ve hired us for</li>
+          <li><strong>The law requires it:</strong> for example, keeping financial records</li>
+          <li><strong>Legitimate business reasons:</strong> such as keeping our systems secure and improving our services, as long as this doesn’t override your rights</li>
+          <li><strong>To protect someone:</strong> in the rare case where it’s needed to protect someone’s life or safety</li>
+        </ul>
+
+        <h2>4. Who we share it with</h2>
+        <p>We only share your information when we need to, and only with:</p>
+        <ul>
+          <li><strong>Service providers who help us run things.</strong> These include website hosting (GitHub Pages and Vercel), our database provider (MongoDB Atlas), our email delivery service (Resend), and our payment and accounting tools. They can only use your information to provide their service to us.</li>
+          <li><strong>Partners on a project</strong> you’ve hired us for, when they need it to do the work and have agreed to keep it confidential</li>
+          <li><strong>Authorities</strong> when the law requires it, or when we need to protect our rights, our clients or the public</li>
+          <li><strong>A new owner,</strong> if AximoIX is ever merged, sold or reorganised. Your information would stay protected under this policy.</li>
+          <li><strong>Anyone else you ask us to share it with</strong></li>
         </ul>
         <p>
-          You can control cookies through your browser settings. Most browsers allow you to refuse or delete cookies. Please note that disabling cookies may affect the functionality of our website. For more information, consult your browser's help documentation.
+          Our website also loads a few things from other companies. Fonts come from Google Fonts, images from Unsplash, and the 3D animation on our homepage from Spline. When your browser loads these, those companies receive your IP address and basic browser details, in the same way any website you visit would.
         </p>
 
-        <h2>8. Data Security</h2>
+        <h2>5. Cookies</h2>
         <p>
-          We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. These measures include encryption, access controls, secure hosting environments, and regular security assessments. However, no method of transmission over the Internet or electronic storage is 100% secure, and we cannot guarantee absolute security.
+          Right now our website doesn’t use advertising or tracking cookies. If we ever add analytics or other cookies, we’ll update this page first and ask for your permission where the law requires it. You can always block or delete cookies in your browser settings.
         </p>
 
-        <h2>9. International Data Transfers</h2>
+        <h2>6. How long we keep it</h2>
         <p>
-          As AximoIX operates in both the United States and Zimbabwe, your personal information may be transferred to and processed in countries other than your country of residence. When we transfer personal information across borders, we ensure appropriate safeguards are in place in accordance with applicable data protection laws, including the Zimbabwe Data Protection Act, 2021
-
- (Section 29) and relevant U.S. frameworks. By using our services, you consent to the transfer of your information to the United States, Zimbabwe, and other jurisdictions where we operate.
+          We keep your information only as long as we need it for the reasons above. For example, we keep enquiries for as long as we’re talking with you, and we keep project and billing records for as long as tax and accounting laws require. When we no longer need something, we delete it or remove anything that identifies you.
         </p>
 
-        <h2>10. Children's Privacy</h2>
+        <h2>7. Keeping it safe</h2>
         <p>
-          Our services are not directed to individuals under the age of 18 (or the applicable age of majority in your jurisdiction). We do not knowingly collect personal information from children. If we become aware that we have inadvertently collected information from a child, we will take steps to delete such information promptly. If you believe we have collected information from a child, please contact us immediately.
+          We protect your information with encryption, access controls, secure hosting and regular reviews of our security. Only people who need your information to do their job can see it. No system is completely secure, though, so we can’t promise that a breach will never happen. If one happens and it affects you, we’ll tell you and the relevant authorities as the law requires.
         </p>
 
-        <h2>11. Contact Us</h2>
-        <p>If you have questions about this Privacy Policy, wish to exercise your rights, or have concerns about how we handle your personal information, please contact us:</p>
+        <h2>8. Your rights</h2>
+        <p>Depending on where you live, you can ask us to:</p>
         <ul>
-          <li><strong>Email:</strong> hello@aximoix.com</li>
-          <li><strong>Phone:</strong> +1 470 506 4390</li>
+          <li><strong>Show you</strong> what personal information we hold about you and give you a copy</li>
+          <li><strong>Correct</strong> anything that’s wrong or out of date</li>
+          <li><strong>Delete</strong> your information when we no longer have a good reason to keep it</li>
+          <li><strong>Limit</strong> how we use it in certain situations</li>
+          <li><strong>Send it</strong> to you or to another company in a common, easy-to-use format</li>
+          <li><strong>Stop</strong> using it for marketing, or for a business purpose you object to</li>
+          <li><strong>Withdraw your consent</strong> wherever we rely on it</li>
+        </ul>
+        <p>
+          <strong>In the United States:</strong> if you live in California or another state with a privacy law, you can also ask what categories of information we’ve collected and why. We won’t treat you any differently for using your privacy rights. We don’t sell or share personal information for targeted advertising.
+        </p>
+        <p>
+          <strong>In Zimbabwe:</strong> you have the rights given to you by the Cyber and Data Protection Act [Chapter 12:07]. If you’re not happy with how we’ve handled your information, you can complain to the Postal and Telecommunications Regulatory Authority of Zimbabwe (POTRAZ), the data protection authority, at <a href="https://www.potraz.gov.zw" target="_blank" rel="noopener noreferrer">www.potraz.gov.zw</a>.
+        </p>
+        <p>
+          To use any of these rights, email us at <a href="mailto:hello@aximoix.com">hello@aximoix.com</a>. We may need to confirm who you are before we act on your request, and we’ll reply within the time the law gives us (usually 30 to 45 days).
+        </p>
+
+        <h2>9. Information sent to other countries</h2>
+        <p>
+          Because we work in the United States and Zimbabwe, and some of our service providers store data in other countries, your information may be handled outside the country you live in. When that happens, we take steps to make sure it stays protected to the standard required by the laws that apply, including section 29 of Zimbabwe’s Cyber and Data Protection Act.
+        </p>
+
+        <h2>10. Children</h2>
+        <p>
+          Our website and services are meant for businesses and adults, not for anyone under 18. We don’t knowingly collect information from children. If you think a child has sent us their information, please let us know and we’ll delete it.
+        </p>
+
+        <h2>11. Changes to this policy</h2>
+        <p>
+          We may update this policy from time to time. When we do, we’ll post the new version here and change the date at the top. If the changes are significant, we’ll make that clear on our website or let you know directly.
+        </p>
+
+        <h2>12. Contact us</h2>
+        <p>Questions, concerns or requests about your privacy? Get in touch:</p>
+        <ul>
+          <li><strong>Email:</strong> <a href="mailto:hello@aximoix.com">hello@aximoix.com</a></li>
+          <li><strong>Phone:</strong> <a href="tel:+14705064390">+1 470 506 4390</a></li>
           <li><strong>Address:</strong> 3rd Floor, 120 West Trinity Place, Decatur, GA 30030, United States</li>
         </ul>
-
-        <h3>Zimbabwe-Specific Inquiries</h3>
         <p>
-          If you are located in Zimbabwe and wish to exercise your rights under the Data Protection Act, 2021, or lodge a complaint, you may also contact the Postal and Telecommunications Regulatory Authority of Zimbabwe (POTRAZ) at <a href="https://www.potraz.gov.zw" target="_blank" rel="noopener noreferrer">www.potraz.gov.zw</a>.
+          This policy is governed by the laws of the State of Georgia, USA, and, for people in Zimbabwe, the laws of Zimbabwe. See our <a href="/terms/">Terms of Service</a> for more.
         </p>
-
-        <h2>12. Changes to This Policy</h2>
-        <p>
-          We may update this Privacy Policy from time to time to reflect changes in our practices, technology, legal requirements, or other factors. We will notify you of material changes by posting the updated policy on our website with a revised "Last updated" date. Your continued use of our services after the posting of changes constitutes your acceptance of such changes.
-        </p>
-
-        <div style={{ marginTop: '64px', padding: '24px', border: '1px solid var(--border-subtle)', background: 'var(--bg-secondary)' }}>
-          <p style={{ fontSize: '14px', opacity: 0.7, marginBottom: 0 }}>
-            This Privacy Policy is governed by and construed in accordance with the laws of the State of Georgia, United States of America, and the laws of the Republic of Zimbabwe, as applicable. Any disputes arising under this policy shall be subject to the exclusive jurisdiction of the competent courts in the relevant jurisdiction.
-          </p>
-        </div>
-      </div>
+      </main>
     </div>
   );
 }

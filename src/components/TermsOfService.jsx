@@ -1,186 +1,210 @@
 import React, { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
+const LAST_UPDATED = 'October 21, 2026';
+
 function TermsOfService() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = 'Terms of Service | AximoIX';
   }, []);
 
   return (
     <div className="legal-page">
-      <div className="legal-content">
+      <main className="legal-content">
         <a href="/" className="legal-back-link">
           <ArrowLeft size={18} />
           Back to Home
         </a>
 
         <h1>Terms of Service</h1>
-        <p className="legal-subtitle">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+        <p className="legal-subtitle">Last updated: {LAST_UPDATED}</p>
 
         <p>
-          These Terms of Service ("Terms") govern your access to and use of the website, products, and services ("Services") provided by AximoIX ("Company," "we," "us," or "our"). By accessing or using our Services, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our Services. These Terms are enforceable in both the United States of America and the Republic of Zimbabwe.
+          Thanks for visiting AximoIX. These terms explain the rules for using our website and working with us. We’ve tried to keep them as plain as we can. When we say “we”, “us” or “AximoIX”, we mean AximoIX. When we say “you”, we mean you, or the business you’re acting for.
         </p>
-
-        <h2>1. Acceptance of Terms</h2>
         <p>
-          By accessing our website or engaging our Services, you confirm that you are at least 18 years of age (or the age of majority in your jurisdiction) and have the legal capacity to enter into a binding agreement. If you are using our Services on behalf of an organization, you represent and warrant that you have the authority to bind that organization to these Terms.
+          By using our website or our services, you’re agreeing to these terms. If you don’t agree with them, please don’t use the site or our services. These terms apply in the United States and in Zimbabwe.
         </p>
 
-        <h2>2. Description of Services</h2>
-        <p>AximoIX provides technology consulting and implementation services, including but not limited to:</p>
+        <h2>1. Who can use our services</h2>
+        <p>
+          You need to be at least 18 (or the age of adulthood where you live) and able to enter into a contract. If you’re using our services for a company or organisation, you’re confirming that you’re allowed to agree to these terms on its behalf.
+        </p>
+
+        <h2>2. What we do</h2>
+        <p>AximoIX is a technology company. Our work includes:</p>
         <ul>
-          <li>Information and Communications Technology (ICT) solutions</li>
-          <li>Artificial Intelligence (AI) solutions and consulting</li>
-          <li>Digital advertising and marketing services</li>
-          <li>Custom software development and programming</li>
-          <li>Financial technology (FinTech) solutions</li>
+          <li>ICT solutions, such as networks, cloud setup and managed IT</li>
+          <li>AI and machine learning work</li>
+          <li>Advertising and digital marketing</li>
+          <li>Custom software, web and mobile development</li>
+          <li>Financial technology (FinTech), such as payments and digital banking</li>
         </ul>
         <p>
-          The specific scope, deliverables, timelines, and fees for any engagement shall be defined in a separate Statement of Work ("SOW"), Service Agreement, or proposal executed by both parties.
+          For paid work, we agree the details with you separately, usually in a proposal, statement of work or service agreement. That document sets out what we’ll deliver, when, and what it costs. If it says something different from these terms, the signed document wins.
         </p>
 
-        <h2>3. User Accounts</h2>
+        <h2>3. Accounts</h2>
         <p>
-          Certain features of our Services may require you to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to immediately notify us of any unauthorized use of your account. We reserve the right to suspend or terminate accounts at our sole discretion for violation of these Terms.
+          If we give you a login to any of our systems, keep your password private and let us know straight away if you think someone else has used your account. You’re responsible for what happens under your account. We can suspend an account that’s being used to break these terms.
         </p>
 
-        <h2>4. Acceptable Use</h2>
-        <p>You agree not to use our Services to:</p>
+        <h2>4. Using our website and services fairly</h2>
+        <p>Please don’t use our website or services to:</p>
         <ul>
-          <li>Violate any applicable law, regulation, or ordinance in the United States, Zimbabwe, or any other applicable jurisdiction</li>
-          <li>Infringe upon the intellectual property rights of any third party</li>
-          <li>Transmit any malware, viruses, or other harmful code</li>
-          <li>Engage in any activity that disrupts, damages, or impairs the functionality of our Services</li>
-          <li>Attempt to gain unauthorized access to our systems, networks, or data</li>
-          <li>Use our Services for any fraudulent, deceptive, or illegal purpose</li>
-          <li>Collect, harvest, or store personal information of other users without their consent</li>
-          <li>Reverse engineer, decompile, or disassemble any part of our Services</li>
+          <li>Break the law in the United States, Zimbabwe or anywhere else</li>
+          <li>Infringe anyone else’s copyright, trademarks or other rights</li>
+          <li>Send viruses, malware or any other harmful code</li>
+          <li>Slow down, overload, damage or interfere with our website, servers or networks</li>
+          <li>Commit fraud, mislead people or pretend to be someone you’re not</li>
+          <li>Collect other people’s personal information without their permission</li>
         </ul>
 
-        <h2>5. Intellectual Property</h2>
-
-        <h3>5.1 Our Intellectual Property</h3>
+        <h2>5. Who owns what</h2>
+        <h3>5.1 Our work</h3>
         <p>
-          All content, materials, software, trademarks, logos, designs, and other intellectual property on our website and in our Services are the exclusive property of AximoIX or its licensors and are protected by applicable intellectual property laws in the United States (including but not limited to the U.S. Copyright Act, the Lanham Act) and Zimbabwe (including but not limited to the Copyright and Neighbouring Rights Act [Chapter 26:05] and the Trade Marks Act [Chapter 26:04]). You may not reproduce, distribute, modify, create derivative works from, or otherwise use our intellectual property without our prior written consent.
+          Everything on this website and everything we build, including our software, source code, designs, text, graphics, logos and the AximoIX name, belongs to AximoIX or the people who licensed it to us. It’s protected by copyright, trademark and other intellectual property laws in the United States (including the U.S. Copyright Act and the Lanham Act) and in Zimbabwe (including the Copyright and Neighbouring Rights Act [Chapter 26:05] and the Trade Marks Act [Chapter 26:04]).
         </p>
 
-        <h3>5.2 Client Work Product</h3>
+        <h3>5.2 Work we build for clients</h3>
         <p>
-          Unless otherwise specified in a separate agreement or SOW, ownership of work product created specifically for a client shall transfer to the client upon full payment of all applicable fees. AximoIX retains the right to use general knowledge, skills, experience, tools, and methodologies developed or refined during the engagement.
+          Unless your agreement with us says otherwise, once you’ve paid in full you own the work we created specifically for you. We keep ownership of our own tools, code libraries, frameworks and know-how that we bring to a project or improve along the way. Where those are part of what we deliver, you get a licence to use them as part of that project.
         </p>
 
-        <h3>5.3 Feedback</h3>
+        <h3>5.3 Ideas and feedback</h3>
         <p>
-          If you provide us with feedback, suggestions, or ideas regarding our Services, you grant us a non-exclusive, worldwide, royalty-free, perpetual license to use, modify, and incorporate such feedback into our Services without obligation to you.
+          If you send us suggestions or feedback, we’re free to use them to improve what we do. We won’t owe you anything for that.
         </p>
 
-        <h2>6. Payment Terms</h2>
+        <h2>6. Copying our software and security testing</h2>
+        <p>
+          We put a lot of work into what we build, and we take its protection seriously. This section applies to our website, our APIs and backend systems, and any software, app or platform we make, whether it’s ours or one we built and run for a client.
+        </p>
+
+        <h3>6.1 Please don’t copy our software</h3>
+        <p>Unless we’ve given you permission in writing first, you may not:</p>
         <ul>
-          <li>Fees for our Services will be as specified in the applicable SOW, proposal, or invoice</li>
-          <li>Payment is due within the timeframe specified in the invoice (typically 30 days from the date of invoice unless otherwise agreed)</li>
-          <li>All fees are exclusive of applicable taxes, which are the responsibility of the client</li>
-          <li>Late payments may be subject to interest at the rate of 1.5% per month or the maximum rate permitted by applicable law, whichever is lower</li>
-          <li>We reserve the right to suspend Services for overdue payments</li>
+          <li>Copy, clone, mirror or reproduce our software, source code, designs or website, in whole or in part</li>
+          <li>Reverse engineer, decompile, disassemble or try to work out the source code of anything we’ve built, except where the law specifically allows it</li>
+          <li>Build a product or service that copies ours, or use our work to compete with us</li>
+          <li>Sell, rent, sublicense, share or redistribute our software or code</li>
+          <li>Remove or change any copyright, trademark or ownership notices</li>
+          <li>Scrape or bulk-download content from our website or APIs with bots, crawlers or other automated tools (normal search engine indexing is fine)</li>
         </ul>
 
-        <h2>7. Confidentiality</h2>
+        <h3>6.2 Ask us before you test our security</h3>
         <p>
-          Both parties agree to maintain the confidentiality of any proprietary or confidential information disclosed during the course of the engagement. Confidential information does not include information that: (a) is or becomes publicly available through no fault of the receiving party; (b) was already in the receiving party's possession; (c) is independently developed; or (d) is required to be disclosed by law. Confidentiality obligations survive the termination of these Terms for a period of three (3) years.
-        </p>
-
-        <h2>8. Warranties and Disclaimers</h2>
-
-        <h3>8.1 Limited Warranty</h3>
-        <p>
-          AximoIX warrants that its Services will be performed in a professional and workmanlike manner consistent with generally accepted industry standards. If Services fail to meet this warranty, your sole and exclusive remedy is for AximoIX to re-perform the deficient Services at no additional cost, provided you notify us in writing within thirty (30) days of delivery.
-        </p>
-
-        <h3>8.2 Disclaimer</h3>
-        <p>
-          EXCEPT AS EXPRESSLY SET FORTH HEREIN, OUR SERVICES AND WEBSITE ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, OR ACCURACY. WE DO NOT WARRANT THAT OUR SERVICES WILL BE UNINTERRUPTED, ERROR-FREE, OR SECURE.
-        </p>
-
-        <h2>9. Limitation of Liability</h2>
-        <p>
-          TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL AXIMOIX, ITS DIRECTORS, OFFICERS, EMPLOYEES, AGENTS, OR AFFILIATES BE LIABLE FOR:
+          You must not try to hack, break into or test the security of our systems unless you’ve told us first and we’ve agreed in writing. That includes:
         </p>
         <ul>
-          <li>Any indirect, incidental, special, consequential, or punitive damages</li>
-          <li>Any loss of profits, revenue, data, business opportunities, or goodwill</li>
-          <li>Any damages arising from your use of or inability to use our Services</li>
+          <li>Penetration testing, vulnerability scanning or probing our website, APIs, servers or networks</li>
+          <li>Trying to get around logins, access controls, rate limits or any other security measure</li>
+          <li>Trying to view, change or delete data that isn’t yours</li>
+          <li>Load testing, stress testing or anything else that could slow down or take down our services</li>
+          <li>Social engineering or phishing our staff, partners or clients</li>
         </ul>
         <p>
-          OUR TOTAL AGGREGATE LIABILITY UNDER THESE TERMS SHALL NOT EXCEED THE TOTAL FEES PAID BY YOU TO AXIMOIX IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM, OR ONE THOUSAND U.S. DOLLARS ($1,000), WHICHEVER IS GREATER.
-        </p>
-        <p>
-          Nothing in these Terms shall exclude or limit liability that cannot be excluded or limited under applicable law, including liability for fraud, gross negligence, willful misconduct, or death or personal injury caused by negligence.
+          If you want to test our security, email <a href="mailto:hello@aximoix.com">hello@aximoix.com</a> with “Security testing request” in the subject line. Tell us who you are, what you want to test and how. We’ll reply, and if we agree, we’ll set the scope and timing with you in writing. As long as you stay within what we agreed, we’ll treat your testing as authorised and won’t take legal action against you for it.
         </p>
 
-        <h2>10. Indemnification</h2>
+        <h3>6.3 Found a problem? Tell us first</h3>
         <p>
-          You agree to indemnify, defend, and hold harmless AximoIX and its directors, officers, employees, and agents from and against any claims, liabilities, damages, losses, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of our Services; (b) your violation of these Terms; (c) your violation of any applicable law; or (d) your infringement of any third-party rights.
+          If you come across a security weakness by accident, please don’t use it, share it or make it public. Email us at <a href="mailto:hello@aximoix.com">hello@aximoix.com</a> with “Security report” in the subject, tell us what you found and how to reproduce it, and give us a reasonable amount of time to fix it (we ask for 90 days) before telling anyone else. Don’t look at, keep or change anyone’s data while you’re checking. We’re grateful to people who report problems responsibly, and we’ll keep you updated as we fix them.
         </p>
 
-        <h2>11. Term and Termination</h2>
+        <h3>6.4 What happens if these rules are broken</h3>
+        <p>
+          Copying our software or testing our security without permission isn’t allowed and counts as unauthorised access. If it happens, we may block your access, keep records of what happened, report it to the police or other authorities, and take legal action. That includes claims under the U.S. Computer Fraud and Abuse Act, the Digital Millennium Copyright Act, Zimbabwe’s Cyber and Data Protection Act [Chapter 12:07] and the copyright laws listed above. We may also ask for compensation for any harm caused.
+        </p>
+
+        <h2>7. Payment</h2>
         <ul>
-          <li>These Terms remain in effect until terminated by either party</li>
-          <li>You may terminate by discontinuing use of our Services and notifying us in writing</li>
-          <li>We may terminate or suspend your access to our Services at any time, with or without cause, upon reasonable notice</li>
-          <li>Specific engagement terms, including termination provisions, will be governed by the applicable SOW or Service Agreement</li>
-          <li>Upon termination, Sections 5 (Intellectual Property), 7 (Confidentiality), 8 (Disclaimers), 9 (Limitation of Liability), 10 (Indemnification), and 13 (Governing Law) shall survive</li>
+          <li>Our fees are whatever’s in your proposal, statement of work or invoice</li>
+          <li>Invoices are due within the time shown on them, usually 30 days unless we’ve agreed otherwise</li>
+          <li>Prices don’t include taxes, which you’re responsible for</li>
+          <li>Late payments may be charged interest of 1.5% per month, or the highest rate the law allows if that’s lower</li>
+          <li>If payments are overdue, we may pause work until the account is up to date</li>
         </ul>
 
-        <h2>12. Force Majeure</h2>
+        <h2>8. Keeping things confidential</h2>
         <p>
-          Neither party shall be liable for any failure or delay in performance under these Terms due to causes beyond its reasonable control, including but not limited to acts of God, natural disasters, war, terrorism, pandemics, government actions, power failures, internet or telecommunications failures, or other events of force majeure.
+          When we work together, we’ll both keep each other’s confidential information private. This doesn’t cover information that’s already public (through no fault of the person receiving it), that the receiver already had, that they came up with on their own, or that the law requires them to share. This promise lasts for three years after our work together ends.
         </p>
 
-        <h2>13. Governing Law and Dispute Resolution</h2>
-
-        <h3>13.1 For U.S.-Based Users</h3>
+        <h2>9. Our promises and their limits</h2>
         <p>
-          These Terms shall be governed by and construed in accordance with the laws of the State of Georgia, United States of America, without regard to its conflict of law provisions. Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the state and federal courts located in DeKalb County, Georgia. Before initiating any formal legal proceedings, the parties agree to attempt to resolve disputes through good-faith negotiation for a period of thirty (30) days.
+          We’ll do our work carefully and professionally, to the standard you’d expect from a good technology company. If something we deliver doesn’t meet that standard, tell us in writing within 30 days of delivery and we’ll fix it at no extra cost. That is your main remedy.
+        </p>
+        <p>
+          <strong>Apart from that promise, our website and services are provided “as is” and “as available”. We don’t make any other promises, whether express, implied or required by statute, including that they’ll be fit for a particular purpose, free of errors, always available or completely secure.</strong>
         </p>
 
-        <h3>13.2 For Zimbabwe-Based Users</h3>
+        <h2>10. Limits on our liability</h2>
         <p>
-          For users domiciled in Zimbabwe, these Terms shall be governed by and construed in accordance with the laws of the Republic of Zimbabwe. Any disputes arising under these Terms shall be referred to and finally resolved by arbitration under the rules of the Commercial Arbitration Centre of Zimbabwe, or alternatively, through the competent courts of Zimbabwe. Consumers in Zimbabwe retain all rights conferred by the Consumer Protection Act [Chapter 14:44] and the Zimbabwe Data Protection Act, 2021, and nothing in these Terms shall limit or exclude such statutory rights.
+          <strong>As far as the law allows, AximoIX and its directors, staff, agents and affiliates won’t be liable for indirect, incidental, special, consequential or punitive losses, or for lost profits, revenue, data, business opportunities or goodwill.</strong>
+        </p>
+        <p>
+          <strong>Our total liability to you under these terms won’t be more than the greater of: what you paid us in the 12 months before the problem happened, or US$1,000.</strong>
+        </p>
+        <p>
+          None of this limits liability that the law doesn’t allow us to limit, such as liability for fraud, gross negligence, deliberate wrongdoing, or death or personal injury caused by negligence.
         </p>
 
-        <h2>14. Third-Party Links and Services</h2>
+        <h2>11. If you cause us a loss</h2>
         <p>
-          Our website may contain links to third-party websites or services. We are not responsible for the content, accuracy, or practices of third-party websites. The inclusion of any link does not imply endorsement by AximoIX. Your interaction with third-party services is governed by their respective terms and policies.
+          If someone makes a claim against us because of how you used our services, because you broke these terms or the law, or because you infringed someone else’s rights, you agree to cover our reasonable costs and losses, including reasonable legal fees.
         </p>
 
-        <h2>15. Modifications to Terms</h2>
-        <p>
-          We reserve the right to modify these Terms at any time. We will provide notice of material changes by posting the updated Terms on our website with a revised "Last updated" date. Your continued use of our Services after such changes constitutes your acceptance of the modified Terms. If you do not agree with the changes, you must discontinue use of our Services.
-        </p>
-
-        <h2>16. Severability</h2>
-        <p>
-          If any provision of these Terms is held to be invalid, illegal, or unenforceable by a court of competent jurisdiction, such provision shall be modified to the minimum extent necessary to make it valid and enforceable, or if modification is not possible, severed from these Terms. The remaining provisions shall continue in full force and effect.
-        </p>
-
-        <h2>17. Entire Agreement</h2>
-        <p>
-          These Terms, together with any applicable SOW, Service Agreement, and our Privacy Policy, constitute the entire agreement between you and AximoIX regarding the subject matter hereof and supersede all prior or contemporaneous understandings, agreements, or representations, whether written or oral.
-        </p>
-
-        <h2>18. Contact Information</h2>
-        <p>If you have questions about these Terms of Service, please contact us:</p>
+        <h2>12. Ending things</h2>
         <ul>
-          <li><strong>Email:</strong> hello@aximoix.com</li>
-          <li><strong>Phone:</strong> +1 470 506 4390</li>
+          <li>You can stop using our services at any time by letting us know in writing</li>
+          <li>We can suspend or end your access with reasonable notice, or straight away if you break section 4 or section 6</li>
+          <li>Ending a project is covered by the agreement for that project</li>
+          <li>Sections 5, 6, 8, 9, 10, 11 and 14 still apply after things end</li>
+        </ul>
+
+        <h2>13. Things outside our control</h2>
+        <p>
+          Neither of us is responsible for delays or failures caused by things outside our reasonable control, such as natural disasters, war, pandemics, government action, power cuts or internet outages.
+        </p>
+
+        <h2>14. Which laws apply and how we sort out disagreements</h2>
+        <p>
+          If something goes wrong, we’d much rather talk it through. Before going to court or arbitration, we both agree to try to settle any disagreement in good faith for at least 30 days.
+        </p>
+        <h3>14.1 If you’re in the United States (or anywhere other than Zimbabwe)</h3>
+        <p>
+          These terms are governed by the laws of the State of Georgia, USA, regardless of conflict-of-law rules. Disputes will be handled by the state and federal courts in DeKalb County, Georgia.
+        </p>
+        <h3>14.2 If you’re in Zimbabwe</h3>
+        <p>
+          These terms are governed by the laws of Zimbabwe. Disputes will go to arbitration under the rules of the Commercial Arbitration Centre in Harare, or to the courts of Zimbabwe. Nothing in these terms takes away your rights under the Consumer Protection Act [Chapter 14:44] or the Cyber and Data Protection Act [Chapter 12:07].
+        </p>
+
+        <h2>15. Links to other websites</h2>
+        <p>
+          Our website may link to other sites. We don’t control them and aren’t responsible for what’s on them. A link doesn’t mean we endorse a site, and their own terms and privacy policies apply when you use them.
+        </p>
+
+        <h2>16. Changes to these terms</h2>
+        <p>
+          We may update these terms from time to time. When we do, we’ll post the new version here and change the date at the top. If you keep using our website or services after that, you’re accepting the updated terms.
+        </p>
+
+        <h2>17. The legal bits</h2>
+        <p>
+          If a court decides that part of these terms can’t be enforced, we’ll change that part as little as possible to make it enforceable (or remove it if we can’t), and the rest stays in place. These terms, together with any signed agreement with us and our <a href="/privacy/">Privacy Policy</a>, are the full agreement between us about these topics.
+        </p>
+
+        <h2>18. Get in touch</h2>
+        <p>Questions about these terms? We’re happy to help.</p>
+        <ul>
+          <li><strong>Email:</strong> <a href="mailto:hello@aximoix.com">hello@aximoix.com</a></li>
+          <li><strong>Phone:</strong> <a href="tel:+14705064390">+1 470 506 4390</a></li>
           <li><strong>Address:</strong> 3rd Floor, 120 West Trinity Place, Decatur, GA 30030, United States</li>
         </ul>
-
-        <div style={{ marginTop: '64px', padding: '24px', border: '1px solid var(--border-subtle)', background: 'var(--bg-secondary)' }}>
-          <p style={{ fontSize: '14px', opacity: 0.7, marginBottom: 0 }}>
-            These Terms of Service are effective as of the "Last updated" date above and apply to all users of AximoIX Services in the United States of America and the Republic of Zimbabwe. By using our Services, you acknowledge that you have read, understood, and agreed to be bound by these Terms.
-          </p>
-        </div>
-      </div>
+      </main>
     </div>
   );
 }

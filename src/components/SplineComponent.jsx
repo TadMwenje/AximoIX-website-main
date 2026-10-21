@@ -1,120 +1,116 @@
-import React, { useState, useEffect } from 'react';
-import Spline from '@splinetool/react-spline';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 
-const SplineComponent = ({ 
+// The Spline runtime is ~2MB of JS, so it is only fetched once the page has
+// finished loading and only on devices that can comfortably run it.
+const Spline = lazy(() => import('@splinetool/react-spline'));
+
+const SCENE_TIMEOUT_MS = 15000;
+
+const shouldSkip3D = () => {
+  if (typeof window === 'undefined') return true;
+  if (window.matchMedia('(max-width: 900px)').matches) return true;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+  const connection = navigator.connection;
+  if (connection && (connection.saveData || /(^|-)(2g|3g)$/.test(connection.effectiveType || ''))) {
+    return true;
+  }
+  return false;
+};
+
+const whenPageIsIdle = (callback) => {
+  let idleId;
+  const schedule = () => {
+    idleId = window.requestIdleCallback
+      ? window.requestIdleCallback(callback, { timeout: 3000 })
+      : window.setTimeout(callback, 1500);
+  };
+  if (document.readyState === 'complete') {
+    schedule();
+  } else {
+    window.addEventListener('load', schedule, { once: true });
+  }
+  return () => {
+    window.removeEventListener('load', schedule);
+    if (window.cancelIdleCallback && idleId) window.cancelIdleCallback(idleId);
+    else window.clearTimeout(idleId);
+  };
+};
+
+const SplineComponent = ({
   scene = "https://prod.spline.design/NbVmy6DPLhY-5Lvg/scene.splinecode",
-  width = "100%", // Changed from fixed px to percentage
-  height = "400px", // Reduced height for mobile
+  width = "100%",
+  height = "400px",
   fallbackContent = null
 }) => {
-  const [isLowData, setIsLowData] = useState(false);
+  const [skip3D] = useState(shouldSkip3D);
+  const [ready, setReady] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    // Check for low data connection
-    if (navigator.connection) {
-      const connection = navigator.connection;
-      const isSlowConnection = connection.effectiveType === 'slow-2g' || 
-                              connection.effectiveType === '2g' ||
-                              connection.saveData;
-      setIsLowData(isSlowConnection);
-    }
-  }, []);
+    if (skip3D) return undefined;
+    return whenPageIsIdle(() => setReady(true));
+  }, [skip3D]);
 
-  const handleLoad = () => {
-    setIsLoaded(true);
+  // Give up on the scene if it hasn't appeared in time and show the fallback
+  useEffect(() => {
+    if (!ready || isLoaded) return undefined;
+    const timer = window.setTimeout(() => setHasError(true), SCENE_TIMEOUT_MS);
+    return () => window.clearTimeout(timer);
+  }, [ready, isLoaded]);
+
+  const frameStyle = {
+    width,
+    height,
+    maxWidth: '100%',
+    position: 'relative',
+    border: '1px solid rgba(0, 255, 209, 0.2)',
+    background: 'rgba(0, 0, 0, 0.5)',
+    margin: '0 auto'
   };
 
-  const handleError = () => {
-    setHasError(true);
-  };
-
-  // Show fallback for low data connections or errors
-  if (isLowData || hasError) {
+  if (skip3D || hasError) {
     return (
-      <div 
-        style={{ 
-        width, 
-        height, 
-        overflow: 'visible', 
-        position: 'relative',
-        border: '1px solid rgba(0, 255, 209, 0.2)',
-        background: 'rgba(0, 0, 0, 0.5)',
-        maxWidth: '600px', // Limit max width
-        margin: '0 auto' // Center on desktop
-      }}
-      >
+      <div style={{ ...frameStyle, height: 'auto', padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {fallbackContent || (
-          <div style={{ textAlign: 'center', color: '#00FFD1' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚡</div>
-            <div style={{ fontSize: '18px', fontWeight: '500' }}>
-              Optimized for your connection
-            </div>
+          <div style={{ textAlign: 'center', color: '#00FFD1', fontSize: '18px', fontWeight: '500' }}>
+            Innovation at Light Speed
           </div>
         )}
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'linear-gradient(45deg, transparent 30%, rgba(0, 255, 209, 0.05) 50%, transparent 70%)',
-            animation: 'shimmer 2s infinite'
-          }}
-        />
       </div>
     );
   }
 
   return (
-    <div 
-      style={{ 
-        width, 
-        height, 
-        overflow: 'visible', 
-        position: 'relative',
-        border: '1px solid rgba(0, 255, 209, 0.2)',
-        background: 'rgba(0, 0, 0, 0.5)'
-      }}
-    >
+    <div style={frameStyle}>
       {!isLoaded && (
-        <div 
+        <div
           style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            inset: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(0, 0, 0, 0.8)',
             zIndex: 10,
-            color: '#00FFD1'
+            color: '#00FFD1',
+            fontSize: '14px',
+            opacity: 0.7
           }}
         >
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '24px', marginBottom: '8px' }}>Loading 3D Experience...</div>
-            <div style={{ fontSize: '14px', opacity: 0.7 }}>Preparing futuristic visuals</div>
-          </div>
+          Loading 3D scene...
         </div>
       )}
-      
-      <Spline 
-        scene={scene} 
-        onLoad={handleLoad}
-        onError={handleError}
-        style={{ width: '100%', height: '100%' }}
-      />
-      
-      <style jsx>{`
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-      `}</style>
+
+      {ready && (
+        <Suspense fallback={null}>
+          <Spline
+            scene={scene}
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setHasError(true)}
+            style={{ width: '100%', height: '100%' }}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };

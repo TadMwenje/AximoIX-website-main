@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import Navigation from "./components/Navigation";
 import ServiceModal from "./components/ServiceModal";
@@ -49,9 +49,9 @@ const serviceUrls = {
 
 // Static images (can be moved to backend later)
 const staticImages = {
-  hero: "https://images.unsplash.com/photo-1672581437674-3186b17b405a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzh8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NTg1MzA2MTZ8MA&ixlib=rb-4.1.0&q=85",
-  technology: "https://images.unsplash.com/photo-1485740112426-0c2549fa8c86?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzh8MHwxfHNlYXJjaHwyfHxmdXR1cmlzdGljJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NTg1MzA2MTZ8MA&ixlib=rb-4.1.0&q=85",
-  business: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzU4NDMzMDI1fDA&ixlib=rb-4.1.0&q=85"
+  hero: "https://images.unsplash.com/photo-1672581437674-3186b17b405a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzh8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NTg1MzA2MTZ8MA&ixlib=rb-4.1.0&q=75&w=800&auto=format",
+  technology: "https://images.unsplash.com/photo-1485740112426-0c2549fa8c86?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzh8MHwxfHNlYXJjaHwyfHxmdXR1cmlzdGljJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NTg1MzA2MTZ8MA&ixlib=rb-4.1.0&q=75&w=1200&auto=format",
+  business: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzU4NDMzMDI1fDA&ixlib=rb-4.1.0&q=75&w=1200&auto=format"
 };
 
 function App() {
@@ -71,6 +71,8 @@ function App() {
   const [countersStarted, setCountersStarted] = useState(false);
   const [counters, setCounters] = useState({ projects: 0, clients: 0, countries: 0, uptime: 0 });
   const statsRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // API hooks
   const { data: companyData, loading: companyLoading } = useApi('/company');
@@ -161,6 +163,20 @@ function App() {
     }
   };
 
+  // Old links used hash routes (/#/privacy) and other pages link to /#services,
+  // so redirect the former and scroll to the section for the latter.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.startsWith('#/')) {
+      navigate(hash.slice(1).replace(/\/?$/, '/'), { replace: true });
+      return;
+    }
+    if (location.pathname === '/' && hash.length > 1) {
+      const id = decodeURIComponent(hash.slice(1));
+      requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView());
+    }
+  }, [location.pathname, location.hash, navigate]);
+
   const handleServiceLearnMore = async (serviceId) => {
     const result = await apiService.getServiceDetails(serviceId);
     if (result.success) {
@@ -194,22 +210,6 @@ function App() {
       [e.target.name]: e.target.value
     });
   };
-
-  // Loading overlay — rendered on top of static content so crawlers always see the page
-  const loadingOverlay = (companyLoading || servicesLoading) && (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 9999,
-      background: 'var(--bg-primary)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      flexDirection: 'column', gap: '20px'
-    }}>
-      <Loader2 size={48} style={{ color: 'var(--brand-primary)', animation: 'spin 1s linear infinite' }} />
-      <p className="body-large" style={{ color: 'var(--text-secondary)' }}>
-        Loading AximoIX experience...
-      </p>
-      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
 
   // Main page content
   const mainPageContent = (
@@ -258,7 +258,7 @@ function App() {
                 {typedText || (companyData?.tagline || 'Where Vision Meets Velocity')}
               </p>
               <p className="body-medium reveal stagger-5" style={{ marginBottom: '48px', maxWidth: '480px', opacity: 0.9 }}>
-                {companyData?.description || 'Loading company information...'}
+                {companyData?.description}
               </p>
               
               <div className="btn-container reveal" style={{ 
@@ -287,7 +287,7 @@ function App() {
             {/* Right Content - Spline 3D */}
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Suspense fallback={
-                <div style={{ width: '600px', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,255,209,0.2)', background: 'rgba(0,0,0,0.5)' }}>
+                <div style={{ width: '100%', maxWidth: '600px', height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(0,255,209,0.2)', background: 'rgba(0,0,0,0.5)' }}>
                   <div style={{ textAlign: 'center', color: '#00FFD1' }}>
                     <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚡</div>
                     <div style={{ fontSize: '14px', opacity: 0.7 }}>Loading 3D Experience...</div>
@@ -302,9 +302,13 @@ function App() {
                     <img
                       src={staticImages.hero}
                       alt="Futuristic AI and technology infrastructure representing AximoIX next-generation ICT solutions"
+                      width="400"
+                      height="300"
                       style={{
-                        width: '400px',
-                        height: '300px',
+                        width: '100%',
+                        maxWidth: '400px',
+                        height: 'auto',
+                        aspectRatio: '4 / 3',
                         objectFit: 'cover',
                         borderRadius: '8px',
                         marginBottom: '20px'
@@ -618,6 +622,8 @@ function App() {
             <div className="reveal-right" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <img
                 src={staticImages.technology}
+                loading="lazy"
+                decoding="async"
                 alt="Advanced technology infrastructure and digital innovation — AximoIX delivers cloud, AI, and ICT solutions that power enterprise transformation"
                 style={{
                   width: '100%',
@@ -629,6 +635,8 @@ function App() {
               />
               <img
                 src={staticImages.business}
+                loading="lazy"
+                decoding="async"
                 alt="Global business technology ecosystem — AximoIX serves 50+ clients across 12+ countries delivering measurable ROI through bespoke tech solutions"
                 style={{
                   width: '100%',
@@ -1109,7 +1117,9 @@ function App() {
               <h3 className="heading-3" style={{ marginBottom: '20px', color: 'var(--brand-primary)' }}>Services</h3>
               <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {servicesData?.map(service => (
-                  <li key={service.id}><span className="footer-link">{service.title}</span></li>
+                  <li key={service.id}>
+                    <a href={serviceUrls[service.id] || '#services'} className="footer-link">{service.title}</a>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -1120,11 +1130,11 @@ function App() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <Mail size={16} style={{ color: 'var(--brand-primary)', flexShrink: 0 }} />
-                  <span className="body-small" style={{ opacity: 0.8 }}>{companyData?.contact?.email || 'hello@aximoix.com'}</span>
+                  <a href={`mailto:${companyData?.contact?.email || 'hello@aximoix.com'}`} className="body-small footer-link" style={{ opacity: 0.8 }}>{companyData?.contact?.email || 'hello@aximoix.com'}</a>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <Phone size={16} style={{ color: 'var(--brand-primary)', flexShrink: 0 }} />
-                  <span className="body-small" style={{ opacity: 0.8 }}>{companyData?.contact?.phone || '+1 470 506 4390'}</span>
+                  <a href={`tel:${(companyData?.contact?.phone || '+1 470 506 4390').replace(/[^+\d]/g, '')}`} className="body-small footer-link" style={{ opacity: 0.8 }}>{companyData?.contact?.phone || '+1 470 506 4390'}</a>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                   <MapPin size={16} style={{ color: 'var(--brand-primary)', flexShrink: 0, marginTop: '3px' }} />
@@ -1148,8 +1158,8 @@ function App() {
               &copy; {new Date().getFullYear()} {companyData?.name || 'AximoIX'}. All rights reserved.
             </p>
             <div style={{ display: 'flex', gap: '24px' }}>
-              <a href="#/privacy" className="footer-link" style={{ fontSize: '14px' }}>Privacy Policy</a>
-              <a href="#/terms" className="footer-link" style={{ fontSize: '14px' }}>Terms of Service</a>
+              <a href="/privacy/" className="footer-link" style={{ fontSize: '14px' }}>Privacy Policy</a>
+              <a href="/terms/" className="footer-link" style={{ fontSize: '14px' }}>Terms of Service</a>
             </div>
           </div>
         </div>
@@ -1205,7 +1215,6 @@ function App() {
 
   return (
     <>
-      {loadingOverlay}
       <Routes>
         <Route path="/privacy" element={
           <Suspense fallback={<div style={{ minHeight: '100vh', background: '#000' }} />}>

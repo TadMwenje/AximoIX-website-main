@@ -4,9 +4,11 @@ import axios from 'axios';
 import config from '../config';
 
 // Custom hook for API calls
+// Content renders immediately from the bundled copy; the API only refreshes it
+// in the background, so a slow or unreachable backend never blocks the page.
 export const useApi = (endpoint, dependencies = []) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(() => getFallbackData(endpoint));
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fetchData = useCallback(async () => {
@@ -17,7 +19,7 @@ export const useApi = (endpoint, dependencies = []) => {
       const apiUrl = `${config.API_BASE_URL}${endpoint}`;
       
       const response = await axios.get(apiUrl, {
-        timeout: 15000,
+        timeout: 8000,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -42,8 +44,8 @@ export const useApi = (endpoint, dependencies = []) => {
       
       setError(errorMsg);
       
-      // Use mock data as fallback
-      setMockData(endpoint, setData);
+      // Keep showing the bundled copy
+      setData((current) => current || getFallbackData(endpoint));
     } finally {
       setLoading(false);
     }
@@ -56,12 +58,10 @@ export const useApi = (endpoint, dependencies = []) => {
   return { data, loading, error, refetch: fetchData };
 };
 
-// Mock data fallback for GitHub Pages
-const setMockData = (endpoint, setData) => {
-  console.log('📋 Using mock data for:', endpoint);
-  
+// Bundled copy of the site content, used until (or instead of) the API response
+const getFallbackData = (endpoint) => {
   if (endpoint === '/company') {
-    setData({
+    return {
       name: "AximoIX",
       motto: "Innovate. Engage. Grow.",
       tagline: "Where Vision Meets Velocity",
@@ -82,10 +82,12 @@ const setMockData = (endpoint, setData) => {
           instagram: "#"
         }
       }
-    });
-  } else if (endpoint === '/services') {
-    setData(getMockServices());
+    };
   }
+  if (endpoint === '/services') {
+    return getMockServices();
+  }
+  return null;
 };
 
 // Helper function for mock services
@@ -226,7 +228,6 @@ export const apiService = {
     try {
       const apiUrl = `${config.API_BASE_URL}/contact`;
       console.log('📧 Submitting contact form to:', apiUrl);
-      console.log('📝 Contact data:', contactData);
       
       const response = await axios.post(apiUrl, contactData, {
         timeout: 15000,
@@ -251,13 +252,9 @@ export const apiService = {
         errorMessage = 'Cannot connect to server. Please check your internet connection.';
       }
       
-      // Still return success but with demo mode message
-      return { 
-        success: true, 
-        data: {
-          message: 'Message received (demo mode - not saved to database)',
-          database: 'demo'
-        }
+      return {
+        success: false,
+        error: `${errorMessage} You can also email us directly at hello@aximoix.com.`
       };
     }
   },
