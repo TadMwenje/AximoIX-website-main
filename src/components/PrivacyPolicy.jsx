@@ -5,8 +5,16 @@ const LAST_UPDATED = 'October 21, 2026';
 
 function PrivacyPolicy() {
   useEffect(() => {
-    window.scrollTo(0, 0);
     document.title = 'Privacy Policy | AximoIX';
+    // Apps deep-link to sections (e.g. /privacy/#cipherrush-delete), so honour the
+    // hash instead of always jumping to the top.
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const target = id ? document.getElementById(id) : null;
+    if (target) {
+      requestAnimationFrame(() => target.scrollIntoView());
+    } else {
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   return (
@@ -21,7 +29,7 @@ function PrivacyPolicy() {
         <p className="legal-subtitle">Last updated: {LAST_UPDATED}</p>
 
         <p>
-          Your privacy matters to us. This policy explains what information AximoIX collects when you visit our website or work with us, what we do with it, who we share it with, and the choices you have. We’ve written it in plain language so it’s easy to follow. If anything is unclear, just ask us.
+          Your privacy matters to us. This policy explains what information AximoIX collects when you visit our website, work with us or use our apps and games (including <strong>CipherRush</strong>), what we do with it, who we share it with, and the choices you have. We’ve written it in plain language so it’s easy to follow. If anything is unclear, just ask us.
         </p>
         <p>
           We operate in the United States and Zimbabwe, so this policy is written to meet the privacy laws of both, including U.S. state privacy laws such as the California Consumer Privacy Act (CCPA) and Zimbabwe’s Cyber and Data Protection Act [Chapter 12:07].
@@ -91,6 +99,9 @@ function PrivacyPolicy() {
         <p>
           Right now our website doesn’t use advertising or tracking cookies. If we ever add analytics or other cookies, we’ll update this page first and ask for your permission where the law requires it. You can always block or delete cookies in your browser settings.
         </p>
+        <p>
+          Our apps use only the cookies needed to keep you signed in (see <a href="#cipherrush">section 12</a>). They aren’t used for advertising or to track you across other apps or websites.
+        </p>
 
         <h2>6. How long we keep it</h2>
         <p>
@@ -130,7 +141,7 @@ function PrivacyPolicy() {
 
         <h2>10. Children</h2>
         <p>
-          Our website and services are meant for businesses and adults, not for anyone under 18. We don’t knowingly collect information from children. If you think a child has sent us their information, please let us know and we’ll delete it.
+          Our website and business services are meant for businesses and adults, not for anyone under 18. Our games, including CipherRush, are for people aged 13 and older (or the minimum age for using online services without a parent’s consent where you live, if that’s higher). We don’t knowingly collect information from children under 13. If you think a child has given us their information, please let us know and we’ll delete it.
         </p>
 
         <h2>11. Changes to this policy</h2>
@@ -138,7 +149,58 @@ function PrivacyPolicy() {
           We may update this policy from time to time. When we do, we’ll post the new version here and change the date at the top. If the changes are significant, we’ll make that clear on our website or let you know directly.
         </p>
 
-        <h2>12. Contact us</h2>
+        <h2 id="cipherrush">12. Our apps and games, including CipherRush</h2>
+        <p>
+          CipherRush is a cybersecurity puzzle game made and run by AximoIX, on iOS, Android and the web. This section explains what it collects. Everything else in this policy applies to it too.
+        </p>
+
+        <h3 id="cipherrush-collect">12.1 What CipherRush collects</h3>
+        <ul>
+          <li><strong>Your account:</strong> your username and email address. If you create a password, we store only a secure one-way hash of it (bcrypt). We never see or store the password itself.</li>
+          <li><strong>If you sign in with Google or Apple:</strong> the unique account ID that Google or Apple gives us for you, your email address (Apple may give us a private relay address instead of your real one), and your name if you choose to share it. We never receive your Google or Apple password.</li>
+          <li><strong>Your gameplay:</strong> the rounds you play, the answers you submit, your scores, levels, achievements, daily streaks and when you played. We need these to score your games fairly and to stop cheating.</li>
+          <li><strong>Technical details:</strong> your IP address, basic device and app details, and server logs of your requests. We use these to keep the game secure, limit abuse and fix problems.</li>
+          <li><strong>Sign-in cookies:</strong> CipherRush uses strictly necessary cookies to keep you signed in (a short-lived session cookie and a longer-lived refresh cookie). It also saves small settings on your device, such as whether you’ve already seen the intro screen.</li>
+        </ul>
+        <p>
+          CipherRush does <strong>not</strong> collect your precise location, contacts, photos, camera or microphone. It shows no ads and contains no third-party advertising or analytics trackers, and we don’t sell your information or share it for targeted advertising.
+        </p>
+
+        <h3 id="cipherrush-public">12.2 What other players can see</h3>
+        <p>
+          CipherRush has public leaderboards. Other players can see your <strong>username</strong>, level, total score, number of achievements, your best Speed Cipher Rush score and your Daily Cipher solve time. Your email address and sign-in details are never shown to other players. Please don’t use your real name or anything personal as your username if you’d rather stay anonymous.
+        </p>
+
+        <h3 id="cipherrush-use">12.3 How we use it</h3>
+        <ul>
+          <li>To create and run your account and sign you in, including checking Google or Apple sign-in tokens with Google or Apple</li>
+          <li>To run the game: score your rounds, track your progress and achievements, and show leaderboards</li>
+          <li>To keep the game fair and secure: detecting cheating, rate limiting, and protecting accounts</li>
+          <li>To balance and improve the game, using totals and trends rather than looking at individual players</li>
+          <li>To answer you if you contact us for support</li>
+        </ul>
+
+        <h3 id="cipherrush-sharing">12.4 Who it’s shared with</h3>
+        <p>
+          Only with the service providers that host and run CipherRush’s servers and database (who may only use it to provide that service to us), with Google or Apple when you choose to sign in with them, and with authorities when the law requires it, as described in section 4.
+        </p>
+
+        <h3 id="cipherrush-retention">12.5 How long we keep it</h3>
+        <p>
+          We keep your account and gameplay data for as long as your account exists. When you delete your account, we delete your profile, scores, progress and achievements within 30 days. We may keep security logs for up to 90 days, and anything the law requires us to keep, for as long as it requires.
+        </p>
+
+        <h3 id="cipherrush-delete">12.6 Deleting your account</h3>
+        <p>You can delete your CipherRush account and its data at any time:</p>
+        <ul>
+          <li><strong>In the app:</strong> go to <em>Profile → Delete account</em>. This removes your account straight away.</li>
+          <li><strong>By email:</strong> write to <a href="mailto:hello@aximoix.com?subject=CipherRush%20account%20deletion">hello@aximoix.com</a> with “CipherRush account deletion” in the subject, from the email address on your account. We’ll confirm it’s you and delete the account within 30 days.</li>
+        </ul>
+        <p>
+          If you signed in with Apple, you can also stop sharing your Apple ID with CipherRush in your Apple ID settings. That stops future sign-ins but doesn’t delete your CipherRush data, so please also use one of the options above.
+        </p>
+
+        <h2>13. Contact us</h2>
         <p>Questions, concerns or requests about your privacy? Get in touch:</p>
         <ul>
           <li><strong>Email:</strong> <a href="mailto:hello@aximoix.com">hello@aximoix.com</a></li>

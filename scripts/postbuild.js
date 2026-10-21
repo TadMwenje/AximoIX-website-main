@@ -10,12 +10,12 @@ const pages = [
   {
     route: 'privacy',
     title: 'Privacy Policy | AximoIX',
-    description: 'How AximoIX collects, uses and protects your personal information, and the choices you have.'
+    description: 'How AximoIX collects, uses and protects your personal information, including in our apps and games such as CipherRush, and the choices you have.'
   },
   {
     route: 'terms',
     title: 'Terms of Service | AximoIX',
-    description: 'The terms for using the AximoIX website and services, including our rules on copying our software and security testing.'
+    description: 'The terms for using the AximoIX website, services and apps (including CipherRush), plus our rules on copying our software and security testing.'
   }
 ];
 

@@ -5,8 +5,16 @@ const LAST_UPDATED = 'October 21, 2026';
 
 function TermsOfService() {
   useEffect(() => {
-    window.scrollTo(0, 0);
     document.title = 'Terms of Service | AximoIX';
+    // Apps deep-link to sections (e.g. /privacy/#cipherrush-delete), so honour the
+    // hash instead of always jumping to the top.
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const target = id ? document.getElementById(id) : null;
+    if (target) {
+      requestAnimationFrame(() => target.scrollIntoView());
+    } else {
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   return (
@@ -21,7 +29,7 @@ function TermsOfService() {
         <p className="legal-subtitle">Last updated: {LAST_UPDATED}</p>
 
         <p>
-          Thanks for visiting AximoIX. These terms explain the rules for using our website and working with us. We’ve tried to keep them as plain as we can. When we say “we”, “us” or “AximoIX”, we mean AximoIX. When we say “you”, we mean you, or the business you’re acting for.
+          Thanks for visiting AximoIX. These terms explain the rules for using our website, working with us and using our apps and games, including <strong>CipherRush</strong>. We’ve tried to keep them as plain as we can. When we say “we”, “us” or “AximoIX”, we mean AximoIX. When we say “you”, we mean you, or the business you’re acting for.
         </p>
         <p>
           By using our website or our services, you’re agreeing to these terms. If you don’t agree with them, please don’t use the site or our services. These terms apply in the United States and in Zimbabwe.
@@ -30,6 +38,9 @@ function TermsOfService() {
         <h2>1. Who can use our services</h2>
         <p>
           You need to be at least 18 (or the age of adulthood where you live) and able to enter into a contract. If you’re using our services for a company or organisation, you’re confirming that you’re allowed to agree to these terms on its behalf.
+        </p>
+        <p>
+          Our apps and games, including CipherRush, have their own age rules, set out in <a href="#cipherrush">section 18</a>.
         </p>
 
         <h2>2. What we do</h2>
@@ -197,7 +208,71 @@ function TermsOfService() {
           If a court decides that part of these terms can’t be enforced, we’ll change that part as little as possible to make it enforceable (or remove it if we can’t), and the rest stays in place. These terms, together with any signed agreement with us and our <a href="/privacy/">Privacy Policy</a>, are the full agreement between us about these topics.
         </p>
 
-        <h2>18. Get in touch</h2>
+        <h2 id="cipherrush">18. Our apps and games, including CipherRush</h2>
+        <p>
+          CipherRush is a cybersecurity puzzle game made and run by AximoIX, available on iOS, Android and the web. This section adds to the rest of these terms for anyone who plays it. If this section and the rest of these terms disagree, this section wins for CipherRush.
+        </p>
+
+        <h3>18.1 Who can play</h3>
+        <p>
+          You need to be at least 13 (or the minimum age for using online services without a parent’s consent where you live, if that’s higher). If you’re under 18, a parent or guardian must agree to these terms for you.
+        </p>
+
+        <h3>18.2 Your account</h3>
+        <ul>
+          <li>You can sign up with a username and password, or with Google or Apple. One account per person.</li>
+          <li>Your username is shown publicly on leaderboards. Don’t pick one that’s offensive, impersonates someone else, or includes personal details you don’t want shared. We may change or remove usernames that break these rules.</li>
+          <li>Keep your login safe. You’re responsible for what happens on your account.</li>
+          <li>You can delete your account at any time in the app (<em>Profile → Delete account</em>) or by emailing us. See our <a href="/privacy/#cipherrush-delete">Privacy Policy</a> for what that removes.</li>
+        </ul>
+
+        <h3>18.3 Play fair</h3>
+        <p>Scores in CipherRush are worked out on our servers so the leaderboards stay honest. Please don’t:</p>
+        <ul>
+          <li>Use bots, scripts, auto-solvers or modified apps to play for you</li>
+          <li>Tamper with the app, its network traffic or your device clock to change scores, timers or daily challenges</li>
+          <li>Exploit bugs instead of reporting them (see section 6.3, and tell us at <a href="mailto:hello@aximoix.com">hello@aximoix.com</a>)</li>
+          <li>Use more than one account, or share accounts, to boost a leaderboard position</li>
+          <li>Harass other players or attack our servers</li>
+        </ul>
+        <p>
+          If we find cheating or abuse, we may remove scores, reset progress, remove you from leaderboards, or suspend or close your account.
+        </p>
+
+        <h3>18.4 Points, levels and achievements</h3>
+        <p>
+          Points, levels, streaks, achievements and leaderboard places are part of the game. They have no cash value, can’t be bought, sold, traded or transferred, and aren’t your property. We may rebalance the game or reset leaderboards (for example, to fix scoring problems), and we’ll try to give notice when we do.
+        </p>
+
+        <h3>18.5 Educational content</h3>
+        <p>
+          CipherRush teaches real security ideas, but it’s a game, not professional security advice. Don’t rely on it as the only guide for protecting yourself or an organisation, and don’t use what you learn against systems you don’t have permission to test (see section 6).
+        </p>
+
+        <h3>18.6 The app itself</h3>
+        <p>
+          We give you a personal, non-exclusive, non-transferable, revocable licence to use CipherRush on devices you own or control, for your own non-commercial use, under these terms and the rules of the store you got it from. CipherRush is currently free. We may add, change or remove features, or stop offering the game, and will try to give reasonable notice before shutting it down. Sections 6, 9 and 10 apply to CipherRush.
+        </p>
+
+        <h3 id="app-stores">18.7 Apple App Store and Google Play</h3>
+        <p>If you got CipherRush from Apple’s App Store:</p>
+        <ul>
+          <li>These terms are between you and AximoIX only, not Apple. AximoIX, not Apple, is responsible for CipherRush and its content.</li>
+          <li>Your licence is limited to using CipherRush on Apple-branded devices you own or control, as allowed by the Usage Rules in the Apple Media Services Terms and Conditions.</li>
+          <li>Apple has no obligation to provide any maintenance or support for CipherRush.</li>
+          <li>If CipherRush fails to meet any warranty that applies, you can tell Apple, and Apple will refund the purchase price (if any). As far as the law allows, Apple has no other warranty obligation for CipherRush. Any other claims, losses or costs from a failure to meet a warranty are AximoIX’s responsibility, as set out in these terms.</li>
+          <li>AximoIX, not Apple, is responsible for dealing with any claims about CipherRush, including product liability claims, claims that it doesn’t meet legal or regulatory requirements, and consumer protection or privacy claims.</li>
+          <li>If someone claims CipherRush or your use of it infringes their intellectual property, AximoIX, not Apple, is responsible for investigating, defending, settling and discharging that claim.</li>
+          <li>You confirm that you aren’t in a country subject to a U.S. Government embargo or designated as a “terrorist supporting” country, and that you aren’t on any U.S. Government list of prohibited or restricted parties.</li>
+          <li>Questions, complaints or claims about CipherRush go to AximoIX, using the contact details below.</li>
+          <li>You must also follow any third-party terms that apply when using CipherRush, such as your mobile carrier’s.</li>
+          <li>Apple and its subsidiaries are third-party beneficiaries of these terms, and once you accept them, Apple may enforce them against you.</li>
+        </ul>
+        <p>
+          If you got CipherRush from Google Play, the Google Play Terms of Service also apply. Google isn’t responsible for CipherRush or its content.
+        </p>
+
+        <h2>19. Get in touch</h2>
         <p>Questions about these terms? We’re happy to help.</p>
         <ul>
           <li><strong>Email:</strong> <a href="mailto:hello@aximoix.com">hello@aximoix.com</a></li>
